@@ -1,4 +1,4 @@
-Crafty.scene('Game', function() {
+Crafty.scene('Menu', function() {
 
 	//
 	//Game events (MOUSE CLICKS ECT..)
@@ -27,20 +27,16 @@ Crafty.scene('Game', function() {
 		}
 		holdActive = false;	
 	});
-		
-	
-	Crafty.e('gameloop')
-		.attr({countdown: 10})
-		.bind("EnterFrame", function() {
-			//frame done
-		});
-});
 
-function generateRoom(){
-	//Rooms are 12x8 rows 1 and 12 and cols 1 and 8 will never bee floor peices
-	//floors are effectivly 10x6
-	var maxHeight = 12;
-	var maxWidth = 8;
-	Math.seedrandom('hello.');
-	Math.floor((Math.random() * 10) + 1)
-}
+	Crafty.e('btnEnter, 2D, DOM, Text, Color, Mouse')
+		.attr({x: 0, y: 0, w: 70, h: 30})
+		.color('#FFF666')
+		.text("Enter")
+		.bind('Click', function(MouseEvent){
+			toConsole("Clicked");
+			Crafty.scene("Game");
+		});
+
+	Crafty.viewport.centerOn(Crafty("btnEnter")[0],0)
+	
+});

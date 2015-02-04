@@ -27,6 +27,7 @@ function beginCrafty() {
 	
 		toConsole(gameClientWidth + "width x height" + gameClientHeight);
 		// Start crafty and set a background color so that we can see it's working.
+		toConsole("ready to start Crafty");
 		Crafty.init(gameClientWidth, gameClientHeight, "gameviewDOM");
 		Crafty.background('#8ed2fa');
 		
@@ -34,9 +35,9 @@ function beginCrafty() {
 		//Crafty.viewport.mouselook(true);
 
 		//start game or loading scene
-		toConsole("ready to start");
-		Crafty.scene('Loading');
 		Crafty.timer.FPS(30);
+		Crafty.scene('Loading');
+		
 		
 	}, 300);
 	
