@@ -12,7 +12,7 @@ function generateRoom() {
 	var decider = Math.floor(Math.random() * 2) + 1;
 	floorMap = [];
 	floorMap[0] = [];
-	if (decider = 2){
+	if (decider == 2){
 		if (floorWidth > 1 && floorHeight > 1) {
 			//decide wether to take out corner or put in wall.
 			//or is a wall even possible.
@@ -133,7 +133,7 @@ function fillWalls() {
 				if (!((row-1) < 0)) {
 					if (floorMap[row-1][col] == "f") {
 						//floor above make a wall
-						if (floorMap[row][col].substring(2,3) != "i") { floorMap[row][col] = "w"; }
+						if (floorMap[row][col].substring(2,3) != "i") { floorMap[row][col] = "wb"; }
 						//check inside corners
 						if (!((col-1) < 0)) {
 							if (floorMap[row][col-1] == "f") {
@@ -155,7 +155,7 @@ function fillWalls() {
 							if (!((col-1) < 0)) {
 								if (floorMap[row-1][col-1] == "f") {
 									//corner to top left
-									if ((floorMap[row][col] != "w")&&(floorMap[row][col-1] != "f")) { floorMap[row][col] = "tlc"; }
+									if ((floorMap[row][col].substring(0,1) != "w")&&(floorMap[row][col-1] != "f")) { floorMap[row][col] = "tlc"; }
 								}
 							}
 						}
@@ -163,7 +163,7 @@ function fillWalls() {
 							if (!((col+1) > cols)) {
 								if (floorMap[row-1][col+1] == "f") {
 									//corner to top right
-									if ((floorMap[row][col] != "w")&&(floorMap[row][col+1] != "f")) { floorMap[row][col] = "trc"; }
+									if ((floorMap[row][col].substring(0,1) != "w")&&(floorMap[row][col+1] != "f")) { floorMap[row][col] = "trc"; }
 								}
 							}
 						}
@@ -172,7 +172,7 @@ function fillWalls() {
 				if (!((row+1) > rows)) {
 					if (floorMap[row+1][col] == "f") {
 						//floor below make a wall
-						if (floorMap[row][col].substring(2,3) != "i") { floorMap[row][col] = "w"; }
+						if (floorMap[row][col].substring(2,3) != "i") { floorMap[row][col] = "wa"; }
 						//check inside corners
 						if (!((col-1) < 0)) {
 							if (floorMap[row][col-1] == "f") {
@@ -195,7 +195,7 @@ function fillWalls() {
 								if (floorMap[row+1][col-1] == "f") {
 									//corner to bot left
 									//check left else its not a corner
-									if ((floorMap[row][col] != "w")&&(floorMap[row][col-1] != "f")) { floorMap[row][col] = "blc"; }
+									if ((floorMap[row][col].substring(0,1) != "w")&&(floorMap[row][col-1] != "f")) { floorMap[row][col] = "blc"; }
 								}
 							}
 						}
@@ -203,7 +203,7 @@ function fillWalls() {
 							if (!((col+1) > cols)) {
 								if (floorMap[row+1][col+1] == "f") {
 									//corner to bot right
-									if ((floorMap[row][col] != "w")&&(floorMap[row][col+1] != "f")) { floorMap[row][col] = "brc"; }
+									if ((floorMap[row][col].substring(0,1) != "w")&&(floorMap[row][col+1] != "f")) { floorMap[row][col] = "brc"; }
 								}
 							}
 						}
@@ -212,14 +212,14 @@ function fillWalls() {
 				if (!((col-1) < 0)) {
 					if (floorMap[row][col-1] == "f") {
 						//floor to left make a wall
-						if (floorMap[row][col].substring(2,3) != "i") { floorMap[row][col] = "w"; }
+						if (floorMap[row][col].substring(2,3) != "i") { floorMap[row][col] = "wr"; }
 
 					}
 				}
 				if (!((col+1) > cols)) {
 					if (floorMap[row][col+1] == "f") {
 						//floor to right make a wall
-						if (floorMap[row][col].substring(2,3) != "i") { floorMap[row][col] = "w"; }
+						if (floorMap[row][col].substring(2,3) != "i") { floorMap[row][col] = "wl"; }
 					}
 				}
 			}
@@ -231,50 +231,95 @@ function drawRoom() {
 	toConsole('draw room ' + floorMap);
 	var rows = floorMap.length;
 	var cols;
+	var tileRotation;
 	//Draw ground/parent
-	Crafty.e('FloorGround, 2D, DOM, Color')
-		.attr({y: 0, x: 0, w: _tileSize, h: _tileSize})
-		.color('#FFFFFF');
+	Crafty.e('FloorGround, 2D, DOM')
+		.attr({y: 0, x: 0, w: _tileSize, h: _tileSize});
 	for (var row = 0; row < rows; row++) {
 		cols = floorMap[row].length;
 		for (var col = 0; col < cols; col++) {
 			switch (floorMap[row][col]) {
+				case "wa":
+					tileRotation = 0;
+					break;
+				case "wb":
+					tileRotation = 180;
+					break;
+				case "wl":
+					tileRotation = 270;
+					break;
+				case "wr":
+					tileRotation = 90;
+					break;
+				case "tli":
+					tileRotation = 180;
+					break;
+				case "tri":
+					tileRotation = 270;
+					break;
+				case "bli":
+					tileRotation = 90;
+					break;
+				case "bri":
+					tileRotation = 0;
+					break;
+				case "tlc":
+					tileRotation = 180;
+					break;
+				case "trc":
+					tileRotation = 270;
+					break;
+				case "blc":
+					tileRotation = 90;
+					break;
+				case "brc":
+					tileRotation = 0;
+					break;
+			}
+			
+			switch (floorMap[row][col]) {
 				case "f":
-					Crafty.e('Tile' + row + '_' + col +', 2D, DOM, Color')
-						.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize})
-						.color('#00FF00');
+					Crafty.e('Tile' + row + '_' + col +', 2D, DOM, floor_1')
+						.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize});
 					tileName = 'Tile' + row + '_' + col
 					Crafty(Crafty('FloorGround')[0]).attach(Crafty('Tile' + row + '_' + col));
 					break;
 				case "x":
+					break;
 					Crafty.e('Tile' + row + '_' + col +', 2D , DOM, Color')
 						.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize})
 						.color('#000000');
 					Crafty(Crafty('FloorGround')[0]).attach(Crafty('Tile' + row + '_' + col));
 					break;
-				case "w":
-					Crafty.e('Tile' + row + '_' + col +', 2D , DOM, Color')
-						.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize})
-						.color('#0000FF');
+				case "wa":
+				case "wb":
+				case "wl":
+				case "wr":
+					Crafty.e('Tile' + row + '_' + col +', 2D , DOM, wall_straight, Solid')
+						.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize});
 					Crafty(Crafty('FloorGround')[0]).attach(Crafty('Tile' + row + '_' + col));
+					Crafty('Tile' + row + '_' + col).origin("center")
+					Crafty('Tile' + row + '_' + col).rotation = tileRotation;
 					break;
 				case "tli":
 				case "tri":
 				case "bli":
 				case "bri":
-					Crafty.e('Tile' + row + '_' + col +', 2D , DOM, Color')
-						.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize})
-						.color('#FF0000');
+					Crafty.e('Tile' + row + '_' + col +', 2D , DOM, wall_corner_in, Solid')
+						.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize});
 					Crafty(Crafty('FloorGround')[0]).attach(Crafty('Tile' + row + '_' + col));
+					Crafty('Tile' + row + '_' + col).origin("center")
+					Crafty('Tile' + row + '_' + col).rotation = tileRotation;
 					break;
 				case "tlc":
 				case "trc":
 				case "blc":
 				case "brc":
-					Crafty.e('Tile' + row + '_' + col +', 2D , DOM, Color')
-						.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize})
-						.color('#6600CC');
+					Crafty.e('Tile' + row + '_' + col +', 2D , DOM, wall_corner_out, Solid')
+						.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize});
 					Crafty(Crafty('FloorGround')[0]).attach(Crafty('Tile' + row + '_' + col));
+					Crafty('Tile' + row + '_' + col).origin("center")
+					Crafty('Tile' + row + '_' + col).rotation = tileRotation;
 					break;
 			}
 		}
