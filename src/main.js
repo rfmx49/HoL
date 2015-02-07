@@ -9,6 +9,9 @@ var holdStarterToolbox = null;
 var holdDelay = 300; 
 var holdActive = false;
 
+//gameDefaults
+var _tileSize = 50;
+
 $(document).ready(function() {
 	toConsole( "Document completed!" );
 	//Start crafty
