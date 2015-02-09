@@ -10,12 +10,12 @@ function Room(x,y,z,appearance,map,doors,stairs) {
 }
 
 //Player
-//playercreation Crafty.e('PlayerCharacter, 2D, DOM, Tween').attr({y: 50, x: 50, w: 25, h: 25});
+//playercreation Crafty.e('PlayerCharacter').attr({y: 50, x: 50, w: 25, h: 25});
 //player Tween Crafty(109).tween({x: 100, y: 100}, 200)
 
 Crafty.c('PlayerCharacter', {
 	init: function() {
-		this.requires('Fourway, Color, Collision')
+		this.requires('2D, DOM, Fourway, Color, Collision, Tween')
 			.fourway(4)
 			.color('#FF0000')
 			.stopOnSolids();
@@ -37,3 +37,25 @@ Crafty.c('PlayerCharacter', {
 		}
 	}
 });
+
+//FLOOR OBJECT
+Crafty.c('floorMap', {
+	init: function() {
+		this.requires('2D, DOM, Mouse');
+		this.bind("Click", function(MouseEvent) { 
+			var id = this[0];
+			toConsole(Crafty(id)._x + " " + Crafty(id)._y);
+			if (mouseFunction == "movePlayer") {
+				pathFind(playerid, x, y);
+			}
+		});
+	}
+});
+
+//WALL OBJECT
+Crafty.c('wallMap', {
+	init: function() {
+		this.requires('2D, DOM, Solid')
+	}
+});
+

@@ -116,6 +116,7 @@ function generateRoom() {
 	}
 	fillWalls();
 	drawRoom();
+	Crafty.viewport.zoom(1)
 	return floorMap;
 }
 
@@ -279,14 +280,14 @@ function drawRoom() {
 			
 			switch (floorMap[row][col]) {
 				case "f":
-					Crafty.e('Tile' + row + '_' + col +', 2D, DOM, floor_1')
+					Crafty.e('Tile' + row + '_' + col +', floorMap, floor_1')
 						.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize});
 					tileName = 'Tile' + row + '_' + col
 					Crafty(Crafty('FloorGround')[0]).attach(Crafty('Tile' + row + '_' + col));
 					break;
 				case "x":
 					break;
-					Crafty.e('Tile' + row + '_' + col +', 2D , DOM, Color')
+					Crafty.e('Tile' + row + '_' + col +', floorMap, Color')
 						.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize})
 						.color('#000000');
 					Crafty(Crafty('FloorGround')[0]).attach(Crafty('Tile' + row + '_' + col));
@@ -295,7 +296,7 @@ function drawRoom() {
 				case "wb":
 				case "wl":
 				case "wr":
-					Crafty.e('Tile' + row + '_' + col +', 2D , DOM, wall_straight, Solid')
+					Crafty.e('Tile' + row + '_' + col +', wallMap, wall_straight')
 						.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize});
 					Crafty(Crafty('FloorGround')[0]).attach(Crafty('Tile' + row + '_' + col));
 					Crafty('Tile' + row + '_' + col).origin("center")
@@ -305,7 +306,7 @@ function drawRoom() {
 				case "tri":
 				case "bli":
 				case "bri":
-					Crafty.e('Tile' + row + '_' + col +', 2D , DOM, wall_corner_in, Solid')
+					Crafty.e('Tile' + row + '_' + col +', wallMap, wall_corner_in')
 						.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize});
 					Crafty(Crafty('FloorGround')[0]).attach(Crafty('Tile' + row + '_' + col));
 					Crafty('Tile' + row + '_' + col).origin("center")
@@ -315,7 +316,7 @@ function drawRoom() {
 				case "trc":
 				case "blc":
 				case "brc":
-					Crafty.e('Tile' + row + '_' + col +', 2D , DOM, wall_corner_out, Solid')
+					Crafty.e('Tile' + row + '_' + col +', wallMap, wall_corner_out')
 						.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize});
 					Crafty(Crafty('FloorGround')[0]).attach(Crafty('Tile' + row + '_' + col));
 					Crafty('Tile' + row + '_' + col).origin("center")
