@@ -46,7 +46,7 @@ Crafty.c('floorMap', {
 			var id = this[0];
 			toConsole(Crafty(id)._x + " " + Crafty(id)._y);
 			if (mouseFunction == "movePlayer") {
-				pathFind(playerid, x, y);
+				pathFind(Crafty('PlayerCharacter')[0], Crafty(id)._x, Crafty(id)._y);
 			}
 		});
 	}
