@@ -2,6 +2,8 @@
 //Crafty.DOM.translate(Crafty.lastEvent.clientX,Crafty.lastEvent.clientY); //gets mouse location.
 //varibles for click and hold to show an items sub menu.
 var consoleLogging = true;
+//var playerOffset = 12.5;
+var playerOffset = 0;
 
 //for mouse hold timing
 var holdStarter = null;

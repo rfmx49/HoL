@@ -15,21 +15,25 @@ function Room(x,y,z,appearance,map,doors,stairs) {
 
 Crafty.c('PlayerCharacter', {
 	inMotion: false,
+	rotation: 0,
 	nodePath: [],
 	init: function() {
-		this.requires('2D, DOM, Color, Tween')
-			.color('#FF0000')
-			this.bind("TweenEnd", function() { 
-				this.inMotion = true;
-				if (this.nodePath.length >= 1) {
-					toConsole("checking next node");
-					this.playTween();
-				}
-				else {
-					toConsole("done moving");
-					this.inMotion = false;
-				}				
-			});
+		this.requires('2D, DOM, Tween, playerSprite1_reel, SpriteAnimation');
+		this.origin("center");
+		this.reel('playerWalking', 400, 1, 0, 15);
+		this.reel('playerIdle', 10, 0, 0, 1);
+		this.bind("TweenEnd", function() { 
+			this.inMotion = true;
+			this.playerIdle();
+			if (this.nodePath.length >= 1) {
+				toConsole("checking next node");
+				this.playTween();
+			}
+			else {
+				toConsole("done moving");				
+				this.inMotion = false;
+			}				
+		});
 	},
  
 	// Registers a stop-movement function to be called when
@@ -37,7 +41,15 @@ Crafty.c('PlayerCharacter', {
 		
 	playTween: function() {
 		var newPos = this.nodePath.shift();
-		this.tween({x: newPos.x, y: newPos.y}, 200);
+		this.playerWalking();
+		this.tween({x: newPos.x, y: newPos.y, rotation: newPos.rotation}, 400);
+	},
+
+	playerWalking: function() {
+		this.animate('playerWalking', 1);
+	},
+	playerIdle: function() {
+		this.animate('playerIdle', 1);
 	}
 });
 

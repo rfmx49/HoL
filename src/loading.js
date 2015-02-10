@@ -22,7 +22,12 @@ Crafty.scene('Loading', function(){
 					 "floor_2": [2,1],
 					 "floor_3": [1,2],
 					 "floor_4": [2,2]},			 
-			}
+			},
+			"res/playerSprite1.png": {
+				"tile": 50,
+				"tileh": 50,
+				"map": { "playerSprite1_reel": [0,0],},			 
+			},
 		},
 	};
 

@@ -1,7 +1,7 @@
 function pathFind(id, x, y) {
 	var decider;
 	var needToMove = false;
-	var endPos = {x:(x+12.5),y:(y+12.5)}; //add 12.5 to center the player on the tile.
+	var endPos = {x:(x+playerOffset),y:(y+playerOffset)}; //add playerOffset to center the player on the tile.
 	endPos.xtile = (x/50);
 	endPos.ytile = (y/50);
 	toConsole(endPos);
@@ -34,7 +34,8 @@ function pathFind(id, x, y) {
 				if (floorMap[currentPos.ytile][(currentPos.xtile + 1)] == "f") {
 					//move player
 					needToMove = true;
-					currentPos.x = currentPos.x + 50;					
+					currentPos.x = currentPos.x + 50;
+					currentPos.rotation = 90;						
 				}
 				else {
 					toConsole("no tile is not a floor" + floorMap[currentPos.ytile][(currentPos.xtile + 1)]);
@@ -47,7 +48,8 @@ function pathFind(id, x, y) {
 				if (floorMap[currentPos.ytile][(currentPos.xtile - 1)] == "f") {
 					//move player
 					needToMove = true;
-					currentPos.x = currentPos.x - 50;					
+					currentPos.x = currentPos.x - 50;	
+					currentPos.rotation = 270;				
 				}
 				else {
 					//tile to right is not a floor dont move override next decider.
@@ -73,7 +75,8 @@ function pathFind(id, x, y) {
 				if (floorMap[(currentPos.ytile + 1)][currentPos.xtile] == "f") {
 					//move player
 					needToMove = true;
-					currentPos.y = currentPos.y + 50;					
+					currentPos.y = currentPos.y + 50;
+					currentPos.rotation = 180;					
 				}
 				else {
 					//tile to right is not a floor dont move override next decider.
@@ -87,7 +90,8 @@ function pathFind(id, x, y) {
 				if (floorMap[(currentPos.ytile - 1)][currentPos.xtile] == "f") {
 					//move player
 					needToMove = true;
-					currentPos.y = currentPos.y - 50;					
+					currentPos.y = currentPos.y - 50;
+					currentPos.rotation = 0;					
 				}
 				else {
 					needToMove = false;
@@ -103,7 +107,7 @@ function pathFind(id, x, y) {
 		//do we need to move player this loop?
 		if (needToMove) {
 			toConsole("yes need to move player(" + id + ") to x: " + currentPos.x + " y: " + currentPos.y );
-			Crafty(id).nodePath.push({x:currentPos.x,y:currentPos.y});			
+			Crafty(id).nodePath.push({x:currentPos.x,y:currentPos.y,rotation:currentPos.rotation});			
 		}
 		else {
 			toConsole("do not need to move");

@@ -45,7 +45,7 @@ Crafty.scene('Game', function() {
 		.color('#FFF666')
 		.text("Make Player")
 		.bind('Click', function(){
-			Crafty.e('PlayerCharacter').attr({y: (62.5), x: (62.5), w: 25, h: 25});
+			Crafty.e('PlayerCharacter').attr({y: (50), x: (50), w: 50, h: 50});
 			toConsole("player created")
 		});	
 	
