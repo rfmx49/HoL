@@ -6,7 +6,7 @@ function pathFind(id, x, y) {
 	endPos.ytile = (y/50);
 	toConsole(endPos);
 	//get current pos.
-	var currentPos = {x: (Crafty(Crafty('PlayerCharacter')[0])._x),y:(Crafty(Crafty('PlayerCharacter')[0])._y)};
+	var currentPos = {x: (Crafty(Crafty('PlayerCharacter')[0])._x),y:(Crafty(Crafty('PlayerCharacter')[0])._y),rotation:(Crafty(Crafty('PlayerCharacter')[0])._rotation)};
 	//set player in motion.
 	playerInMotion = true;
 	//Crafty(id).tween({x: endPoint.x, y: endPoint.y}, 600); //how to move. need endpoint and time to move.
@@ -48,8 +48,11 @@ function pathFind(id, x, y) {
 				if (floorMap[currentPos.ytile][(currentPos.xtile - 1)] == "f") {
 					//move player
 					needToMove = true;
-					currentPos.x = currentPos.x - 50;	
-					currentPos.rotation = 270;				
+					currentPos.x = currentPos.x - 50;
+					if (currentPos.Rotation == 0) {
+						currentPos.rotation = -90;
+					}
+					else { currentPos.rotation = 270; }				
 				}
 				else {
 					//tile to right is not a floor dont move override next decider.
@@ -91,7 +94,10 @@ function pathFind(id, x, y) {
 					//move player
 					needToMove = true;
 					currentPos.y = currentPos.y - 50;
-					currentPos.rotation = 0;					
+					if (currentPos.Rotation == 270) {
+						currentPos.rotation = 360;
+					}
+					else { currentPos.rotation = 0; }
 				}
 				else {
 					needToMove = false;
@@ -107,7 +113,13 @@ function pathFind(id, x, y) {
 		//do we need to move player this loop?
 		if (needToMove) {
 			toConsole("yes need to move player(" + id + ") to x: " + currentPos.x + " y: " + currentPos.y );
-			Crafty(id).nodePath.push({x:currentPos.x,y:currentPos.y,rotation:currentPos.rotation});			
+			Crafty(id).nodePath.push({x:currentPos.x,y:currentPos.y,rotation:currentPos.rotation});
+			if (currentPos.Rotation == 360) {
+				currentPos.rotation = 0;
+			}
+			if (currentPos.Rotation == -90) {
+				currentPos.rotation = 270;
+			}	
 		}
 		else {
 			toConsole("do not need to move");
