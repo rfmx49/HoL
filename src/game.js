@@ -33,7 +33,7 @@ Crafty.scene('Game', function() {
 	});
 
 	Crafty.e('btnRoom, 2D, DOM, Text, Color, Mouse')
-		.attr({x: -100, y: -100, w: 70, h: 30})
+		.attr({x: -200, y: -100, w: 70, h: 30})
 		.color('#FFF666')
 		.text("Make Room")
 		.bind('Click', function(){
@@ -41,11 +41,12 @@ Crafty.scene('Game', function() {
 		});	
 
 	Crafty.e('btnPlayer, 2D, DOM, Text, Color, Mouse')
-		.attr({x: -100, y: -65, w: 70, h: 30})
+		.attr({x: -200, y: -65, w: 70, h: 30})
 		.color('#FFF666')
 		.text("Make Player")
 		.bind('Click', function(){
 			Crafty.e('PlayerCharacter').attr({y: (62.5), x: (62.5), w: 25, h: 25});
+			toConsole("player created")
 		});	
 	
 	Crafty.e('gameloop')

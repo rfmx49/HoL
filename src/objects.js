@@ -14,27 +14,30 @@ function Room(x,y,z,appearance,map,doors,stairs) {
 //player Tween Crafty(109).tween({x: 100, y: 100}, 200)
 
 Crafty.c('PlayerCharacter', {
+	inMotion: false,
+	nodePath: [],
 	init: function() {
-		this.requires('2D, DOM, Fourway, Color, Collision, Tween')
-			.fourway(4)
+		this.requires('2D, DOM, Color, Tween')
 			.color('#FF0000')
-			.stopOnSolids();
+			this.bind("TweenEnd", function() { 
+				this.inMotion = true;
+				if (this.nodePath.length >= 1) {
+					toConsole("checking next node");
+					this.playTween();
+				}
+				else {
+					toConsole("done moving");
+					this.inMotion = false;
+				}				
+			});
 	},
  
 	// Registers a stop-movement function to be called when
 	//  this entity hits an entity with the "Solid" component
-	stopOnSolids: function() {
-		this.onHit('Solid', this.stopMovement);	 
-		return this;
-		},
- 
-  // Stops the movement
-	stopMovement: function() {
-		this._speed = 0;
-		if (this._movement) {
-			this.x -= this._movement.x;
-			this.y -= this._movement.y;
-		}
+		
+	playTween: function() {
+		var newPos = this.nodePath.shift();
+		this.tween({x: newPos.x, y: newPos.y}, 200);
 	}
 });
 
@@ -46,7 +49,10 @@ Crafty.c('floorMap', {
 			var id = this[0];
 			toConsole(Crafty(id)._x + " " + Crafty(id)._y);
 			if (mouseFunction == "movePlayer") {
-				pathFind(Crafty('PlayerCharacter')[0], Crafty(id)._x, Crafty(id)._y);
+				//check if play is already in motion
+				if (Crafty(Crafty('PlayerCharacter')[0]).inMotion == false) {
+					pathFind(Crafty('PlayerCharacter')[0], Crafty(id)._x, Crafty(id)._y);
+				}
 			}
 		});
 	}
