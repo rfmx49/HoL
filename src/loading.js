@@ -28,6 +28,11 @@ Crafty.scene('Loading', function(){
 				"tileh": 50,
 				"map": { "playerSprite1_reel": [0,0],},			 
 			},
+			"res/lightconcept.png": {
+				"tile": 200,
+				"tileh": 200,
+				"map": { "light_concept": [0,0],},			 
+			},
 		},
 	};
 

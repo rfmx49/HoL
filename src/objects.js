@@ -30,7 +30,8 @@ Crafty.c('PlayerCharacter', {
 				this.playTween();
 			}
 			else {
-				toConsole("done moving");				
+				toConsole("done moving");
+				mouseFunction = "movePlayer"				
 				this.inMotion = false;
 			}				
 		});
@@ -41,6 +42,13 @@ Crafty.c('PlayerCharacter', {
 		
 	playTween: function() {
 		var newPos = this.nodePath.shift();
+		//normalize current rotation
+		if (this._rotation == 360) {
+				this.rotation = 0;
+			}
+			if (this._rotation == -90) {
+				this.rotation = 270;
+			}
 		//smooth 180s
 		if (((this.rotation - newPos.rotation) == 180) || ((this.rotation - newPos.rotation) == -180)) {
 			this.rotation = newPos.rotation;
@@ -60,6 +68,11 @@ Crafty.c('PlayerCharacter', {
 	},
 	playerIdle: function() {
 		this.animate('playerIdle', 1);
+	},
+	cancelMove: function() {
+		toConsole("cancel moving");
+		this.nodePath = [];
+		mouseFunction == "movePlayer";	
 	}
 });
 
@@ -68,15 +81,27 @@ Crafty.c('floorMap', {
 	init: function() {
 		this.requires('2D, DOM, Mouse');
 		this.bind("Click", function(MouseEvent) { 
-			var id = this[0];
-			toConsole(Crafty(id)._x + " " + Crafty(id)._y);
-			if (mouseFunction == "movePlayer") {
-				//check if play is already in motion
-				if (Crafty(Crafty('PlayerCharacter')[0]).inMotion == false) {
-					pathFind(Crafty('PlayerCharacter')[0], Crafty(id)._x, Crafty(id)._y);
-				}
-			}
+			this.clickEvent();
 		});
+	},
+	clickEvent: function() {
+		var id = this[0];
+		toConsole(Crafty(id)._x + " " + Crafty(id)._y);
+		if (mouseFunction == "movePlayer") {
+			mouseFunction = "busyMoving"
+			//check if play is already in motion
+			pathFind(Crafty('PlayerCharacter')[0], Crafty(id)._x, Crafty(id)._y);
+		}
+		else if (mouseFunction == "busyMoving") {
+			//check if play is already in motion
+			mouseFunction == "reallyBusy"
+			Crafty(Crafty('PlayerCharacter')[0]).cancelMove();
+			playerInMotion = false;				
+			setTimeout(function(){
+				pathFind(Crafty('PlayerCharacter')[0], Crafty(id)._x, Crafty(id)._y);								
+			}, 500);
+			
+		}
 	}
 });
 

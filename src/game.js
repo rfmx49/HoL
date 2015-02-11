@@ -28,6 +28,19 @@ Crafty.scene('Game', function() {
 		clearTimeout(holdStarter);
 		if (holdActive == false) {
 			toConsole("click");	
+			toConsole(e);
+			//check if there is a floor tile under click
+			if (floorMap.length > 3) {
+				//get tile underneath
+				var floorTile = {x: (Math.floor(e.layerX/_tileSize)), y: (Math.floor(e.layerY/_tileSize))}
+				if (typeof floorMap[floorTile.y] != "undefined") { 
+					toConsole('floor tile is ' + floorTile.x + " | " + floorTile.y + ' which is ' + floorMap[floorTile.y][floorTile.x])
+					if (floorMap[floorTile.y][floorTile.x] == "f") {
+						var tileId = Crafty('Tile' + floorTile.y + '_' + floorTile.x)[0];
+						Crafty(tileId).clickEvent();					
+					}
+				}
+			}
 		}
 		holdActive = false;	
 	});
@@ -45,8 +58,7 @@ Crafty.scene('Game', function() {
 		.color('#FFF666')
 		.text("Make Player")
 		.bind('Click', function(){
-			Crafty.e('PlayerCharacter').attr({y: (50), x: (50), w: 50, h: 50});
-			toConsole("player created")
+			createPlayerEnt();
 		});	
 	
 	Crafty.e('gameloop')
@@ -55,3 +67,12 @@ Crafty.scene('Game', function() {
 			//frame done
 		});
 });
+
+function createPlayerEnt() {
+	Crafty.e('PlayerCharacter').attr({y: (_tileSize), x: (_tileSize), w: _tileSize, h: _tileSize});
+	/*Crafty.e('PlayerLight, 2D, DOM, Image')
+		.image('res/lightconcept.png', 'no-repeat')
+		.attr({y: -325, x: -325, w: 800, h: 800});
+	Crafty(Crafty('PlayerCharacter')[0]).attach(Crafty('PlayerLight'));*/
+	toConsole("player created");
+}

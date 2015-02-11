@@ -3,6 +3,8 @@
 //varibles for click and hold to show an items sub menu.
 var consoleLogging = true;
 //var playerOffset = 12.5;
+//gameDefaults
+var _tileSize = 60;
 var playerOffset = 0;
 
 //for mouse hold timing
@@ -10,9 +12,6 @@ var holdStarter = null;
 var holdStarterToolbox = null;
 var holdDelay = 300; 
 var holdActive = false;
-
-//gameDefaults
-var _tileSize = 50;
 
 $(document).ready(function() {
 	toConsole( "Document completed!" );
@@ -41,6 +40,7 @@ function beginCrafty() {
 
 		//start game or loading scene
 		Crafty.timer.FPS(30);
+		Crafty.mobile = true;
 		Crafty.scene('Loading');
 		
 		

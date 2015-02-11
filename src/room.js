@@ -1,10 +1,13 @@
 var floorMap = [];
 floorMap[0] = [];
 var rooms = [];
+var firstRoom = true;
 
 function generateRoom() {
 	toConsole("clear")
 	Crafty('FloorGround').destroy();
+	if (firstRoom == false) { Crafty(Crafty('PlayerCharacter')[0]).destroy();}
+	firstRoom = false;
 	var maxWidth = 12;
 	var maxHeight = 8;
 	var floorWidth = Math.floor(Math.random() * (maxWidth-2)) + 1;
@@ -116,6 +119,7 @@ function generateRoom() {
 	}
 	fillWalls();
 	drawRoom();
+	createPlayerEnt();
 	Crafty.viewport.zoom(1)
 	return floorMap;
 }
