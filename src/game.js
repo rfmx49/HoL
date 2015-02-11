@@ -29,7 +29,7 @@ Crafty.scene('Game', function() {
 		if (holdActive == false) {
 			toConsole("click");	
 			toConsole(e);
-			//check if there is a floor tile under click
+			/*//check if there is a floor tile under click
 			if (floorMap.length > 3) {
 				//get tile underneath
 				var floorTile = {x: (Math.floor(e.layerX/_tileSize)), y: (Math.floor(e.layerY/_tileSize))}
@@ -37,28 +37,20 @@ Crafty.scene('Game', function() {
 					toConsole('floor tile is ' + floorTile.x + " | " + floorTile.y + ' which is ' + floorMap[floorTile.y][floorTile.x])
 					if (floorMap[floorTile.y][floorTile.x] == "f") {
 						var tileId = Crafty('Tile' + floorTile.y + '_' + floorTile.x)[0];
-						Crafty(tileId).clickEvent();					
+						//Crafty(tileId).clickEvent();					
 					}
 				}
-			}
+			}*/
 		}
 		holdActive = false;	
 	});
 
 	Crafty.e('btnRoom, 2D, DOM, Text, Color, Mouse')
-		.attr({x: -200, y: -100, w: 70, h: 30})
+		.attr({x: -200, y: -100, w: 70, h: 30, z: 5})
 		.color('#FFF666')
 		.text("Make Room")
 		.bind('Click', function(){
 			generateRoom();
-		});	
-
-	Crafty.e('btnPlayer, 2D, DOM, Text, Color, Mouse')
-		.attr({x: -200, y: -65, w: 70, h: 30})
-		.color('#FFF666')
-		.text("Make Player")
-		.bind('Click', function(){
-			createPlayerEnt();
 		});	
 	
 	Crafty.e('gameloop')
@@ -69,10 +61,11 @@ Crafty.scene('Game', function() {
 });
 
 function createPlayerEnt() {
-	Crafty.e('PlayerCharacter').attr({y: (_tileSize), x: (_tileSize), w: _tileSize, h: _tileSize});
-	/*Crafty.e('PlayerLight, 2D, DOM, Image')
-		.image('res/lightconcept.png', 'no-repeat')
-		.attr({y: -325, x: -325, w: 800, h: 800});
-	Crafty(Crafty('PlayerCharacter')[0]).attach(Crafty('PlayerLight'));*/
+	Crafty.e('PlayerCharacter').attr({y: (roomCenter.y*_tileSize), x: (roomCenter.x*_tileSize), w: _tileSize, h: _tileSize});
+	Crafty.e('RoomLight, 2D, DOM, Image')
+		.image('res/blackness.png', 'no-repeat')
+		.attr({y: ((roomCenter.y*_tileSize)-400), x: ((roomCenter.x*_tileSize)-600), w: 1200, h: 800});
 	toConsole("player created");
 }
+
+

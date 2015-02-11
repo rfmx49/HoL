@@ -1,6 +1,7 @@
 function pathFind(id, x, y) {
 	var decider;
 	var needToMove = false;
+	var loopOverfill = 0;
 	var endPos = {x:(x+playerOffset),y:(y+playerOffset)}; //add playerOffset to center the player on the tile.
 	endPos.xtile = (x/_tileSize);
 	endPos.ytile = (y/_tileSize);
@@ -8,10 +9,11 @@ function pathFind(id, x, y) {
 	//get current pos.
 	var currentPos = {x: (Crafty(Crafty('PlayerCharacter')[0])._x),y:(Crafty(Crafty('PlayerCharacter')[0])._y),rotation:(Crafty(Crafty('PlayerCharacter')[0])._rotation)};
 	//set player in motion.
-	playerInMotion = true;
+	var playerInMotion = true;
 	//Crafty(id).tween({x: endPoint.x, y: endPoint.y}, 600); //how to move. need endpoint and time to move.
 	//check if we are going left or right. Up or down.
 	while (playerInMotion) {
+		loopOverfill++;
 		currentPos.xtile = Math.floor((currentPos.x)/_tileSize);
 		currentPos.ytile = Math.floor((currentPos.y)/_tileSize);
 		//toConsole("move player(" + id + ") from x: " + currentPos.x + " y: (tile[" + currentPos.xtile + "][" + currentPos.ytile + "])" + currentPos.y + " TO x:" + endPos.x + "y:" + endPos.y + "(tile[" + endPos.xtile + "][" + endPos.ytile + "])");
@@ -129,9 +131,15 @@ function pathFind(id, x, y) {
 			//play tween file.
 			playerInMotion = false;
 		}
+		//check if loop is getting out of control.
+		if (loopOverfill > 1000) {
+			Crafty(id).nodePath = [];
+			playerInMotion = false;
+		}
 	}
 	if (Crafty(id).nodePath.length > 0) {
 		//toConsole(Crafty(id).nodePath);
 		Crafty(id).playTween();
 	}
+	
 };

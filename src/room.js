@@ -119,8 +119,15 @@ function generateRoom() {
 	}
 	fillWalls();
 	drawRoom();
+	//get room center
+	roomCenter.y = (Math.floor(floorMap.length/2));
+	roomCenter.x = (Math.floor(floorMap[0].length/2));
+	//Crafty.viewport.zoom(1)
+	//free viewport;
+	Crafty.viewport.clampToEntities = false;
+	Crafty.viewport.centerOn(Crafty(Crafty('Tile' + roomCenter.y + '_' + roomCenter.x)[0]), 0);
+	//free viewport;
 	createPlayerEnt();
-	Crafty.viewport.zoom(1)
 	return floorMap;
 }
 
@@ -280,6 +287,7 @@ function drawRoom() {
 				case "brc":
 					tileRotation = 0;
 					break;
+
 			}
 			
 			switch (floorMap[row][col]) {

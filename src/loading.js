@@ -10,7 +10,7 @@ Crafty.scene('Loading', function(){
 		.attr({ x: 0, y: 100, w: 200 });
 
 	var assetsObj = {
-		"images": ["res/test.png"],			 
+		"images": ["res/blackness.png","res/lightconcept.png","res/highlight.png"],			 
 		"sprites": {
 			"res/spritesheetx2.png": {
 				"tile": 100,
@@ -27,11 +27,6 @@ Crafty.scene('Loading', function(){
 				"tile": 50,
 				"tileh": 50,
 				"map": { "playerSprite1_reel": [0,0],},			 
-			},
-			"res/lightconcept.png": {
-				"tile": 200,
-				"tileh": 200,
-				"map": { "light_concept": [0,0],},			 
 			},
 		},
 	};

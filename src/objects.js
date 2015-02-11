@@ -78,29 +78,52 @@ Crafty.c('PlayerCharacter', {
 
 //FLOOR OBJECT
 Crafty.c('floorMap', {
+	highlightId: 0,
+	highlightEnt: 0,
 	init: function() {
 		this.requires('2D, DOM, Mouse');
 		this.bind("Click", function(MouseEvent) { 
 			this.clickEvent();
 		});
+		this.bind("MouseOver", function(MouseEvent) { 
+			this.mouseOverEvent();
+		});
+		this.bind("MouseOut", function(MouseEvent) { 
+			this.mouseOutEvent();
+		});
 	},
 	clickEvent: function() {
-		var id = this[0];
-		toConsole(Crafty(id)._x + " " + Crafty(id)._y);
+		toConsole(this._x + " " + this._y);
 		if (mouseFunction == "movePlayer") {
 			mouseFunction = "busyMoving"
 			//check if play is already in motion
-			pathFind(Crafty('PlayerCharacter')[0], Crafty(id)._x, Crafty(id)._y);
+			pathFind(Crafty('PlayerCharacter')[0], this._x, this._y);
 		}
 		else if (mouseFunction == "busyMoving") {
 			//check if play is already in motion
 			mouseFunction == "reallyBusy"
 			Crafty(Crafty('PlayerCharacter')[0]).cancelMove();
-			playerInMotion = false;				
+			playerInMotion = false;
+			var reRun = {x: this._x,y:this._y}			
 			setTimeout(function(){
-				pathFind(Crafty('PlayerCharacter')[0], Crafty(id)._x, Crafty(id)._y);								
-			}, 500);
+				toConsole("done waiting now moving to " + reRun.x + " " + reRun.y);
+				pathFind(Crafty('PlayerCharacter')[0], reRun.x, reRun.y);								
+			}, 500, reRun);
 			
+		}
+	},
+	mouseOverEvent: function() {
+		if (this.highlightId == 0) {
+			this.highlightEnt = Crafty.e ('2D, DOM, Image')
+				.image('res/highlight.png', 'no-repeat')
+				.attr({y: this._y, x: this._x, w: _tileSize, h: _tileSize});
+			this.highlightId = this.highlightEnt[0];
+		}
+	},
+	mouseOutEvent: function() {
+		if (this.highlightId != 0) {
+			Crafty(this.highlightId).destroy();
+			this.highlightId = 0;
 		}
 	}
 });

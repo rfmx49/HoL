@@ -4,8 +4,9 @@
 var consoleLogging = true;
 //var playerOffset = 12.5;
 //gameDefaults
-var _tileSize = 60;
+var _tileSize = 50;
 var playerOffset = 0;
+var roomCenter = {x: _tileSize, y: _tileSize}
 
 //for mouse hold timing
 var holdStarter = null;
@@ -33,11 +34,10 @@ function beginCrafty() {
 		// Start crafty and set a background color so that we can see it's working.
 		toConsole("ready to start Crafty");
 		Crafty.init(gameClientWidth, gameClientHeight, "gameviewDOM");
-		Crafty.background('#8ed2fa');
+		//Crafty.background('#8ed2fa'); //niceblue
+		Crafty.background('#790000');
 		
 		Crafty.viewport.init(gameClientWidth, gameClientHeight, "gameviewDOM");
-		//Crafty.viewport.mouselook(true);
-
 		//start game or loading scene
 		Crafty.timer.FPS(30);
 		Crafty.mobile = true;
