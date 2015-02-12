@@ -1,18 +1,25 @@
 var floorMap = [];
 floorMap[0] = [];
 var rooms = [];
-var firstRoom = true;
+var seedString = "debug";
+var roomRandom;
 
 function generateRoom() {
 	toConsole("clear")
 	Crafty('FloorGround').destroy();
-	if (firstRoom == false) { Crafty(Crafty('PlayerCharacter')[0]).destroy();}
-	firstRoom = false;
-	var maxWidth = 12;
-	var maxHeight = 8;
+	if ((typeof (Crafty('PlayerCharacter')[0]) != "undefined")) { Crafty(Crafty('PlayerCharacter')[0]).destroy();}
+	var maxWidth = 14;
+	var maxHeight = 12;
+	var roomPos = {x:0,y:0}
+	roomRandom = new Math.seedrandom(seedString + " . " + roomPos.x + "." + roomPos.y);
+	/*
 	var floorWidth = Math.floor(Math.random() * (maxWidth-2)) + 1;
 	var floorHeight = Math.floor(Math.random() * (maxHeight-2)) + 1;
 	var decider = Math.floor(Math.random() * 2) + 1;
+	*/
+	var floorWidth = Math.floor(roomRandom() * (maxWidth-2)) + 1;
+	var floorHeight = Math.floor(roomRandom() * (maxHeight-2)) + 1;
+	var decider = Math.floor(roomRandom() * 2) + 1;
 	floorMap = [];
 	floorMap[0] = [];
 	if (decider == 2){
@@ -25,9 +32,14 @@ function generateRoom() {
 				//make corner
 				//pick a wall top/right/left/bottom
 				//pick sizes
+				/*
 				var wallDecided = Math.floor(Math.random() * 4) + 1;
 				var cornerWidth = Math.floor(Math.random() * (floorWidth-1)) + 1;
 				var cornerHeight = Math.floor(Math.random() * (floorHeight-1)) + 1;
+				*/
+				var wallDecided = Math.floor(roomRandom() * 4) + 1;
+				var cornerWidth = Math.floor(roomRandom() * (floorWidth-1)) + 1;
+				var cornerHeight = Math.floor(roomRandom() * (floorHeight-1)) + 1;
 				toConsole("Make room W:" + floorWidth + " H: " + floorHeight + " With corner OnWall: " + wallDecided + "  Dimensions W:" + cornerWidth + " H:" +cornerHeight);
 				//drawmap
 				for (var row = 1; row <= floorHeight; row++) {
@@ -243,6 +255,7 @@ function drawRoom() {
 	toConsole('draw room ' + floorMap);
 	var rows = floorMap.length;
 	var cols;
+	var decider;
 	var tileRotation;
 	//Draw ground/parent
 	Crafty.e('FloorGround, 2D, DOM')
@@ -287,7 +300,6 @@ function drawRoom() {
 				case "brc":
 					tileRotation = 0;
 					break;
-
 			}
 			
 			switch (floorMap[row][col]) {
@@ -308,11 +320,22 @@ function drawRoom() {
 				case "wb":
 				case "wl":
 				case "wr":
-					Crafty.e('Tile' + row + '_' + col +', wallMap, wall_straight')
-						.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize});
-					Crafty(Crafty('FloorGround')[0]).attach(Crafty('Tile' + row + '_' + col));
-					Crafty('Tile' + row + '_' + col).origin("center")
-					Crafty('Tile' + row + '_' + col).rotation = tileRotation;
+					decider = Math.floor(roomRandom() * 3) + 1;
+					if (decider <=2) {					
+						Crafty.e('Tile' + row + '_' + col +', wallMap, wall_straight')
+							.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize});
+						Crafty(Crafty('FloorGround')[0]).attach(Crafty('Tile' + row + '_' + col));
+						Crafty('Tile' + row + '_' + col).origin("center")
+						Crafty('Tile' + row + '_' + col).rotation = tileRotation;
+					}
+					else {
+						Crafty.e('Tile' + row + '_' + col +', floorMap, door_1')
+							.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize});
+						Crafty(Crafty('FloorGround')[0]).attach(Crafty('Tile' + row + '_' + col));
+						Crafty('Tile' + row + '_' + col).origin("center")
+						Crafty('Tile' + row + '_' + col).rotation = tileRotation;
+						floorMap[row][col] = "d";
+					}
 					break;
 				case "tli":
 				case "tri":
