@@ -1,18 +1,32 @@
 //GLOBAL VARIBLES
 //Crafty.DOM.translate(Crafty.lastEvent.clientX,Crafty.lastEvent.clientY); //gets mouse location.
-//varibles for click and hold to show an items sub menu.
 var consoleLogging = true;
-//var playerOffset = 12.5;
-//gameDefaults
+//Game settings.
 var _tileSize = 50;
+var gameSeed = Math.floor((Math.random() * 4) + 1); //TODO DEBUG Increase to 100000
+//gameSeed = "debug";
 var playerOffset = 0;
 var roomCenter = {x: _tileSize, y: _tileSize}
 
+//Mouse varibles
+var mouseFunction = "movePlayer";
 //for mouse hold timing
 var holdStarter = null;
 var holdStarterToolbox = null;
 var holdDelay = 300; 
 var holdActive = false;
+
+//Room Varibles
+var floorMap = [];
+floorMap[0] = [];
+var rooms = [];
+var currentRoomPos = {};
+var currentRoom;
+var roomRandom;
+
+//difficulty
+var sparseness = 5;
+var doorChance = 3; //(1 in doorChance)
 
 $(document).ready(function() {
 	toConsole( "Document completed!" );

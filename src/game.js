@@ -1,7 +1,4 @@
-var gameSeed = Math.floor((Math.random() * 10) + 1); //TODO DEBUG Increase to 100000
-//toConsole("Game Seed: " + gameSeed);
-var mouseFunction = "movePlayer";
-
+//Main crafty Game scene
 Crafty.scene('Game', function() {
 
 	//
@@ -28,7 +25,7 @@ Crafty.scene('Game', function() {
 		clearTimeout(holdStarter);
 		if (holdActive == false) {
 			toConsole("click");	
-			toConsole(e);
+			//toConsole(e);
 			/*//check if there is a floor tile under click
 			if (floorMap.length > 3) {
 				//get tile underneath
@@ -62,9 +59,11 @@ Crafty.scene('Game', function() {
 
 function createPlayerEnt() {
 	Crafty.e('PlayerCharacter').attr({y: (roomCenter.y*_tileSize), x: (roomCenter.x*_tileSize), w: _tileSize, h: _tileSize});
+	Crafty(Crafty('FloorGround')[0]).attach(Crafty(Crafty('PlayerCharacter')[0]));
 	Crafty.e('RoomLight, 2D, DOM, Image')
 		.image('res/blackness.png', 'no-repeat')
-		.attr({y: ((roomCenter.y*_tileSize)-400), x: ((roomCenter.x*_tileSize)-600), w: 1200, h: 800});
+		.attr({y: ((roomCenter.y*_tileSize)-400), x: ((roomCenter.x*_tileSize)-600), w: 1200, h: 800, z: 10});
+	Crafty(Crafty('FloorGround')[0]).attach(Crafty(Crafty('RoomLight')[0]));
 	toConsole("player created");
 }
 

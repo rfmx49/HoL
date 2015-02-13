@@ -1,17 +1,14 @@
-var floorMap = [];
-floorMap[0] = [];
-var rooms = [];
-var seedString = "debug";
-var roomRandom;
-
 function generateRoom() {
 	toConsole("clear")
 	Crafty('FloorGround').destroy();
 	if ((typeof (Crafty('PlayerCharacter')[0]) != "undefined")) { Crafty(Crafty('PlayerCharacter')[0]).destroy();}
 	var maxWidth = 14;
 	var maxHeight = 12;
-	var roomPos = {x:0,y:0}
-	roomRandom = new Math.seedrandom(seedString + " . " + roomPos.x + "." + roomPos.y);
+	if (rooms.length == 0) {
+		currentRoomPos = {x:0,y:0,z:0};
+	}
+	roomRandom = new Math.seedrandom(gameSeed + " . " + currentRoomPos.x + "." + currentRoomPos.y + "." + currentRoomPos.z);
+	currentRoom = rooms.push(new Room(currentRoomPos.x, currentRoomPos.y, currentRoomPos.z));
 	/*
 	var floorWidth = Math.floor(Math.random() * (maxWidth-2)) + 1;
 	var floorHeight = Math.floor(Math.random() * (maxHeight-2)) + 1;
@@ -257,6 +254,7 @@ function drawRoom() {
 	var cols;
 	var decider;
 	var tileRotation;
+	var offsetDoor = {};
 	//Draw ground/parent
 	Crafty.e('FloorGround, 2D, DOM')
 		.attr({y: 0, x: 0, w: _tileSize, h: _tileSize});
@@ -301,7 +299,7 @@ function drawRoom() {
 					tileRotation = 0;
 					break;
 			}
-			
+			offsetDoor = {};
 			switch (floorMap[row][col]) {
 				case "f":
 					Crafty.e('Tile' + row + '_' + col +', floorMap, floor_1')
@@ -320,7 +318,7 @@ function drawRoom() {
 				case "wb":
 				case "wl":
 				case "wr":
-					decider = Math.floor(roomRandom() * 3) + 1;
+					decider = Math.floor(roomRandom() * doorChance) + 1;
 					if (decider <=2) {					
 						Crafty.e('Tile' + row + '_' + col +', wallMap, wall_straight')
 							.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize});
@@ -329,13 +327,33 @@ function drawRoom() {
 						Crafty('Tile' + row + '_' + col).rotation = tileRotation;
 					}
 					else {
+						switch (floorMap[row][col].substring(2,1)) {
+							case "a":
+								offsetDoor.y = 25;
+								offsetDoor.x = 0;
+								break;
+							case "b":
+								offsetDoor.y = -25;
+								offsetDoor.x = 0;
+								break;
+							case "l":
+								offsetDoor.y = 0;
+								offsetDoor.x = 25;
+								break;
+							case "r":
+								offsetDoor.y = 0;
+								offsetDoor.x = -25;
+								break;
+						}
 						Crafty.e('Tile' + row + '_' + col +', floorMap, door_1')
 							.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize});
 						Crafty(Crafty('FloorGround')[0]).attach(Crafty('Tile' + row + '_' + col));
-						Crafty('Tile' + row + '_' + col).origin("center")
+						Crafty('Tile' + row + '_' + col).origin("center");
+						Crafty('Tile' + row + '_' + col).offset = offsetDoor;
 						Crafty('Tile' + row + '_' + col).rotation = tileRotation;
 						//change floor map to door instead of wall
 						floorMap[row][col] = "d" + floorMap[row][col].substring(2,1);
+						rooms[currentRoom-1].doors.push(new Door(Math.floor(roomRandom() * sparseness) + 1,Math.floor(roomRandom() * sparseness) + 1,0));
 					}
 					break;
 				case "tli":
@@ -363,6 +381,24 @@ function drawRoom() {
 
 
 	}
+}
+
+function changeDoor(doorPos, doorOffset, action) {
+	toConsole("change door at " + doorPos.x + " " + doorPos.y + " rotation:" + doorPos.rotation + " offset x" + doorOffset.x + " offset y" + doorOffset.y);
+	Crafty.e('Door' + (doorPos.y/_tileSize) + '_' + (doorPos.x/_tileSize) +', doorSprite1_reel, wallDoorAnimate')
+		.attr({y: doorPos.y+(doorOffset.y), x: doorPos.x+(doorOffset.x), w: _tileSize, h: _tileSize});
+	var thisDoor = Crafty('Door' + (doorPos.y/_tileSize) + '_' + (doorPos.x/_tileSize))[0]
+	Crafty(Crafty('FloorGround')[0]).attach(Crafty(thisDoor));
+	Crafty(thisDoor).origin("center");
+	Crafty(thisDoor).rotation = doorPos.rotation;
+	console.log("door ID " + thisDoor);
+	if (action == "open") {
+		Crafty(thisDoor).openDoor();
+	}
+	else if (action == "clsoe") {
+		Crafty(thisDoor).closeDoor();
+	}
+	return thisDoor;
 }
 
 function checkRoom(sX,sY,sZ) {
