@@ -334,7 +334,8 @@ function drawRoom() {
 						Crafty(Crafty('FloorGround')[0]).attach(Crafty('Tile' + row + '_' + col));
 						Crafty('Tile' + row + '_' + col).origin("center")
 						Crafty('Tile' + row + '_' + col).rotation = tileRotation;
-						floorMap[row][col] = "d";
+						//change floor map to door instead of wall
+						floorMap[row][col] = "d" + floorMap[row][col].substring(2,1);
 					}
 					break;
 				case "tli":

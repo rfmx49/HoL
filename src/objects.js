@@ -53,14 +53,26 @@ Crafty.c('PlayerCharacter', {
 		if (((this.rotation - newPos.rotation) == 180) || ((this.rotation - newPos.rotation) == -180)) {
 			this.rotation = newPos.rotation;
 		}
-		this.playerWalking();
-		this.tween({x: newPos.x, y: newPos.y, rotation: newPos.rotation}, 400);
-		if (newPos.rotation == 360) {
-			this.rotation = 0;
+		if (newPos.type == "f") {
+			this.playerWalking();
+			this.tween({x: newPos.x, y: newPos.y, rotation: newPos.rotation}, 400);
+			if (newPos.rotation == 360) {
+				this.rotation = 0;
+			}
+			if (newPos.Rotation == -90) {
+				this.rotation = 270;
+			}
 		}
-		if (newPos.Rotation == -90) {
-			this.rotation = 270;
-		}	
+		else if (newPos.type == "d") {
+			this.tween({rotation: newPos.rotation}, 200);
+			if (newPos.rotation == 360) {
+				this.rotation = 0;
+			}
+			if (newPos.Rotation == -90) {
+				this.rotation = 270;
+			}
+		}
+			
 	},
 
 	playerWalking: function() {
