@@ -140,6 +140,32 @@ Crafty.c('floorMap', {
 	}
 });
 
+Crafty.c('wallDoorAnimate', {
+	rotation: 0,
+	init: function() {
+		this.requires('2D, DOM, doorSprite1_reel, SpriteAnimation');
+		this.origin("center");
+		this.reel('doorOpening', 800, 1, 0, 6);
+		this.reel('doorOpened', 1, 1, 0, 1);
+		this.reel('doorClosing', 800, 6, 0, -6);
+		this.reel('doorClosed', 1, 0, 0, 1);
+	},
+	openDoor: function() {
+		this.animate('doorOpening', 1);
+		this.animate('doorOpened', -1);
+	},
+	openedDoor: function() {
+		this.animate('doorOpened', 1);
+	}, 	
+	closeDoor: function() {
+		this.animate('doorClosing', 1);
+	},
+	closedDoor: function() {
+		this.animate('doorClosing', 1);
+		this.animate('doorClosed', -1);		
+	}	
+});
+
 //WALL OBJECT
 Crafty.c('wallMap', {
 	init: function() {
