@@ -256,8 +256,9 @@ function drawRoom() {
 	var tileRotation;
 	var offsetDoor = {};
 	//Draw ground/parent
-	Crafty.e('FloorGround, 2D, DOM')
-		.attr({y: 0, x: 0, w: _tileSize, h: _tileSize});
+	Crafty.e('FloorGround, 2D, DOM, Color')
+		.attr({y: 0, x: 0, w: 1, h: 1})
+		.color("#FFFFFF");
 	for (var row = 0; row < rows; row++) {
 		cols = floorMap[row].length;
 		for (var col = 0; col < cols; col++) {
@@ -327,22 +328,31 @@ function drawRoom() {
 						Crafty('Tile' + row + '_' + col).rotation = tileRotation;
 					}
 					else {
+						//room directions mmagor direction ++ minor direction  1/2 sparseness +/-
 						switch (floorMap[row][col].substring(2,1)) {
 							case "a":
 								offsetDoor.y = 25;
 								offsetDoor.x = 0;
+								//newDoor.y = Math.floor((roomRandom() * sparseness) + 1);
+								//newDoor.x = Math.round(((roomRandom() * sparseness) + 1)-(sparseness/2));
 								break;
 							case "b":
 								offsetDoor.y = -25;
 								offsetDoor.x = 0;
+								//newDoor.y = Math.floor((roomRandom() * sparseness) + 1) - sparseness;
+								//newDoor.x = Math.round(((roomRandom() * sparseness) + 1)-(sparseness/2));
 								break;
 							case "l":
 								offsetDoor.y = 0;
 								offsetDoor.x = 25;
+								//newDoor.x = Math.floor((roomRandom() * sparseness) + 1);
+								//newDoor.y = Math.round(((roomRandom() * sparseness) + 1)-(sparseness/2));
 								break;
 							case "r":
 								offsetDoor.y = 0;
 								offsetDoor.x = -25;
+								//newDoor.x = Math.floor((roomRandom() * sparseness) + 1) - sparseness;
+								//newDoor.y = Math.round(((roomRandom() * sparseness) + 1)-(sparseness/2));
 								break;
 						}
 						Crafty.e('Tile' + row + '_' + col +', floorMap, door_1')
@@ -353,7 +363,7 @@ function drawRoom() {
 						Crafty('Tile' + row + '_' + col).rotation = tileRotation;
 						//change floor map to door instead of wall
 						floorMap[row][col] = "d" + floorMap[row][col].substring(2,1);
-						rooms[currentRoom-1].doors.push(new Door(Math.floor(roomRandom() * sparseness) + 1,Math.floor(roomRandom() * sparseness) + 1,0));
+						//rooms[currentRoom-1].doors.push(new Door(newDoor.x,newDoor.y,0)); //TODO make new currentfloor varible.
 					}
 					break;
 				case "tli":
@@ -411,8 +421,9 @@ function checkRoom(sX,sY,sZ) {
 					//toConsole('Room ' + i +' has same x:' + sX);
 					if (rooms[i].y == sY) {
 						//toConsole('Room ' + i +' has same y:' + sY);
-						toConsole('<b>Room EXISTS</b>');
+						toConsole('Room EXISTS');
 						roomFound=true;
+						return i;
 						break;
 					}
 					else {

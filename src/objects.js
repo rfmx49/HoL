@@ -10,10 +10,12 @@ function Room(x,y,z) {
 }
 
 //Door Constructor
-function Door(toX,toY,toZ) {
+function Door(toX,toY,toZ,roomX,roomY) {
 	this.toX = toX;
 	this.toY = toY;
 	this.toZ = toZ;
+	this.roomX = roomX;
+	this.roomY = roomY;
 	this.style = [];
 }
 
@@ -85,12 +87,35 @@ Crafty.c('PlayerCharacter', {
 			var door = floorMap[newPos.y/_tileSize][newPos.x/_tileSize]
 			//create door animation at this point.
 			//get the door offset.
-			var doorOffset = Crafty('Tile' + [newPos.y/_tileSize] + '_' + [newPos.x/_tileSize]).offset;
+			var doorOffset = Crafty('Tile' + (newPos.y/_tileSize) + '_' + (newPos.x/_tileSize)).offset;
 			console.log('our door offset x: ' + doorOffset.x);
-			changeDoor(newPos, Crafty('Tile' + [newPos.y/_tileSize] + '_' + [newPos.x/_tileSize]).offset, "open", true);
+			changeDoor(newPos, Crafty('Tile' + (newPos.y/_tileSize) + '_' + (newPos.x/_tileSize)).offset, "open", true);
 
 			//move player too door
 			//wait for door to open a bit
+			//Generate doors random destination if not set  already though.
+			doorRandom = new Math.seedrandom(gameSeed + " . " + currentRoomPos.x + "." + currentRoomPos.y + "." + currentRoomPos.z + "." + newPos.y/_tileSize + "." + newPos.x/_tileSize);
+			var newDoor = {x:0,y:0};
+			switch (door) {
+				case "a":
+					newDoor.y = Math.floor((doorRandom() * sparseness) + 1);
+					newDoor.x = Math.round(((doorRandom() * sparseness) + 1)-(sparseness/2));
+					break;
+				case "b":
+					newDoor.y = Math.floor((doorRandom() * sparseness) + 1) - sparseness;
+					newDoor.x = Math.round(((doorRandom() * sparseness) + 1)-(sparseness/2));
+					break;
+				case "l":
+					newDoor.x = Math.floor((doorRandom() * sparseness) + 1);
+					newDoor.y = Math.round(((doorRandom() * sparseness) + 1)-(sparseness/2));
+					break;
+				case "r":
+					newDoor.x = Math.floor((doorRandom() * sparseness) + 1) - sparseness;
+					newDoor.y = Math.round(((doorRandom() * sparseness) + 1)-(sparseness/2));
+					break;
+			}
+			rooms[currentRoom-1].doors.push(new Door(newDoor.x,newDoor.y,0,newPos.x,newPos.y));
+			
 			var playerID = this[0];
 			setTimeout(function() {
 				Crafty(playerID).playerWalking();
@@ -98,6 +123,7 @@ Crafty.c('PlayerCharacter', {
 				setTimeout(function() {
 					//destroy and make a new room
 					Crafty(Crafty('FloorGround')[0]).destroy();
+					
 					generateRoom();
 				}, 250);
 			}, 400, newPos, playerID);
