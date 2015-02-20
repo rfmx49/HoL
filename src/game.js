@@ -10,13 +10,13 @@ Crafty.scene('Game', function() {
 			holdStarter = null;
 			holdActive = true;
 			// begin hold-only operation here, if desired
-			toConsole('Dragging');		
+			console.log('Dragging');		
 		}, 299);
 	});
 
 	Crafty.addEvent(Crafty.stage.elem, "mouseup", function (e) {
 		if (holdActive) {
-			toConsole("hold done");
+			console.log("hold done");
 		}					
 	});
 		
@@ -24,14 +24,14 @@ Crafty.scene('Game', function() {
 	Crafty.addEvent(Crafty.stage.elem, "click", function (e) {
 		clearTimeout(holdStarter);
 		if (holdActive == false) {
-			toConsole("click");	
-			//toConsole(e);
+			console.log("click");	
+			//console.log(e);
 			/*//check if there is a floor tile under click
 			if (floorMap.length > 3) {
 				//get tile underneath
 				var floorTile = {x: (Math.floor(e.layerX/_tileSize)), y: (Math.floor(e.layerY/_tileSize))}
 				if (typeof floorMap[floorTile.y] != "undefined") { 
-					toConsole('floor tile is ' + floorTile.x + " | " + floorTile.y + ' which is ' + floorMap[floorTile.y][floorTile.x])
+					console.log('floor tile is ' + floorTile.x + " | " + floorTile.y + ' which is ' + floorMap[floorTile.y][floorTile.x])
 					if (floorMap[floorTile.y][floorTile.x] == "f") {
 						var tileId = Crafty('Tile' + floorTile.y + '_' + floorTile.x)[0];
 						//Crafty(tileId).clickEvent();					
@@ -58,13 +58,14 @@ Crafty.scene('Game', function() {
 });
 
 function createPlayerEnt() {
-	Crafty.e('PlayerCharacter').attr({y: (roomCenter.y*_tileSize), x: (roomCenter.x*_tileSize), w: _tileSize, h: _tileSize});
+	playerEntity = Crafty.e('PlayerCharacter').attr({y: (roomCenter.y*_tileSize), x: (roomCenter.x*_tileSize), w: _tileSize, h: _tileSize});
+	playerEntity.rotation = userPlayer.rotation;
 	Crafty(Crafty('FloorGround')[0]).attach(Crafty(Crafty('PlayerCharacter')[0]));
 	Crafty.e('RoomLight, 2D, DOM, Image')
 		.image('res/blackness.png', 'no-repeat')
 		.attr({y: ((roomCenter.y*_tileSize)-400), x: ((roomCenter.x*_tileSize)-600), w: 1200, h: 800, z: 10});
 	Crafty(Crafty('FloorGround')[0]).attach(Crafty(Crafty('RoomLight')[0]));
-	toConsole("player created");
+	console.log("player created");
 }
 
 

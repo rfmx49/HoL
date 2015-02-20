@@ -1,5 +1,13 @@
+//Player Constructor
+function playerObj() {
+	this.pos = new Position(0,0,0);
+	this.rotation = 0;
+}
+
 //Room constructor
 function Room(x,y,z) {
+	this.pos = [];
+	this.pos(new Position(x,y,z));
 	this.x = x;
 	this.y = y;
 	this.z = z;
@@ -9,13 +17,19 @@ function Room(x,y,z) {
 	this.stairs = [];
 }
 
+function Position(x,y,z) {
+	this.x = x;
+	this.y = y;
+	this.z = z;
+}
+
 //Door Constructor
 function Door(toX,toY,toZ,roomX,roomY) {
 	this.toX = toX;
 	this.toY = toY;
 	this.toZ = toZ;
-	this.roomX = roomX;
-	this.roomY = roomY;
+	this.roomX = roomX; //position in the room.
+	this.roomY = roomY; //position in the room.
 	this.style = [];
 }
 
@@ -36,11 +50,11 @@ Crafty.c('PlayerCharacter', {
 			this.inMotion = true;
 			this.playerIdle();
 			if (this.nodePath.length >= 1) {
-				//toConsole("checking next node");
+				//console.log("checking next node");
 				this.playTween();
 			}
 			else {
-				toConsole("done moving");
+				console.log("done moving");
 				mouseFunction = "movePlayer"				
 				this.inMotion = false;
 			}				
@@ -81,7 +95,7 @@ Crafty.c('PlayerCharacter', {
 			if (newPos.Rotation == -90) {
 				this.rotation = 270;
 			}
-			toConsole("at door open door and then generate new room based on that door info");
+			console.log("at door open door and then generate new room based on that door info");
 			//get door info first from floor map
 			console.log(newPos.x + " " + newPos.y);
 			var door = floorMap[newPos.y/_tileSize][newPos.x/_tileSize]
@@ -90,11 +104,11 @@ Crafty.c('PlayerCharacter', {
 			var doorOffset = Crafty('Tile' + (newPos.y/_tileSize) + '_' + (newPos.x/_tileSize)).offset;
 			console.log('our door offset x: ' + doorOffset.x);
 			changeDoor(newPos, Crafty('Tile' + (newPos.y/_tileSize) + '_' + (newPos.x/_tileSize)).offset, "open", true);
-
+			//TODO only if this is player not any player character.
 			//move player too door
 			//wait for door to open a bit
 			//Generate doors random destination if not set  already though.
-			doorRandom = new Math.seedrandom(gameSeed + " . " + currentRoomPos.x + "." + currentRoomPos.y + "." + currentRoomPos.z + "." + newPos.y/_tileSize + "." + newPos.x/_tileSize);
+			var doorRandom = new Math.seedrandom(gameSeed + " . " + userPlayer.pos.x + "." + userPlayer.pos.y + "." + userPlayer.pos.z + "." + newPos.y/_tileSize + "." + newPos.x/_tileSize);
 			var newDoor = {x:0,y:0};
 			switch (door) {
 				case "a":
@@ -120,16 +134,15 @@ Crafty.c('PlayerCharacter', {
 			setTimeout(function() {
 				Crafty(playerID).playerWalking();
 				Crafty(playerID).tween({x: newPos.x, y: newPos.y, rotation: newPos.rotation}, 400);
+				userPlayer.rotation = newPos.rotation;
 				setTimeout(function() {
 					//destroy and make a new room
 					Crafty(Crafty('FloorGround')[0]).destroy();
 					
 					generateRoom();
 				}, 250);
-			}, 400, newPos, playerID);
-			
-		}
-			
+			}, 400, newPos, playerID);			
+		}			
 	},
 	playerWalking: function() {
 		this.animate('playerWalking', 1);
@@ -138,7 +151,7 @@ Crafty.c('PlayerCharacter', {
 		this.animate('playerIdle', 1);
 	},
 	cancelMove: function() {
-		toConsole("cancel moving");
+		console.log("cancel moving");
 		this.nodePath = [];
 		mouseFunction == "movePlayer";	
 	}
@@ -162,7 +175,7 @@ Crafty.c('floorMap', {
 		});
 	},
 	clickEvent: function() {
-		toConsole(this._x + " " + this._y);
+		console.log(this._x + " " + this._y);
 		if (mouseFunction == "movePlayer") {
 			mouseFunction = "busyMoving"
 			//check if play is already in motion
@@ -175,7 +188,7 @@ Crafty.c('floorMap', {
 			playerInMotion = false;
 			var reRun = {x: this._x,y:this._y}			
 			setTimeout(function(){
-				toConsole("done waiting now moving to " + reRun.x + " " + reRun.y);
+				console.log("done waiting now moving to " + reRun.x + " " + reRun.y);
 				pathFind(Crafty('PlayerCharacter')[0], reRun.x, reRun.y);								
 			}, 500, reRun);
 			

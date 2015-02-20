@@ -1,6 +1,5 @@
 //GLOBAL VARIBLES
 //Crafty.DOM.translate(Crafty.lastEvent.clientX,Crafty.lastEvent.clientY); //gets mouse location.
-var consoleLogging = true;
 //Game settings.
 var _tileSize = 50;
 var gameSeed = Math.floor((Math.random() * 4) + 1); //TODO DEBUG Increase to 100000
@@ -16,11 +15,15 @@ var holdStarterToolbox = null;
 var holdDelay = 300; 
 var holdActive = false;
 
+//player
+var userPlayer; // = new playerObj;
+var playerEntity;
 //Room Varibles
 var floorMap = [];
 floorMap[0] = [];
 var rooms = [];
-var currentRoomPos = {};
+var originDoors = [];
+var originWalls = [];
 var currentRoom;
 var roomRandom;
 
@@ -29,7 +32,7 @@ var sparseness = 5;
 var doorChance = 3; //(1 in doorChance)
 
 $(document).ready(function() {
-	toConsole( "Document completed!" );
+	console.log( "Document completed!" );
 	//Start crafty
 	beginCrafty();
 });
@@ -44,9 +47,9 @@ function beginCrafty() {
 		var gameClientWidth = $('#gameviewDOM').width();
 		var gameClientHeight = $('#gameviewDOM').height();
 	
-		toConsole(gameClientWidth + "width x height" + gameClientHeight);
+		console.log(gameClientWidth + "width x height" + gameClientHeight);
 		// Start crafty and set a background color so that we can see it's working.
-		toConsole("ready to start Crafty");
+		console.log("ready to start Crafty");
 		Crafty.init(gameClientWidth, gameClientHeight, "gameviewDOM");
 		//Crafty.background('#8ed2fa'); //niceblue
 		Crafty.background('#790000');
@@ -65,19 +68,13 @@ function beginCrafty() {
 function toolPauseGame() {
 	//check if game is 
 	if ( Crafty.isPaused() ) {
-		toConsole("unpausing game");
+		console.log("unpausing game");
 		Crafty.pause();
 		//$("#toolboxPlay").removeAttr("id").attr("id", "toolboxPause");
 	}
 	else {
-		toConsole("pausing game");
+		console.log("pausing game");
 		Crafty.pause();
 		//$("#toolboxPause").removeAttr("id").attr("id", "toolboxPlay");
 	}	
 };
-
-function toConsole(msg) {
-	if (consoleLogging) {
-		console.log(msg);
-	}
-}
