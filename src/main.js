@@ -23,7 +23,6 @@ var floorMap = [];
 floorMap[0] = [];
 var rooms = [];
 var originDoors = [];
-var originWalls = [];
 var currentRoom;
 var roomRandom;
 

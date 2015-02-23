@@ -141,7 +141,18 @@ function generateRoom() {
 function locateOriginDoor () {
 	//need to check originDoors array adn remove any that are already used for passage to other rooms. 
 	//Major issue will be if there is alrady a door to this room but then a new way is added but there is no room for it
-	if (originDoors.length = 1) {
+	//filter origin doors
+	var filterdDoors = [];
+	if (originDoors.length >= 1) {
+		for (var i = 0; i < rooms[currentRoom].doors.length; i++) {
+			if ((checkDoor(currentRoom,originDoors[i].x,originDoors[i].x)) == false) {
+				filterdDoors.push(originDoors[i]);
+			}			
+	 	}		
+	}
+	originDoors = filterdDoors;
+	
+	if (originDoors.length == 1) {
 		//just one door.
 		
 	}
@@ -437,11 +448,11 @@ function checkRoom(sX,sY,sZ) {
 	console.log("searching.. z: " + sZ + " x: " + sX + " y: " + sY);
 	var roomFound=false;
 	for (var i = 0; i < rooms.length; i++) {
-		    if (rooms[i].z == sZ) {
+		    if (rooms[i].pos.z == sZ) {
 				//console.log('Room ' + i +' has same z:' + sZ);
-				if (rooms[i].x == sX) {
+				if (rooms[i].pos.x == sX) {
 					//console.log('Room ' + i +' has same x:' + sX);
-					if (rooms[i].y == sY) {
+					if (rooms[i].pos.y == sY) {
 						//console.log('Room ' + i +' has same y:' + sY);
 						console.log('Room EXISTS');
 						roomFound=true;
@@ -465,4 +476,24 @@ function checkRoom(sX,sY,sZ) {
 		console.log('Room not Found');
 	}
  	return roomFound;
+}
+
+function checkDoor(sRoom,sX,sY) {
+	console.log("searching.. x: " + sX + " y: " + sY + " in Room: " + sRoom);
+	var doorFound=false;
+	for (var i = 0; i < rooms[sRoom].doors.length; i++) {
+	    if (rooms[sRoom].doors[i].roomPos.y == sY) {
+			//console.log('Room ' + i +' has same z:' + sZ);
+			if (rooms[sRoom].doors[i].roomPos.x == sX) {
+				console.log('Door EXISTS');
+				doorFound=true;
+				return i;
+				break;
+			}
+		}
+ 	}
+ 	if (doorFound == false) {
+		console.log('Door not Found');
+	}
+ 	return doorFound;
 }

@@ -1,3 +1,10 @@
+//postion object.
+function Position(x,y,z) {
+	this.x = x;
+	this.y = y;
+	this.z = z;
+}
+
 //Player Constructor
 function playerObj() {
 	this.pos = new Position(0,0,0);
@@ -6,30 +13,19 @@ function playerObj() {
 
 //Room constructor
 function Room(x,y,z) {
-	this.pos = [];
-	this.pos(new Position(x,y,z));
-	this.x = x;
-	this.y = y;
-	this.z = z;
+	this.pos = new Position(x,y,z);
 	this.map = [];
 	this.style = [];
 	this.doors = [];
 	this.stairs = [];
 }
 
-function Position(x,y,z) {
-	this.x = x;
-	this.y = y;
-	this.z = z;
-}
+
 
 //Door Constructor
 function Door(toX,toY,toZ,roomX,roomY) {
-	this.toX = toX;
-	this.toY = toY;
-	this.toZ = toZ;
-	this.roomX = roomX; //position in the room.
-	this.roomY = roomY; //position in the room.
+	this.toPos = new Position(toX,toY,toZ);
+	this.roomPos = new Position(roomX,roomY,0); //position in the room.
 	this.style = [];
 }
 
@@ -128,7 +124,7 @@ Crafty.c('PlayerCharacter', {
 					newDoor.y = Math.round(((doorRandom() * sparseness) + 1)-(sparseness/2));
 					break;
 			}
-			rooms[currentRoom-1].doors.push(new Door(newDoor.x,newDoor.y,0,newPos.x,newPos.y));
+			rooms[currentRoom-1].doors.push(new Door(newDoor.x,newDoor.y,0,newPos.x/_tileSize,newPos.y/_tileSize));
 			
 			var playerID = this[0];
 			setTimeout(function() {
