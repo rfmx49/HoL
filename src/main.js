@@ -18,6 +18,7 @@ var holdActive = false;
 //player
 var userPlayer; // = new playerObj;
 var playerEntity;
+var lastPos = new Position(0,0,0);
 //Room Varibles
 var floorMap = [];
 floorMap[0] = [];
@@ -25,9 +26,10 @@ var rooms = [];
 var originDoors = [];
 var currentRoom;
 var roomRandom;
+var doorRandom;
 
 //difficulty
-var sparseness = 5;
+var sparseness = 10;
 var doorChance = 3; //(1 in doorChance)
 
 $(document).ready(function() {

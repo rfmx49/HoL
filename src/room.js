@@ -6,7 +6,12 @@ function generateRoom() {
 	var maxWidth = 14;
 	var maxHeight = 12;
 	roomRandom = new Math.seedrandom(gameSeed + " . " + userPlayer.pos.x + "." + userPlayer.pos.y + "." + userPlayer.pos.z);
-	currentRoom = rooms.push(new Room(userPlayer.pos.x, userPlayer.pos.y, userPlayer.pos.z));
+	var existingRoom = checkRoom(userPlayer.pos.x,userPlayer.pos.y,userPlayer.pos.z);
+	console.log("EXISTING room STATUS == " + existingRoom + " " + (existingRoom == false) + (typeof existingRoom =="boolean"));
+	if ((existingRoom == false) && (typeof existingRoom =="boolean")) {
+		currentRoom = rooms.push(new Room(userPlayer.pos.x, userPlayer.pos.y, userPlayer.pos.z)) - 1;
+	}
+	else { currentRoom = existingRoom; }
 	/*
 	var floorWidth = Math.floor(Math.random() * (maxWidth-2)) + 1;
 	var floorHeight = Math.floor(Math.random() * (maxHeight-2)) + 1;
@@ -126,6 +131,7 @@ function generateRoom() {
 	}
 	fillWalls();
 	drawRoom();
+	locateOriginDoor();
 	//get room center
 	roomCenter.y = (Math.floor(floorMap.length/2));
 	roomCenter.x = (Math.floor(floorMap[0].length/2));
@@ -138,14 +144,20 @@ function generateRoom() {
 	return floorMap;
 }
 
-function locateOriginDoor () {
+function setDoor(tileX, tileY){
+	rooms[currentRoom].doors.push(new Door(lastPos.x,lastPos.y,lastPos.z,tileX,tileY));
+}
+
+function locateOriginDoor() {
 	//need to check originDoors array adn remove any that are already used for passage to other rooms. 
 	//Major issue will be if there is alrady a door to this room but then a new way is added but there is no room for it
-	//filter origin doors
+	//filter origin doors if origin doors are already taken do reassign them.
 	var filterdDoors = [];
+	var existingDoor = false;
 	if (originDoors.length >= 1) {
-		for (var i = 0; i < rooms[currentRoom].doors.length; i++) {
-			if ((checkDoor(currentRoom,originDoors[i].x,originDoors[i].x)) == false) {
+		for (var i = 0; i < originDoors.length; i++) {
+			existingDoor=checkDoor(currentRoom,originDoors[i].x,originDoors[i].y)
+			if ((existingDoor == false) && (typeof existingDoor =="boolean")) {
 				filterdDoors.push(originDoors[i]);
 			}			
 	 	}		
@@ -154,13 +166,15 @@ function locateOriginDoor () {
 	
 	if (originDoors.length == 1) {
 		//just one door.
-		
+		setDoor(originDoors[0].x,originDoors[0].y);		
 	}
 	else if (originDoors.length >= 2) {
 		//more than one door pick one.
 	}
 	else {
-		//no doors make one
+		//make new room.
+		//add a point value to the room pos and create a new room.
+		//might run into issues merging back to regular rooms, but I think the new destinations are set to Math.floor
 	}
 }
 
@@ -391,7 +405,8 @@ function drawRoom() {
 						if (oppisiteRotation == 450) { oppisiteRotation = 90; }
 						if (oppisiteRotation == 360) { oppisiteRotation = 0; }
 						if (oppisiteRotation == userPlayer.rotation) {
-							originDoors.push( {x: col,y: row});
+							originDoors.push({x: col,y: row});
+							console.log("Door added");
 						}
 						else {
 							console.log("rotation did not match" + oppisiteRotation + "/" + userPlayer.rotation);
@@ -448,29 +463,19 @@ function checkRoom(sX,sY,sZ) {
 	console.log("searching.. z: " + sZ + " x: " + sX + " y: " + sY);
 	var roomFound=false;
 	for (var i = 0; i < rooms.length; i++) {
-		    if (rooms[i].pos.z == sZ) {
-				//console.log('Room ' + i +' has same z:' + sZ);
-				if (rooms[i].pos.x == sX) {
-					//console.log('Room ' + i +' has same x:' + sX);
-					if (rooms[i].pos.y == sY) {
-						//console.log('Room ' + i +' has same y:' + sY);
-						console.log('Room EXISTS');
-						roomFound=true;
-						return i;
-						break;
-					}
-					else {
-						//console.log('Room ' + i +' not a match');
-					}
-				}
-				else {
-					//console.log('Room ' + i +' not a match');
+	    if (rooms[i].pos.z == sZ) {
+			//console.log('Room ' + i +' has same z:' + sZ);
+			if (rooms[i].pos.x == sX) {
+				//console.log('Room ' + i +' has same x:' + sX);
+				if (rooms[i].pos.y == sY) {
+					//console.log('Room ' + i +' has same y:' + sY);
+					console.log('Room EXISTS');
+					roomFound=i;
+					return i;
+					break;
 				}
 			}
-			else {
-				//console.log('Room ' + i +' not a match');
-			}
-
+		}
  	}
  	if (roomFound == false) {
 		console.log('Room not Found');
@@ -486,7 +491,7 @@ function checkDoor(sRoom,sX,sY) {
 			//console.log('Room ' + i +' has same z:' + sZ);
 			if (rooms[sRoom].doors[i].roomPos.x == sX) {
 				console.log('Door EXISTS');
-				doorFound=true;
+				doorFound=i;
 				return i;
 				break;
 			}
