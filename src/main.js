@@ -3,7 +3,7 @@
 //Game settings.
 var _tileSize = 50;
 var gameSeed = Math.floor((Math.random() * 4) + 1); //TODO DEBUG Increase to 100000
-//gameSeed = "debug";
+gameSeed = 2; //DEBUGING 
 var playerOffset = 0;
 var roomCenter = {x: _tileSize, y: _tileSize}
 
@@ -19,14 +19,19 @@ var holdActive = false;
 var userPlayer; // = new playerObj;
 var playerEntity;
 var lastPos = new Position(0,0,0);
+var playerRoomPos;
 //Room Varibles
 var floorMap = [];
 floorMap[0] = [];
 var rooms = [];
 var originDoors = [];
 var currentRoom;
+var lastRoom;
+var lastDoor;
 var roomRandom;
 var doorRandom;
+var originDoorSuccess = true;
+
 
 //difficulty
 var sparseness = 10;

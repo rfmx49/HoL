@@ -7,8 +7,16 @@ function generateRoom() {
 	var maxHeight = 12;
 	roomRandom = new Math.seedrandom(gameSeed + " . " + userPlayer.pos.x + "." + userPlayer.pos.y + "." + userPlayer.pos.z);
 	var existingRoom = checkRoom(userPlayer.pos.x,userPlayer.pos.y,userPlayer.pos.z);
-	console.log("EXISTING room STATUS == " + existingRoom + " " + (existingRoom == false) + (typeof existingRoom =="boolean"));
-	if ((existingRoom == false) && (typeof existingRoom =="boolean")) {
+	//console.log("EXISTING room STATUS == " + existingRoom + " " + (existingRoom == false) + (typeof existingRoom =="boolean"));
+	if (originDoorSuccess) {
+		//this is not a recreation of a room
+		lastRoom = currentRoom; 
+	}
+	else {
+		//this is a recreated room
+		rooms[currentRoom]="";
+	}
+	if (existingRoom === false) {
 		currentRoom = rooms.push(new Room(userPlayer.pos.x, userPlayer.pos.y, userPlayer.pos.z)) - 1;
 	}
 	else { currentRoom = existingRoom; }
@@ -120,7 +128,7 @@ function generateRoom() {
 			}
 		}
 	}
-	console.log("Fill blanks");
+	//console.log("Fill blanks");
 	floorMap[floorHeight+1] = []
 	for (var row = 0; row <= floorHeight+1; row++) {
 		for (var col = 0; col <= floorWidth+1; col++) {
@@ -145,41 +153,106 @@ function generateRoom() {
 }
 
 function setDoor(tileX, tileY){
-	rooms[currentRoom].doors.push(new Door(lastPos.x,lastPos.y,lastPos.z,tileX,tileY));
+	var createdDoor = rooms[currentRoom].doors.push(new Door(lastPos.x,lastPos.y,lastPos.z,tileX,tileY));
+	rooms[currentRoom].doors[createdDoor - 1].toRoomPos = new Position(rooms[lastRoom].doors[lastDoor].roomPos.x,rooms[lastRoom].doors[lastDoor].roomPos.y,0);
+	//also set this matching doors destination door info.
+	rooms[lastRoom].doors[lastDoor].toRoomPos = new Position(tileX,tileY,0);
+}
+
+function positionPlayer(x,y) {
+	playerRoomPos = new Position(x,y,0)
 }
 
 function locateOriginDoor() {
-	//need to check originDoors array adn remove any that are already used for passage to other rooms. 
+	//need to check originDoors array and remove any that are already used for passage to other rooms. 
 	//Major issue will be if there is alrady a door to this room but then a new way is added but there is no room for it
 	//filter origin doors if origin doors are already taken do reassign them.
-	var filterdDoors = [];
-	var existingDoor = false;
-	if (originDoors.length >= 1) {
-		for (var i = 0; i < originDoors.length; i++) {
-			existingDoor=checkDoor(currentRoom,originDoors[i].x,originDoors[i].y)
-			if ((existingDoor == false) && (typeof existingDoor =="boolean")) {
-				filterdDoors.push(originDoors[i]);
-			}			
-	 	}		
-	}
-	originDoors = filterdDoors;
-	
-	if (originDoors.length == 1) {
-		//just one door.
-		setDoor(originDoors[0].x,originDoors[0].y);		
-	}
-	else if (originDoors.length >= 2) {
-		//more than one door pick one.
-	}
-	else {
-		//make new room.
-		//add a point value to the room pos and create a new room.
-		//might run into issues merging back to regular rooms, but I think the new destinations are set to Math.floor
+	//check if this is the first room.
+	//console.log(originDoors);
+	var originDoorReq = true;
+	originDoorSuccess = true;
+	if (rooms.length != 1) {
+		var filterdDoors = [];
+		var existingDoor = false;
+		//check if we are returning through door.
+		//loop through originDoors and check to see if they match the last door information.
+		if (originDoors.length >= 1) {
+			for (var i = 0; i < originDoors.length; i++) {
+				//check if door exists in the door array
+				existingDoor=checkDoor(currentRoom,originDoors[i].x,originDoors[i].y)
+				if ((existingDoor != false) && (typeof existingDoor !="boolean")) {
+					//compare this door to the last door infor to see if it is this doors match.
+					if (rooms[currentRoom].doors[existingDoor].toRoomPos.x == rooms[lastRoom].doors[lastDoor].roomPos.x) {
+						if (rooms[currentRoom].doors[existingDoor].toRoomPos.y == rooms[lastRoom].doors[lastDoor].roomPos.y) {
+							//Door is a match to an already created door.
+							console.log("Revisting room no need for new origin door.");
+							originDoorReq = false;
+							positionPlayer(originDoors[i].x,originDoors[i].y);					
+						}
+					}
+				}			
+		 	}		
+		}
+		else {
+			console.log("NO DOORS AVAILIBLE MAKING NEW ROOM??" + originDoors);
+			switch (userPlayer.rotation) {
+				case 360:
+				case 0:
+				case -0:
+					//last move was moving forward so move y+ a point.
+					userPlayer.pos.y = userPlayer.pos.y + 0.01;
+					break;
+				case 90:
+				case 450:
+					//last move was moving left so move x+ a point.
+					userPlayer.pos.x = userPlayer.pos.x + 0.01;
+					break;
+				case 180:
+				case -180:
+					//last move was moving down so move y- a point.
+					userPlayer.pos.y = userPlayer.pos.y - 0.01;
+					break;
+				case 270:
+				case -90:
+					//last move was moving right so move x- a point.
+					userPlayer.pos.x = userPlayer.pos.x - 0.01;
+					break;
+			}
+			//create new room
+			Crafty(Crafty('FloorGround')[0]).destroy();
+			originDoorSuccess = false;
+			generateRoom();
+			originDoorReq == false;
+			return false;
+		}
+		if (originDoorReq) {
+			for (var i = 0; i < originDoors.length; i++) {
+				existingDoor=checkDoor(currentRoom,originDoors[i].x,originDoors[i].y)
+				if ((existingDoor == false) && (typeof existingDoor =="boolean")) {
+					filterdDoors.push(originDoors[i]);
+				}			
+		 	}
+			originDoors = filterdDoors;		
+		
+			if (originDoors.length == 1) {
+				//just one door.
+				setDoor(originDoors[0].x,originDoors[0].y);
+				positionPlayer(originDoors[0].x,originDoors[0].y);
+				console.log("To get back to " + lastPos.x + ":" + lastPos.y + " go through door " + originDoors[0].x + ":" + originDoors[0].y);
+			}
+			else if (originDoors.length >= 2) {
+				//more than one door pick one.
+				var decider = Math.floor(roomRandom() * originDoors.length);
+				setDoor(originDoors[decider].x,originDoors[decider].y);
+				positionPlayer(originDoors[decider].x,originDoors[decider].y);
+				console.log("To get back to " + lastPos.x + ":" + lastPos.y + " go through door " + originDoors[decider].x + ":" + originDoors[decider].y)
+			}
+		}
 	}
 }
 
 function fillWalls() {
-	console.log("Fill walls");
+	//console.log("Fill walls");
 	var rows = floorMap.length - 1;
 	var cols;
 	for (var row = 0; row <= rows; row++) {
@@ -197,14 +270,14 @@ function fillWalls() {
 						if (!((col-1) < 0)) {
 							if (floorMap[row][col-1] == "f") {
 								//inside corner top left
-								console.log("inside corner tl");
+								//console.log("inside corner tl");
 								floorMap[row][col] = "tli";
 							}
 						}
 						if (!((col+1) > cols)) {
 							if (floorMap[row][col+1] == "f") {
 								//inside corner top right
-								console.log("inside corner tr");
+								//console.log("inside corner tr");
 								floorMap[row][col] = "tri";
 							}
 						}
@@ -236,14 +309,14 @@ function fillWalls() {
 						if (!((col-1) < 0)) {
 							if (floorMap[row][col-1] == "f") {
 								//inside corner bot left
-								console.log("inside corner bl");
+								//console.log("inside corner bl");
 								floorMap[row][col] = "bli";
 							}
 						}
 						if (!((col+1) > cols)) {
 							if (floorMap[row][col+1] == "f") {
 								//inside corner bot right
-								console.log("inside corner br");
+								//console.log("inside corner br");
 								floorMap[row][col] = "bri";
 							}
 						}
@@ -287,7 +360,7 @@ function fillWalls() {
 }
 
 function drawRoom() {
-	console.log('draw room ' + floorMap);
+	//console.log('draw room ' + floorMap);
 	var rows = floorMap.length;
 	var cols;
 	var decider;
@@ -404,13 +477,14 @@ function drawRoom() {
 						oppisiteRotation = tileRotation + 180
 						if (oppisiteRotation == 450) { oppisiteRotation = 90; }
 						if (oppisiteRotation == 360) { oppisiteRotation = 0; }
-						if (oppisiteRotation == userPlayer.rotation) {
+						//console.log(oppisiteRotation + " " + userPlayer.rotation);
+						if ((oppisiteRotation == userPlayer.rotation) || ((oppisiteRotation == 270) && (userPlayer.rotation == -90)) || ((oppisiteRotation == 0) && (userPlayer.rotation == 360))) {
 							originDoors.push({x: col,y: row});
 							console.log("Door added");
 						}
-						else {
-							console.log("rotation did not match" + oppisiteRotation + "/" + userPlayer.rotation);
-						}
+						/*else {
+							//console.log("rotation did not match" + oppisiteRotation + "/" + userPlayer.rotation);
+						}*/
 						//change floor map to door instead of wall
 						floorMap[row][col] = "d" + floorMap[row][col].substring(2,1);
 						//rooms[currentRoom-1].doors.push(new Door(newDoor.x,newDoor.y,0)); //TODO make new currentfloor varible.
@@ -442,14 +516,14 @@ function drawRoom() {
 }
 
 function changeDoor(doorPos, doorOffset, action) {
-	console.log("change door at " + doorPos.x + " " + doorPos.y + " rotation:" + doorPos.rotation + " offset x" + doorOffset.x + " offset y" + doorOffset.y);
+	//console.log("change door at " + doorPos.x + " " + doorPos.y + " rotation:" + doorPos.rotation + " offset x" + doorOffset.x + " offset y" + doorOffset.y);
 	Crafty.e('Door' + (doorPos.y/_tileSize) + '_' + (doorPos.x/_tileSize) +', doorSprite1_reel, wallDoorAnimate')
 		.attr({y: doorPos.y+(doorOffset.y), x: doorPos.x+(doorOffset.x), w: _tileSize, h: _tileSize});
 	var thisDoor = Crafty('Door' + (doorPos.y/_tileSize) + '_' + (doorPos.x/_tileSize))[0]
 	Crafty(Crafty('FloorGround')[0]).attach(Crafty(thisDoor));
 	Crafty(thisDoor).origin("center");
 	Crafty(thisDoor).rotation = doorPos.rotation;
-	console.log("door ID " + thisDoor);
+	//console.log("door ID " + thisDoor);
 	if (action == "open") {
 		Crafty(thisDoor).openDoor();
 	}
@@ -463,16 +537,18 @@ function checkRoom(sX,sY,sZ) {
 	console.log("searching.. z: " + sZ + " x: " + sX + " y: " + sY);
 	var roomFound=false;
 	for (var i = 0; i < rooms.length; i++) {
-	    if (rooms[i].pos.z == sZ) {
-			//console.log('Room ' + i +' has same z:' + sZ);
-			if (rooms[i].pos.x == sX) {
-				//console.log('Room ' + i +' has same x:' + sX);
-				if (rooms[i].pos.y == sY) {
-					//console.log('Room ' + i +' has same y:' + sY);
-					console.log('Room EXISTS');
-					roomFound=i;
-					return i;
-					break;
+		if (rooms[i] != "") {
+			if (rooms[i].pos.z == sZ) {
+				//console.log('Room ' + i +' has same z:' + sZ);
+				if (rooms[i].pos.x == sX) {
+					//console.log('Room ' + i +' has same x:' + sX);
+					if (rooms[i].pos.y == sY) {
+						//console.log('Room ' + i +' has same y:' + sY);
+						console.log('Room EXISTS');
+						roomFound=i;
+						return i;
+						break;
+					}
 				}
 			}
 		}
@@ -484,7 +560,7 @@ function checkRoom(sX,sY,sZ) {
 }
 
 function checkDoor(sRoom,sX,sY) {
-	console.log("searching.. x: " + sX + " y: " + sY + " in Room: " + sRoom);
+	//console.log("searching.. x: " + sX + " y: " + sY + " in Room: " + sRoom);
 	var doorFound=false;
 	for (var i = 0; i < rooms[sRoom].doors.length; i++) {
 	    if (rooms[sRoom].doors[i].roomPos.y == sY) {
@@ -497,8 +573,8 @@ function checkDoor(sRoom,sX,sY) {
 			}
 		}
  	}
- 	if (doorFound == false) {
-		console.log('Door not Found');
-	}
+ 	/*if (doorFound == false) {
+		//console.log('Door not Found');
+	}*/
  	return doorFound;
 }

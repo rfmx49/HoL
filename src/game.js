@@ -24,7 +24,7 @@ Crafty.scene('Game', function() {
 	Crafty.addEvent(Crafty.stage.elem, "click", function (e) {
 		clearTimeout(holdStarter);
 		if (holdActive == false) {
-			console.log("click");	
+			//console.log("click");	
 			//console.log(e);
 			/*//check if there is a floor tile under click
 			if (floorMap.length > 3) {
@@ -58,7 +58,8 @@ Crafty.scene('Game', function() {
 });
 
 function createPlayerEnt() {
-	playerEntity = Crafty.e('PlayerCharacter').attr({y: (roomCenter.y*_tileSize), x: (roomCenter.x*_tileSize), w: _tileSize, h: _tileSize});
+	if (rooms.length == 1) { playerRoomPos = new Position(roomCenter.x,roomCenter.y,0); } //first room exceptions.
+	playerEntity = Crafty.e('PlayerCharacter').attr({y: (playerRoomPos.y*_tileSize), x: (playerRoomPos.x*_tileSize), w: _tileSize, h: _tileSize});
 	playerEntity.rotation = userPlayer.rotation;
 	Crafty(Crafty('FloorGround')[0]).attach(Crafty(Crafty('PlayerCharacter')[0]));
 	Crafty.e('RoomLight, 2D, DOM, Image')

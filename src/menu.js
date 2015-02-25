@@ -23,7 +23,7 @@ Crafty.scene('Menu', function() {
 	Crafty.addEvent(Crafty.stage.elem, "click", function (e) {
 		clearTimeout(holdStarter);
 		if (holdActive == false) {
-			console.log("click");	
+			//console.log("click");	
 		}
 		holdActive = false;	
 	});
@@ -33,7 +33,6 @@ Crafty.scene('Menu', function() {
 		.color('#FFF666')
 		.text("Enter")
 		.bind('Click', function(MouseEvent){
-			console.log("Clicked");
 			//create player
 			//player
 			userPlayer = new playerObj;
