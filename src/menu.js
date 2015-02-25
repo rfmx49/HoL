@@ -4,7 +4,7 @@ Crafty.scene('Menu', function() {
 	//Game events (MOUSE CLICKS ECT..)
 	//
 	
-	Crafty.addEvent(Crafty.stage.elem, "mousedown", function (e) {
+	/*Crafty.addEvent(Crafty.stage.elem, "mousedown", function (e) {
 		holdStarter = setTimeout(function() {
 			holdStarter = null;
 			holdActive = true;
@@ -26,7 +26,7 @@ Crafty.scene('Menu', function() {
 			//console.log("click");	
 		}
 		holdActive = false;	
-	});
+	});*/
 
 	Crafty.e('btnEnter, 2D, DOM, Text, Color, Mouse')
 		.attr({x: 0, y: 0, w: 70, h: 30})

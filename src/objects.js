@@ -92,6 +92,7 @@ Crafty.c('PlayerCharacter', {
 			if (newPos.Rotation == -90) {
 				this.rotation = 270;
 			}
+			this.nodePath = [];
 			//console.log("at door open door and then generate new room based on that door info");
 			//get door info first from floor map
 			//console.log(newPos.x + " " + newPos.y);

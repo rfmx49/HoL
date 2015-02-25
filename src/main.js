@@ -34,7 +34,7 @@ var originDoorSuccess = true;
 
 
 //difficulty
-var sparseness = 10;
+var sparseness = 100;
 var doorChance = 3; //(1 in doorChance)
 
 $(document).ready(function() {

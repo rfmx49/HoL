@@ -3,8 +3,8 @@ function generateRoom() {
 	console.log("clear")
 	Crafty('FloorGround').destroy();
 	if ((typeof (Crafty('PlayerCharacter')[0]) != "undefined")) { Crafty(Crafty('PlayerCharacter')[0]).destroy();}
-	var maxWidth = 14;
-	var maxHeight = 12;
+	var maxWidth = 9;
+	var maxHeight = 11;
 	roomRandom = new Math.seedrandom(gameSeed + " . " + userPlayer.pos.x + "." + userPlayer.pos.y + "." + userPlayer.pos.z);
 	var existingRoom = checkRoom(userPlayer.pos.x,userPlayer.pos.y,userPlayer.pos.z);
 	//console.log("EXISTING room STATUS == " + existingRoom + " " + (existingRoom == false) + (typeof existingRoom =="boolean"));
@@ -177,6 +177,7 @@ function locateOriginDoor() {
 		//check if we are returning through door.
 		//loop through originDoors and check to see if they match the last door information.
 		if (originDoors.length >= 1) {
+			positionPlayer(originDoors[0].x,originDoors[0].y);
 			for (var i = 0; i < originDoors.length; i++) {
 				//check if door exists in the door array
 				existingDoor=checkDoor(currentRoom,originDoors[i].x,originDoors[i].y)
@@ -369,7 +370,7 @@ function drawRoom() {
 	var offsetDoor = {};
 	//Draw ground/parent
 	Crafty.e('FloorGround, 2D, DOM, Color')
-		.attr({y: 0, x: 0, w: 1, h: 1})
+		.attr({y: 0, x: 0, w: 1, h: 1, alpha:0})
 		.color("#FFFFFF");
 	for (var row = 0; row < rows; row++) {
 		cols = floorMap[row].length;

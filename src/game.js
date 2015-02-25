@@ -5,7 +5,7 @@ Crafty.scene('Game', function() {
 	//Game events (MOUSE CLICKS ECT..)
 	//
 	
-	Crafty.addEvent(Crafty.stage.elem, "mousedown", function (e) {
+	/*Crafty.addEvent(Crafty.stage.elem, "mousedown", function (e) {
 		holdStarter = setTimeout(function() {
 			holdStarter = null;
 			holdActive = true;
@@ -26,7 +26,7 @@ Crafty.scene('Game', function() {
 		if (holdActive == false) {
 			//console.log("click");	
 			//console.log(e);
-			/*//check if there is a floor tile under click
+			//check if there is a floor tile under click
 			if (floorMap.length > 3) {
 				//get tile underneath
 				var floorTile = {x: (Math.floor(e.layerX/_tileSize)), y: (Math.floor(e.layerY/_tileSize))}
@@ -37,24 +37,27 @@ Crafty.scene('Game', function() {
 						//Crafty(tileId).clickEvent();					
 					}
 				}
-			}*/
+			}
 		}
 		holdActive = false;	
 	});
 
-	Crafty.e('btnRoom, 2D, DOM, Text, Color, Mouse')
+	/*Crafty.e('btnRoom, 2D, DOM, Text, Color, Mouse')
 		.attr({x: -200, y: -100, w: 70, h: 30, z: 5})
 		.color('#FFF666')
 		.text("Make Room")
 		.bind('Click', function(){
 			generateRoom();
-		});	
+		});	*/
 	
 	Crafty.e('gameloop')
 		.attr({countdown: 10})
 		.bind("EnterFrame", function() {
 			//frame done
 		});
+
+	//generate first room
+	generateRoom();
 });
 
 function createPlayerEnt() {
