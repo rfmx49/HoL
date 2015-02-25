@@ -25,14 +25,15 @@ Crafty.scene('Menu', function() {
 		if (holdActive == false) {
 			//console.log("click");	
 		}
+		alert("Click " + e);
 		holdActive = false;	
 	});*/
 
-	Crafty.e('btnEnter, 2D, DOM, Text, Color, Mouse')
+	Crafty.e('btnEnter, 2D, DOM, Text, Color, Mouse, Touch')
 		.attr({x: 0, y: 0, w: 70, h: 30})
 		.color('#FFF666')
 		.text("Enter")
-		.bind('Click', function(MouseEvent){
+		.bind('MouseUp', function(MouseEvent){
 			//create player
 			//player
 			userPlayer = new playerObj;

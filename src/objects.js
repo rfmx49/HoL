@@ -183,7 +183,7 @@ Crafty.c('floorMap', {
 	highlightEnt: 0,
 	init: function() {
 		this.requires('2D, DOM, Mouse');
-		this.bind("Click", function(MouseEvent) { 
+		this.bind("MouseUp", function(MouseEvent) { 
 			this.clickEvent();
 		});
 		this.bind("MouseOver", function(MouseEvent) { 
