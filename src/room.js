@@ -447,26 +447,26 @@ function drawRoom() {
 						//room directions major direction ++ minor direction  1/2 sparseness +/-
 						switch (floorMap[row][col].substring(2,1)) {
 							case "a":
-								offsetDoor.y = 25;
+								offsetDoor.y = _tileSize/2;
 								offsetDoor.x = 0;
 								//newDoor.y = Math.floor((roomRandom() * sparseness) + 1);
 								//newDoor.x = Math.round(((roomRandom() * sparseness) + 1)-(sparseness/2));
 								break;
 							case "b":
-								offsetDoor.y = -25;
+								offsetDoor.y = Math.abs(_tileSize/2) * -1;
 								offsetDoor.x = 0;
 								//newDoor.y = Math.floor((roomRandom() * sparseness) + 1) - sparseness;
 								//newDoor.x = Math.round(((roomRandom() * sparseness) + 1)-(sparseness/2));
 								break;
 							case "l":
 								offsetDoor.y = 0;
-								offsetDoor.x = 25;
+								offsetDoor.x = _tileSize/2;
 								//newDoor.x = Math.floor((roomRandom() * sparseness) + 1);
 								//newDoor.y = Math.round(((roomRandom() * sparseness) + 1)-(sparseness/2));
 								break;
 							case "r":
 								offsetDoor.y = 0;
-								offsetDoor.x = -25;
+								offsetDoor.x = Math.abs(_tileSize/2) * -1;
 								//newDoor.x = Math.floor((roomRandom() * sparseness) + 1) - sparseness;
 								//newDoor.y = Math.round(((roomRandom() * sparseness) + 1)-(sparseness/2));
 								break;

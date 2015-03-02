@@ -63,10 +63,10 @@ Crafty.scene('Game', function() {
 function createPlayerEnt() {
 	if (rooms.length == 1) { playerRoomPos = new Position(roomCenter.x,roomCenter.y,0); } //first room exceptions.
 	playerEntity = Crafty.e('PlayerCharacter').attr({y: (playerRoomPos.y*_tileSize), x: (playerRoomPos.x*_tileSize), w: _tileSize, h: _tileSize});
+	playerEntity.origin("center");
 	playerEntity.rotation = userPlayer.rotation;
 	Crafty(Crafty('FloorGround')[0]).attach(Crafty(Crafty('PlayerCharacter')[0]));
-	Crafty.e('RoomLight, 2D, DOM, Image')
-		.image('res/blackness.png', 'no-repeat')
+	Crafty.e('RoomLight, 2D, DOM, darkness')
 		.attr({y: ((roomCenter.y*_tileSize)-400), x: ((roomCenter.x*_tileSize)-600), w: 1200, h: 800, z: 10});
 	Crafty(Crafty('FloorGround')[0]).attach(Crafty(Crafty('RoomLight')[0]));
 	console.log("player created");

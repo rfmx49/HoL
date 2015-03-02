@@ -30,7 +30,7 @@ Crafty.scene('Menu', function() {
 	});*/
 
 	Crafty.e('btnEnter, 2D, DOM, Text, Color, Mouse, Touch')
-		.attr({x: 0, y: 0, w: 70, h: 30})
+		.attr({x: 0, y: 0, w: 80, h: 50})
 		.color('#FFF666')
 		.text("Enter")
 		.bind('MouseUp', function(MouseEvent){

@@ -150,7 +150,7 @@ Crafty.c('PlayerCharacter', {
 			var playerID = this[0];
 			setTimeout(function() {
 				Crafty(playerID).playerWalking();
-				Crafty(playerID).tween({x: newPos.x, y: newPos.y, rotation: newPos.rotation}, 400);
+				Crafty(playerID).tween({x: newPos.x, y: newPos.y, rotation: newPos.rotation, alpha: 0, z: 1}, 400);
 				userPlayer.rotation = newPos.rotation;
 				setTimeout(function() {
 					//destroy and make a new room
@@ -216,8 +216,7 @@ Crafty.c('floorMap', {
 	},
 	mouseOverEvent: function() {
 		if (this.highlightId == 0) {
-			this.highlightEnt = Crafty.e ('2D, DOM, Image')
-				.image('res/highlight.png', 'no-repeat')
+			this.highlightEnt = Crafty.e ('2D, DOM, highlightBlue')
 				.attr({y: this._y, x: this._x, w: _tileSize, h: _tileSize});
 			Crafty(Crafty('FloorGround')[0]).attach(this.highlightEnt);
 			this.highlightId = this.highlightEnt[0];

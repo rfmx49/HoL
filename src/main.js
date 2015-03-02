@@ -1,7 +1,7 @@
 //GLOBAL VARIBLES
 //Crafty.DOM.translate(Crafty.lastEvent.clientX,Crafty.lastEvent.clientY); //gets mouse location.
 //Game settings.
-var _tileSize = 50;
+var _tileSize = 66;
 var gameSeed = Math.floor((Math.random() * 4) + 1); //TODO DEBUG Increase to 100000
 gameSeed = 2; //DEBUGING 
 var playerOffset = 0;
@@ -50,21 +50,21 @@ function beginCrafty() {
 	
 	setTimeout(function() { 
 
-		var gameClientWidth = $('#gameviewDOM').width();
-		var gameClientHeight = $('#gameviewDOM').height();
+		var gameClientWidth = $(window).width();
+		var gameClientHeight = $(window).height();
 		//minimize if required
-		if (gameClientWidth > 600) { gameClientWidth = 600; $('#gameviewDOM').width(600); }
-		if (gameClientHeight > 700) { gameClientHeight = 700; $('#gameviewDOM').height(700); }
+		//if (gameClientWidth > 600) { gameClientWidth = 600; $('#gameviewDOM').width(600); }
+		//if (gameClientHeight > 700) { gameClientHeight = 700; $('#gameviewDOM').height(700); }
 	
 		console.log(gameClientWidth + "width x height" + gameClientHeight);
 		// Start crafty and set a background color so that we can see it's working.
 		console.log("ready to start Crafty");
 		Crafty.mobile = true;
-		Crafty.init(gameClientWidth,gameClientHeight,"gameviewDOM");
+		Crafty.init();
 		//Crafty.background('#8ed2fa'); //niceblue
 		Crafty.background('#790000');
 		
-		Crafty.viewport.init(gameClientWidth,gameClientHeight,"gameviewDOM");
+		Crafty.viewport.init();
 		//start game or loading scene
 		Crafty.timer.FPS(30);		
 		Crafty.scene('Loading');
