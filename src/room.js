@@ -139,16 +139,18 @@ function generateRoom() {
 	}
 	fillWalls();
 	drawRoom();
-	locateOriginDoor();
-	//get room center
-	roomCenter.y = (Math.floor(floorMap.length/2));
-	roomCenter.x = (Math.floor(floorMap[0].length/2));
-	//Crafty.viewport.zoom(1)
-	//free viewport;
-	Crafty.viewport.clampToEntities = false;
-	Crafty.viewport.centerOn(Crafty(Crafty('Tile' + roomCenter.y + '_' + roomCenter.x)[0]), 0);
-	//free viewport;
-	createPlayerEnt();
+	var doorsValid = locateOriginDoor();
+	if (doorsValid) {
+		//get room center
+		roomCenter.y = (Math.floor(floorMap.length/2));
+		roomCenter.x = (Math.floor(floorMap[0].length/2));
+		//Crafty.viewport.zoom(1)
+		//free viewport;
+		Crafty.viewport.clampToEntities = false;
+		Crafty.viewport.centerOn(Crafty(Crafty('Tile' + roomCenter.y + '_' + roomCenter.x)[0]), 0);
+		//free viewport;
+		createPlayerEnt();
+	}
 	return floorMap;
 }
 
@@ -250,6 +252,7 @@ function locateOriginDoor() {
 			}
 		}
 	}
+	return true;
 }
 
 function fillWalls() {

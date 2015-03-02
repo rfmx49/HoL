@@ -36,6 +36,7 @@ function Door(toX,toY,toZ,roomX,roomY) {
 
 Crafty.c('PlayerCharacter', {
 	inMotion: false,
+	movementQueue: 0,
 	rotation: 0,
 	nodePath: [],
 	init: function() {
@@ -43,16 +44,17 @@ Crafty.c('PlayerCharacter', {
 		this.origin("center");
 		this.reel('playerWalking', 400, 1, 0, 15);
 		this.reel('playerIdle', 10, 0, 0, 1);
-		this.bind("TweenEnd", function() { 
+		this.bind("TweenEnd", function() {
+			reCenterPlayer();
+			console.log("Ended " + playerEntity._x);
 			this.inMotion = true;
 			this.playerIdle();
 			if (this.nodePath.length >= 1) {
-				//console.log("checking next node");
+				console.log("checking next node");
 				this.playTween();
 			}
 			else {
-				//console.log("done moving");
-				mouseFunction = "movePlayer"				
+				mouseFunction = "movePlayer";							
 				this.inMotion = false;
 			}				
 		});
@@ -62,6 +64,7 @@ Crafty.c('PlayerCharacter', {
 	//  this entity hits an entity with the "Solid" component
 		
 	playTween: function() {
+		console.log(JSON.stringify(this.nodePath));
 		var newPos = this.nodePath.shift();
 		//normalize current rotation
 		if (this._rotation == 360) {
@@ -171,8 +174,9 @@ Crafty.c('PlayerCharacter', {
 	},
 	cancelMove: function() {
 		console.log("cancel moving");
-		this.nodePath = [];
-		mouseFunction == "movePlayer";	
+		this.cancelTween();
+		reCenterPlayer();
+		this.nodePath = [];	
 	}
 });
 
@@ -195,22 +199,19 @@ Crafty.c('floorMap', {
 	},
 	clickEvent: function() {
 		//console.log(this._x + " " + this._y);
+		var timeOut = 50;
 		if (mouseFunction == "movePlayer") {
-			mouseFunction = "busyMoving"
-			//check if play is already in motion
-			pathFind(Crafty('PlayerCharacter')[0], this._x, this._y);
-		}
-		else if (mouseFunction == "busyMoving") {
-			//check if play is already in motion
-			mouseFunction == "reallyBusy"
-			Crafty(Crafty('PlayerCharacter')[0]).cancelMove();
-			playerInMotion = false;
+			//check if plaery is already in motion
+			if (playerEntity.isPlaying()) { timeOut = 400; }
+			playerEntity.cancelMove();
 			var reRun = {x: this._x,y:this._y}			
 			setTimeout(function(){
 				console.log("done waiting now moving to " + reRun.x + " " + reRun.y);
-				pathFind(Crafty('PlayerCharacter')[0], reRun.x, reRun.y);								
-			}, 500, reRun);
-			
+				mouseFunction == "findingPath"
+				//increase movementQueue
+				playerEntity.movementQueue = playerEntity.movementQueue + 1;
+				pathFind(playerEntity[0], reRun.x, reRun.y, playerEntity.movementQueue);							
+			}, timeOut, reRun);	
 		}
 	},
 	mouseOverEvent: function() {

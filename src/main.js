@@ -52,18 +52,21 @@ function beginCrafty() {
 
 		var gameClientWidth = $('#gameviewDOM').width();
 		var gameClientHeight = $('#gameviewDOM').height();
+		//minimize if required
+		if (gameClientWidth > 600) { gameClientWidth = 600; $('#gameviewDOM').width(600); }
+		if (gameClientHeight > 700) { gameClientHeight = 700; $('#gameviewDOM').height(700); }
 	
 		console.log(gameClientWidth + "width x height" + gameClientHeight);
 		// Start crafty and set a background color so that we can see it's working.
 		console.log("ready to start Crafty");
-		Crafty.init(gameClientWidth, gameClientHeight, "gameviewDOM");
+		Crafty.mobile = true;
+		Crafty.init(gameClientWidth,gameClientHeight,"gameviewDOM");
 		//Crafty.background('#8ed2fa'); //niceblue
 		Crafty.background('#790000');
 		
-		Crafty.viewport.init(gameClientWidth, gameClientHeight, "gameviewDOM");
+		Crafty.viewport.init(gameClientWidth,gameClientHeight,"gameviewDOM");
 		//start game or loading scene
-		Crafty.timer.FPS(30);
-		Crafty.mobile = true;
+		Crafty.timer.FPS(30);		
 		Crafty.scene('Loading');
 		
 		

@@ -72,4 +72,11 @@ function createPlayerEnt() {
 	console.log("player created");
 }
 
+function reCenterPlayer() {
+	//centerX
+	playerEntity.x = ((Math.round(playerEntity._x/_tileSize))*_tileSize)
+	//centerY
+	playerEntity.y = ((Math.round(playerEntity._y/_tileSize))*_tileSize)
+}
+
 

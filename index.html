@@ -21,24 +21,8 @@
 	</head>
 	<body>
 		<!-- Status Bar -->
-		<table>
-			<tr>
-				<td>
-					<center>
-						<table class="bevelBox" id="statusWindow">
-							<tr>
-								<th rowspan="2" id="statusClock"><span id="frameNumber"></span></th>
-							</tr>
-							<tr>
-								<th colspan="2" class="statusMessage"><span id="statusMessage">Message</span></th>
-							</tr>
-						</table>
-					</center>
-				</td>
-			</tr>
-			<tr>
-				<td width=800 heigth=580><div id="gameviewDOM"></div></td>
-			</tr>
-		</table>	
+		<div id="gameviewDOMContain">
+		<div id="gameviewDOM"></div>
+		</div>	
 	</body>
 </html>

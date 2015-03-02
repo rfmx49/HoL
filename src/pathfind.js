@@ -1,4 +1,4 @@
-function pathFind(id, x, y) {
+function pathFind(id, x, y, queue) {
 	var decider;
 	var needToMove = false;
 	var loopOverfill = 0;
@@ -176,9 +176,15 @@ function pathFind(id, x, y) {
 			Crafty(id).nodePath = [];
 			findingPath = false;
 		}
+		if (queue != Crafty(id).movementQueue) {
+			//cancel pathfinding as new path has been assigned.
+			findingPath = false;
+		}
 	}
 	if (Crafty(id).nodePath.length > 0) {
-		//console.log(Crafty(id).nodePath);
-		Crafty(id).playTween();
+		if (queue == Crafty(id).movementQueue) {
+			//console.log(Crafty(id).nodePath);
+			Crafty(id).playTween();
+		}
 	}	
 };
