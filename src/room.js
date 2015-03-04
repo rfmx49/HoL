@@ -138,10 +138,6 @@ function generateRoom() {
 		}
 	}
 	fillWalls();
-	//get floor style
-	var floorStyle = new Math.seedrandom(gameSeed + " . " + userPlayer.pos.x + "." + userPlayer.pos.y + "." + userPlayer.pos.z + "floor");
-	var decider = Math.floor(floorStyle() * 8) + 1; //number of floor Styles
-	rooms[currentRoom].floorStyle = decider;
 	drawRoom();
 	var doorsValid = locateOriginDoor();
 	if (doorsValid) {
@@ -423,7 +419,7 @@ function drawRoom() {
 			offsetDoor = {};
 			switch (floorMap[row][col]) {
 				case "f":
-					Crafty.e('Tile' + row + '_' + col +', floorMap, floor_' + rooms[currentRoom].floorStyle)
+					Crafty.e('Tile' + row + '_' + col +', floorMap, floor_1')
 						.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize});
 					tileName = 'Tile' + row + '_' + col
 					Crafty(Crafty('FloorGround')[0]).attach(Crafty('Tile' + row + '_' + col));
