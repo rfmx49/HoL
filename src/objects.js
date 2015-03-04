@@ -15,7 +15,7 @@ function playerObj() {
 function Room(x,y,z) {
 	this.pos = new Position(x,y,z);
 	this.map = [];
-	this.style = [];
+	this.floorStyle = 1;
 	this.doors = [];
 	this.stairs = [];
 }
@@ -46,11 +46,11 @@ Crafty.c('PlayerCharacter', {
 		this.reel('playerIdle', 10, 0, 0, 1);
 		this.bind("TweenEnd", function() {
 			reCenterPlayer();
-			console.log("Ended " + playerEntity._x);
+			//console.log("Ended " + playerEntity._x);
 			this.inMotion = true;
 			this.playerIdle();
 			if (this.nodePath.length >= 1) {
-				console.log("checking next node");
+				//console.log("checking next node");
 				this.playTween();
 			}
 			else {
@@ -64,7 +64,7 @@ Crafty.c('PlayerCharacter', {
 	//  this entity hits an entity with the "Solid" component
 		
 	playTween: function() {
-		console.log(JSON.stringify(this.nodePath));
+		//console.log(JSON.stringify(this.nodePath));
 		var newPos = this.nodePath.shift();
 		//normalize current rotation
 		if (this._rotation == 360) {
@@ -96,14 +96,14 @@ Crafty.c('PlayerCharacter', {
 				this.rotation = 270;
 			}
 			this.nodePath = [];
-			//console.log("at door open door and then generate new room based on that door info");
+			////console.log("at door open door and then generate new room based on that door info");
 			//get door info first from floor map
-			//console.log(newPos.x + " " + newPos.y);
+			////console.log(newPos.x + " " + newPos.y);
 			var door = floorMap[newPos.y/_tileSize][newPos.x/_tileSize]
 			//create door animation at this point.
 			//get the door offset.
 			var doorOffset = Crafty('Tile' + (newPos.y/_tileSize) + '_' + (newPos.x/_tileSize)).offset;
-			//console.log('our door offset x: ' + doorOffset.x);
+			////console.log('our door offset x: ' + doorOffset.x);
 			changeDoor(newPos, Crafty('Tile' + (newPos.y/_tileSize) + '_' + (newPos.x/_tileSize)).offset, "open", true);
 			//TODO only if this is player not any player character.
 			//move player too door
@@ -113,10 +113,10 @@ Crafty.c('PlayerCharacter', {
 			var newDoor = {x:0,y:0};
 			//check if door already exists
 			var existingDoor = checkDoor(currentRoom,newPos.x/_tileSize,newPos.y/_tileSize);
-			//console.log("EXISTING DOOR STATUS == " + existingDoor + " " + (existingDoor == false) + (typeof existingDoor =="boolean"));
+			////console.log("EXISTING DOOR STATUS == " + existingDoor + " " + (existingDoor == false) + (typeof existingDoor =="boolean"));
 			if (existingDoor === false) {
 				//New door
-				console.log("Create new door");
+				//console.log("Create new door");
 				//check what type of door we are going through.
 				switch (door) {
 					case "da":
@@ -173,7 +173,7 @@ Crafty.c('PlayerCharacter', {
 		this.animate('playerIdle', 1);
 	},
 	cancelMove: function() {
-		console.log("cancel moving");
+		//console.log("cancel moving");
 		this.cancelTween();
 		reCenterPlayer();
 		this.nodePath = [];	
@@ -198,7 +198,7 @@ Crafty.c('floorMap', {
 		});
 	},
 	clickEvent: function() {
-		//console.log(this._x + " " + this._y);
+		////console.log(this._x + " " + this._y);
 		var timeOut = 50;
 		if (mouseFunction == "movePlayer") {
 			//check if plaery is already in motion
@@ -206,7 +206,7 @@ Crafty.c('floorMap', {
 			playerEntity.cancelMove();
 			var reRun = {x: this._x,y:this._y}			
 			setTimeout(function(){
-				console.log("done waiting now moving to " + reRun.x + " " + reRun.y);
+				//console.log("done waiting now moving to " + reRun.x + " " + reRun.y);
 				mouseFunction == "findingPath"
 				//increase movementQueue
 				playerEntity.movementQueue = playerEntity.movementQueue + 1;
