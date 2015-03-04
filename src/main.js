@@ -3,7 +3,7 @@
 //Game settings.
 var _tileSize = 66;
 var gameSeed = Math.floor((Math.random() * 4) + 1); //TODO DEBUG Increase to 100000
-gameSeed = 2; //DEBUGING 
+gameSeed = 1; //DEBUGING 
 var playerOffset = 0;
 var roomCenter = {x: _tileSize, y: _tileSize}
 
@@ -52,6 +52,14 @@ function beginCrafty() {
 
 		var gameClientWidth = $(window).width();
 		var gameClientHeight = $(window).height();
+		//get new tile size
+		//11 tiles wide
+		var minWidth = Math.floor(gameClientWidth/9);
+		var minHeight = Math.floor(gameClientHeight/13);
+		if (minWidth >= minHeight) { 
+			_tileSize = minHeight;
+		}
+		else { _tileSize = minWidth; }
 		//minimize if required
 		//if (gameClientWidth > 600) { gameClientWidth = 600; $('#gameviewDOM').width(600); }
 		//if (gameClientHeight > 700) { gameClientHeight = 700; $('#gameviewDOM').height(700); }
