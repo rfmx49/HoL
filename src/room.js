@@ -591,7 +591,7 @@ function getFloorTile(sX,sY) {
 	console.log("searching.. x: " + sX + " y: " + sY);
 	var tileFound=false;
 	for (var row = 0; row < floorMap.length; row++) {
-		for (var col = 0; col < floorMap.length; col++) {
+		for (var col = 0; col < floorMap[0].length; col++) {
 			if (sY > (Crafty('Tile' + row + "_" + col)._y -(_tileSize/2)) && (sY < (Crafty('Tile' + row + "_" + col)._y +(_tileSize/2)))) {
 				console.log('Tile ' + row + "_" + col + ' has same y:' + sY);
 				if (sX > (Crafty('Tile' + row + "_" + col)._x -(_tileSize/2)) && (sX < (Crafty('Tile' + row + "_" + col)._x +(_tileSize/2)))) {
