@@ -1,6 +1,16 @@
 //Main crafty Game scene
 Crafty.scene('Game', function() {
 
+	
+
+	var centerPoint = Crafty.e('centerpoint, 2D,' + renderEngine + ', Color')
+		.attr({x: ((maxWidth+2)*_tileSize)/2, y: ((maxHeight+4)*_tileSize)/2, w: 10, h: 10, z:100})
+		.color('#FFFFFF');
+
+	Crafty.viewport.centerOn(centerPoint, 0);
+
+	//centerPoint.destroy();
+	
 	//
 	//Game events (MOUSE CLICKS ECT..)
 	//
@@ -49,6 +59,12 @@ Crafty.scene('Game', function() {
 		.bind('Click', function(){
 			generateRoom();
 		});	*/
+
+	Crafty.e('ui_level, 2D, ' + renderEngine + ', Mouse, Touch')
+		.attr({x: 0-(345/100*_tileSize), y: (_tileSize*-3), w: 345/100*_tileSize, h: 98/100*_tileSize, z: 5})
+		.bind('Click', function(){
+			console.log("Clicked on Level ui");
+		});
 	
 	Crafty.e('gameloop')
 		.attr({countdown: 10})
@@ -66,7 +82,7 @@ function createPlayerEnt() {
 	playerEntity.origin("center");
 	playerEntity.rotation = userPlayer.rotation;
 	Crafty(Crafty('FloorGround')[0]).attach(Crafty(Crafty('PlayerCharacter')[0]));
-	Crafty.e('RoomLight, 2D, DOM, darkness')
+	Crafty.e('RoomLight, 2D, ' + renderEngine + ', darkness')
 		.attr({y: ((roomCenter.y*_tileSize)-400), x: ((roomCenter.x*_tileSize)-600), w: 1200, h: 800, z: 10});
 	Crafty(Crafty('FloorGround')[0]).attach(Crafty(Crafty('RoomLight')[0]));
 	Crafty(Crafty('FloorGround')[0]).origin(((playerRoomPos.x*_tileSize)-(_tileSize/2)),((playerRoomPos.y*_tileSize)-(_tileSize/2)));

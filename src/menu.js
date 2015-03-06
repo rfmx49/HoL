@@ -29,9 +29,17 @@ Crafty.scene('Menu', function() {
 		holdActive = false;	
 	});*/
 
-	Crafty.e('btnEnter, 2D, DOM, Text, Color, Mouse, Touch')
+	Crafty.e('btnEnterImg, 2d, ' + renderEngine + ', ui_bar, Mouse, Touch')
+		.attr({x: 0, y: 0, w: _tileSize * 6, h: _tileSize * 2})
+		.bind('MouseUp', function(MouseEvent){
+			//create player
+			//player
+			userPlayer = new playerObj;
+			Crafty.scene("Game");
+		});
+
+	Crafty.e('btnEnter, 2D, ' + renderEngine + ', Text, Mouse, Touch')
 		.attr({x: 0, y: 0, w: 80, h: 50})
-		.color('#FFF666')
 		.text("Enter")
 		.bind('MouseUp', function(MouseEvent){
 			//create player

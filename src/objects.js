@@ -40,7 +40,7 @@ Crafty.c('PlayerCharacter', {
 	rotation: 0,
 	nodePath: [],
 	init: function() {
-		this.requires('2D, DOM, Tween, playerSprite1_reel, SpriteAnimation');
+		this.requires('2D, ' + renderEngine + ', Tween, playerSprite1_reel, SpriteAnimation');
 		this.origin("center");
 		this.reel('playerWalking', 400, 1, 0, 15);
 		this.reel('playerIdle', 10, 0, 0, 1);
@@ -186,7 +186,7 @@ Crafty.c('floorMap', {
 	highlightId: 0,
 	highlightEnt: 0,
 	init: function() {
-		this.requires('2D, DOM, Mouse');
+		this.requires('2D, ' + renderEngine + ', Mouse');
 		this.bind("MouseUp", function(MouseEvent) { 
 			this.clickEvent();
 		});
@@ -216,7 +216,7 @@ Crafty.c('floorMap', {
 	},
 	mouseOverEvent: function() {
 		if (this.highlightId == 0) {
-			this.highlightEnt = Crafty.e ('2D, DOM, highlightBlue')
+			this.highlightEnt = Crafty.e ('2D, ' + renderEngine + ', highlightBlue')
 				.attr({y: this._y, x: this._x, w: _tileSize, h: _tileSize});
 			Crafty(Crafty('FloorGround')[0]).attach(this.highlightEnt);
 			this.highlightId = this.highlightEnt[0];
@@ -235,7 +235,7 @@ Crafty.c('wallDoorAnimate', {
 	rotation: 0,
 	offSet: {},
 	init: function() {
-		this.requires('2D, DOM, doorSprite1_reel, SpriteAnimation');
+		this.requires('2D, ' + renderEngine + ', doorSprite1_reel, SpriteAnimation');
 		this.origin("center");
 		this.reel('doorOpening', 600, 1, 0, 6);
 		this.reel('doorOpened', 10, 6, 0, 1);
@@ -260,7 +260,7 @@ Crafty.c('wallDoorAnimate', {
 Crafty.c('wallMap', {
 	door: false,
 	init: function() {
-		this.requires('2D, DOM, Solid')
+		this.requires('2D, ' + renderEngine + ', Solid')
 	}
 });
 

@@ -3,8 +3,6 @@ function generateRoom() {
 	console.log("clear")
 	Crafty('FloorGround').destroy();
 	if ((typeof (Crafty('PlayerCharacter')[0]) != "undefined")) { Crafty(Crafty('PlayerCharacter')[0]).destroy();}
-	var maxWidth = 9;
-	var maxHeight = 11;
 	roomRandom = new Math.seedrandom(gameSeed + " . " + userPlayer.pos.x + "." + userPlayer.pos.y + "." + userPlayer.pos.z);
 	var existingRoom = checkRoom(userPlayer.pos.x,userPlayer.pos.y,userPlayer.pos.z);
 	//console.log("EXISTING room STATUS == " + existingRoom + " " + (existingRoom == false) + (typeof existingRoom =="boolean"));
@@ -142,20 +140,21 @@ function generateRoom() {
 	var floorStyle = new Math.seedrandom(gameSeed + " . " + userPlayer.pos.x + "." + userPlayer.pos.y + "." + userPlayer.pos.z + "floor");
 	var decider = Math.floor(floorStyle() * 8) + 1; //number of floor Styles
 	rooms[currentRoom].floorStyle = decider;
+	//get room center
+	roomCenter.y = (Math.floor(floorMap.length/2));
+	roomCenter.x = (Math.floor(floorMap[0].length/2));
 	drawRoom();
 	var doorsValid = locateOriginDoor();
 	if (doorsValid) {
-		//get room center
-		roomCenter.y = (Math.floor(floorMap.length/2));
-		roomCenter.x = (Math.floor(floorMap[0].length/2));
-		//Crafty.viewport.zoom(1)
-		//free viewport;
-		Crafty.viewport.clampToEntities = false;
-		Crafty.viewport.centerOn(Crafty(Crafty('Tile' + roomCenter.y + '_' + roomCenter.x)[0]), 0);
-		//free viewport;
+		
 		createPlayerEnt();
 	}
+	centerRoom();	
 	return floorMap;
+}
+
+function centerRoom(){
+	Crafty('FloorGround').x = Crafty('centerpoint')._x
 }
 
 function setDoor(tileX, tileY){
@@ -376,8 +375,9 @@ function drawRoom() {
 	var tileRotation;
 	var offsetDoor = {};
 	//Draw ground/parent
-	Crafty.e('FloorGround, 2D, DOM, Color')
-		.attr({y: 0, x: 0, w: 1, h: 1, alpha:0})
+	console.log("roomCenter.x = " + roomCenter.x);
+	Crafty.e('FloorGround, 2D, ' + renderEngine + ', Color')
+		.attr({x: ((roomCenter.x*_tileSize)+(_tileSize/2)), y: ((roomCenter.y*_tileSize)+(_tileSize/2)), w: 10, h: 10, z: 100})
 		.color("#FFFFFF");
 	for (var row = 0; row < rows; row++) {
 		cols = floorMap[row].length;

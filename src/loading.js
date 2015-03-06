@@ -1,13 +1,9 @@
 //LOADING SCENE
-//LOADING SCENE
-//LOADING SCENE
-
 Crafty.scene('Loading', function(){
-
 	//Draws loading message.
-	Crafty.e('2D, DOM, Text')
-		.text('Loading...')
-		.attr({ x: 0, y: 100, w: 200 });
+	Crafty.e('craftyProgress, 2D, ' + renderEngine + ', Text')
+		.text('Loading...').unselectable()
+		.attr({ x: Crafty.viewport._width/2, y: Crafty.viewport._height/2, w: 200 });
 	Crafty.paths({audio: "res/audio/", images: "res/img/", sprites: "res/img/"});
 	var assetsObj = {
 		"images": [""],			 
@@ -48,6 +44,17 @@ Crafty.scene('Loading', function(){
 				"tileh": 100,
 				"map": { "doorSprite1_reel": [0,0],},			 
 			},
+			"level_progress.png": {
+				"tile": 345,
+				"tileh": 98,
+				"map": { "ui_level": [0,0],
+						"ui_bar": [1,0],},			 
+			},
+			"capture.png": {
+				"tile": 256,
+				"tileh": 256,
+				"map": { "ui_Camera": [0,0],},			 
+			},
 		},
 	};
 
@@ -58,7 +65,7 @@ Crafty.scene('Loading', function(){
 
 
 		function(e) { //progress
-		
+			Crafty(Crafty('craftyProgress')[0]).text("Loading ... "+ e.percent + "%").unselectable();
 		},
 
 		function(e) { //uh oh, error loading
