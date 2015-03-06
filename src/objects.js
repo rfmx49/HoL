@@ -67,7 +67,6 @@ Crafty.c('PlayerCharacter', {
 		//console.log(JSON.stringify(this.nodePath));
 		var newPos = this.nodePath.shift();
 		//get newPos tile
-		console.log("NEW POS!!!!!!!!!!!!!!!!!" + JSON.stringify(newPos));
 		//normalize current rotation
 		if (this._rotation == 360) {
 			this.rotation = 0;

@@ -4,7 +4,7 @@ Crafty.scene('Game', function() {
 	
 
 	var centerPoint = Crafty.e('centerpoint, 2D,' + renderEngine + ', Color')
-		.attr({x: ((maxWidth+2)*_tileSize)/2, y: ((maxHeight+4)*_tileSize)/2, w: 10, h: 10, z:100})
+		.attr({x: ((maxWidth+2)*_tileSize)/2, y: ((maxHeight+4)*_tileSize)/2, w: 1, h: 1, alpha: 0})
 		.color('#FFFFFF');
 
 	Crafty.viewport.centerOn(centerPoint, 0);
