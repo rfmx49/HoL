@@ -424,7 +424,7 @@ function drawRoom() {
 			switch (floorMap[row][col]) {
 				case "f":
 					Crafty.e('Tile' + row + '_' + col +', floorMap, floor_' + rooms[currentRoom].floorStyle)
-						.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize});
+						.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize, xTile: col, yTile: row});
 					tileName = 'Tile' + row + '_' + col
 					Crafty(Crafty('FloorGround')[0]).attach(Crafty('Tile' + row + '_' + col));
 					break;
@@ -442,7 +442,7 @@ function drawRoom() {
 					decider = Math.floor(roomRandom() * doorChance) + 1;
 					if (decider <=2) {					
 						Crafty.e('Tile' + row + '_' + col +', wallMap, wall_straight')
-							.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize});
+							.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize, xTile: col, yTile: row});
 						Crafty(Crafty('FloorGround')[0]).attach(Crafty('Tile' + row + '_' + col));
 						Crafty('Tile' + row + '_' + col).origin("center")
 						Crafty('Tile' + row + '_' + col).rotation = tileRotation;
@@ -476,7 +476,7 @@ function drawRoom() {
 								break;
 						}
 						Crafty.e('Tile' + row + '_' + col +', floorMap, door_1')
-							.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize});
+							.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize, xTile: col, yTile: row});
 						Crafty(Crafty('FloorGround')[0]).attach(Crafty('Tile' + row + '_' + col));
 						Crafty('Tile' + row + '_' + col).origin("center");
 						Crafty('Tile' + row + '_' + col).offset = offsetDoor;
@@ -503,7 +503,7 @@ function drawRoom() {
 				case "bli":
 				case "bri":
 					Crafty.e('Tile' + row + '_' + col +', wallMap, wall_corner_in')
-						.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize});
+						.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize, xTile: col, yTile: row});
 					Crafty(Crafty('FloorGround')[0]).attach(Crafty('Tile' + row + '_' + col));
 					Crafty('Tile' + row + '_' + col).origin("center")
 					Crafty('Tile' + row + '_' + col).rotation = tileRotation;
@@ -513,7 +513,7 @@ function drawRoom() {
 				case "blc":
 				case "brc":
 					Crafty.e('Tile' + row + '_' + col +', wallMap, wall_corner_out')
-						.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize});
+						.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize, xTile: col, yTile: row});
 					Crafty(Crafty('FloorGround')[0]).attach(Crafty('Tile' + row + '_' + col));
 					Crafty('Tile' + row + '_' + col).origin("center")
 					Crafty('Tile' + row + '_' + col).rotation = tileRotation;
@@ -525,20 +525,20 @@ function drawRoom() {
 
 function changeDoor(doorPos, doorOffset, action) {
 	//console.log("change door at " + doorPos.x + " " + doorPos.y + " rotation:" + doorPos.rotation + " offset x" + doorOffset.x + " offset y" + doorOffset.y);
-	Crafty.e('Door' + (doorPos.y/_tileSize) + '_' + (doorPos.x/_tileSize) +', doorSprite1_reel, wallDoorAnimate')
-		.attr({y: doorPos.y+(doorOffset.y), x: doorPos.x+(doorOffset.x), w: _tileSize, h: _tileSize});
-	var thisDoor = Crafty('Door' + (doorPos.y/_tileSize) + '_' + (doorPos.x/_tileSize))[0]
-	Crafty(Crafty('FloorGround')[0]).attach(Crafty(thisDoor));
-	Crafty(thisDoor).origin("center");
-	Crafty(thisDoor).rotation = doorPos.rotation;
+	var thisDoor = Crafty.e('Door' + (doorPos.ytile) + '_' + (doorPos.xtile) +', doorSprite1_reel, wallDoorAnimate')
+		.attr({y: doorPos.y+(doorOffset.y), x: doorPos.x+(doorOffset.x), w: _tileSize, h: _tileSize, xTile: doorPos.xtile, yTile: doorPos.xtile});
+	console.log(thisDoor);
+	Crafty(Crafty('FloorGround')[0]).attach(thisDoor);
+	thisDoor.origin("center");
+	thisDoor.rotation = doorPos.rotation;
 	//console.log("door ID " + thisDoor);
 	if (action == "open") {
-		Crafty(thisDoor).openDoor();
+		thisDoor.openDoor();
 	}
 	else if (action == "clsoe") {
-		Crafty(thisDoor).closeDoor();
+		thisDoor.closeDoor();
 	}
-	return thisDoor;
+	//return thisDoor;
 }
 
 function checkRoom(sX,sY,sZ) {
@@ -585,4 +585,23 @@ function checkDoor(sRoom,sX,sY) {
 		//console.log('Door not Found');
 	}*/
  	return doorFound;
+}
+
+function getFloorTile(sX,sY) {
+	console.log("searching.. x: " + sX + " y: " + sY);
+	var tileFound=false;
+	for (var row = 0; row < floorMap.length; row++) {
+		for (var col = 0; col < floorMap.length; col++) {
+			if (sY > (Crafty('Tile' + row + "_" + col)._y -(_tileSize/2)) && (sY < (Crafty('Tile' + row + "_" + col)._y +(_tileSize/2)))) {
+				console.log('Tile ' + row + "_" + col + ' has same y:' + sY);
+				if (sX > (Crafty('Tile' + row + "_" + col)._x -(_tileSize/2)) && (sX < (Crafty('Tile' + row + "_" + col)._x +(_tileSize/2)))) {
+					console.log('Player is at tile Row: ' + row + ' col: ' + col);
+					tileFound={row: row, col: col}
+					return tileFound;
+					break;
+				}
+			}
+		}
+ 	}
+ 	return tileFound;
 }

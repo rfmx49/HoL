@@ -66,6 +66,8 @@ Crafty.c('PlayerCharacter', {
 	playTween: function() {
 		//console.log(JSON.stringify(this.nodePath));
 		var newPos = this.nodePath.shift();
+		//get newPos tile
+		console.log("NEW POS!!!!!!!!!!!!!!!!!" + JSON.stringify(newPos));
 		//normalize current rotation
 		if (this._rotation == 360) {
 			this.rotation = 0;
@@ -99,20 +101,20 @@ Crafty.c('PlayerCharacter', {
 			////console.log("at door open door and then generate new room based on that door info");
 			//get door info first from floor map
 			////console.log(newPos.x + " " + newPos.y);
-			var door = floorMap[newPos.y/_tileSize][newPos.x/_tileSize]
+			var door = floorMap[newPos.ytile][newPos.xtile]
 			//create door animation at this point.
 			//get the door offset.
-			var doorOffset = Crafty('Tile' + (newPos.y/_tileSize) + '_' + (newPos.x/_tileSize)).offset;
+			var doorOffset = Crafty('Tile' + (newPos.ytile) + '_' + (newPos.xtile)).offset;
 			////console.log('our door offset x: ' + doorOffset.x);
-			changeDoor(newPos, Crafty('Tile' + (newPos.y/_tileSize) + '_' + (newPos.x/_tileSize)).offset, "open", true);
+			changeDoor(newPos, Crafty('Tile' + (newPos.ytile) + '_' + (newPos.xtile)).offset, "open", true);
 			//TODO only if this is player not any player character.
 			//move player too door
 			//wait for door to open a bit
 			//Generate doors random destination if not set  already though.
-			doorRandom = new Math.seedrandom(gameSeed + " . " + userPlayer.pos.x + "." + userPlayer.pos.y + "." + userPlayer.pos.z + "." + newPos.y/_tileSize + "." + newPos.x/_tileSize);
+			doorRandom = new Math.seedrandom(gameSeed + " . " + userPlayer.pos.x + "." + userPlayer.pos.y + "." + userPlayer.pos.z + "." + newPos.ytile + "." + newPos.xtile);
 			var newDoor = {x:0,y:0};
 			//check if door already exists
-			var existingDoor = checkDoor(currentRoom,newPos.x/_tileSize,newPos.y/_tileSize);
+			var existingDoor = checkDoor(currentRoom,newPos.xtile,newPos.ytile);
 			////console.log("EXISTING DOOR STATUS == " + existingDoor + " " + (existingDoor == false) + (typeof existingDoor =="boolean"));
 			if (existingDoor === false) {
 				//New door
@@ -137,7 +139,7 @@ Crafty.c('PlayerCharacter', {
 						break;
 				}
 				//create new room with doorRandom information.
-				existingDoor = rooms[currentRoom].doors.push(new Door(newDoor.x,newDoor.y,0,newPos.x/_tileSize,newPos.y/_tileSize));
+				existingDoor = rooms[currentRoom].doors.push(new Door(newDoor.x,newDoor.y,0,newPos.xtile,newPos.ytile));
 				existingDoor = existingDoor - 1;
 			}
 			else {
@@ -185,6 +187,8 @@ Crafty.c('floorMap', {
 	offset: {x:0,y:0},
 	highlightId: 0,
 	highlightEnt: 0,
+	Tile: 0,
+	yTile: 0,
 	init: function() {
 		this.requires('2D, ' + renderEngine + ', Mouse');
 		this.bind("MouseUp", function(MouseEvent) { 
@@ -204,7 +208,7 @@ Crafty.c('floorMap', {
 			//check if plaery is already in motion
 			if (playerEntity.isPlaying()) { timeOut = 400; }
 			playerEntity.cancelMove();
-			var reRun = {x: this._x,y:this._y}			
+			var reRun = {x: this.xTile,y:this.yTile}			
 			setTimeout(function(){
 				//console.log("done waiting now moving to " + reRun.x + " " + reRun.y);
 				mouseFunction == "findingPath"
