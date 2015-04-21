@@ -6,7 +6,7 @@ var _tileSize = 66;
 var renderEngine = "DOM"
 //renderEngine = "Canvas" //
 var gameSeed = Math.floor((Math.random() * 4) + 1); //TODO DEBUG Increase to 100000
-gameSeed = 1; //DEBUGING 
+//gameSeed = 1; //DEBUGING 
 var roomCenter = {x: _tileSize, y: _tileSize}
 
 //Mouse varibles
@@ -18,6 +18,7 @@ var holdDelay = 300;
 var holdActive = false;
 
 //player
+var firstRun = true;
 var userPlayer; // = new playerObj;
 var playerEntity;
 var lastPos = new Position(0,0,0);

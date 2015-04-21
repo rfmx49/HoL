@@ -2,7 +2,10 @@ function generateRoom() {
 	originDoors = [];
 	//console.log("clear")
 	Crafty('FloorGround').destroy();
-	if ((typeof (Crafty('PlayerCharacter')[0]) != "undefined")) { Crafty(Crafty('PlayerCharacter')[0]).destroy();}
+	var firstRoom = false;
+	if ((typeof (Crafty('PlayerCharacter')[0]) != "undefined")) { 
+		Crafty(Crafty('PlayerCharacter')[0]).destroy();
+	}
 	roomRandom = new Math.seedrandom(gameSeed + " . " + userPlayer.pos.x + "." + userPlayer.pos.y + "." + userPlayer.pos.z);
 	var existingRoom = checkRoom(userPlayer.pos.x,userPlayer.pos.y,userPlayer.pos.z);
 	////console.log("EXISTING room STATUS == " + existingRoom + " " + (existingRoom == false) + (typeof existingRoom =="boolean"));
@@ -146,8 +149,11 @@ function generateRoom() {
 	drawRoom();
 	var doorsValid = locateOriginDoor();
 	if (doorsValid) {
-		
+		//create player on room		
 		createPlayerEnt();
+		if (firstRun == false) {
+			playerEnterRoom();
+		}
 	}
 	centerRoom();	
 	return floorMap;
@@ -523,8 +529,16 @@ function drawRoom() {
 	}
 }
 
-function changeDoor(doorPos, doorOffset, action) {
-	////console.log("change door at " + doorPos.x + " " + doorPos.y + " rotation:" + doorPos.rotation + " offset x" + doorOffset.x + " offset y" + doorOffset.y);
+function changeDoor(doorPosRow,doorPosCol, action) {
+	//console.log("change door at " + doorPos.x + " " + doorPos.y + " rotation:" + doorPos.rotation + " offset x" + doorOffset.x + " offset y" + doorOffset.y);
+	
+	var doorPos = {x: Crafty('Tile'+doorPosRow+'_'+doorPosCol)._x,
+				y:Crafty('Tile'+doorPosRow+'_'+doorPosCol)._y,
+				rotation: Crafty('Tile'+doorPosRow+'_'+doorPosCol)._rotation,
+				xtile:doorPosCol,
+				ytile:doorPosRow}
+	console.log(doorPos);
+	var doorOffset = Crafty('Tile'+doorPosRow+'_'+doorPosCol).offset;
 	var thisDoor = Crafty.e('Door' + (doorPos.ytile) + '_' + (doorPos.xtile) +', doorSprite1_reel, wallDoorAnimate')
 		.attr({y: doorPos.y+(doorOffset.y), x: doorPos.x+(doorOffset.x), w: _tileSize, h: _tileSize, xTile: doorPos.xtile, yTile: doorPos.xtile});
 	//console.log(thisDoor);
@@ -535,9 +549,13 @@ function changeDoor(doorPos, doorOffset, action) {
 	if (action == "open") {
 		thisDoor.openDoor();
 	}
-	else if (action == "clsoe") {
+	else if (action == "close") {
 		thisDoor.closeDoor();
 	}
+	else if (action == "opened") {
+		thisDoor.openedDoor();
+	}
+	
 	//return thisDoor;
 }
 

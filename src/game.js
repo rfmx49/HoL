@@ -1,67 +1,14 @@
 //Main crafty Game scene
 Crafty.scene('Game', function() {
 
-	
-
 	var centerPoint = Crafty.e('centerpoint, 2D,' + renderEngine + ', Color')
 		.attr({x: ((maxWidth+2)*_tileSize)/2, y: ((maxHeight+4)*_tileSize)/2, w: 1, h: 1, alpha: 0})
 		.color('#FFFFFF');
 
 	Crafty.viewport.centerOn(centerPoint, 0);
 
-	//centerPoint.destroy();
-	
-	//
-	//Game events (MOUSE CLICKS ECT..)
-	//
-	
-	/*Crafty.addEvent(Crafty.stage.elem, "mousedown", function (e) {
-		holdStarter = setTimeout(function() {
-			holdStarter = null;
-			holdActive = true;
-			// begin hold-only operation here, if desired
-			console.log('Dragging');		
-		}, 299);
-	});
-
-	Crafty.addEvent(Crafty.stage.elem, "mouseup", function (e) {
-		if (holdActive) {
-			console.log("hold done");
-		}					
-	});
-		
-	
-	Crafty.addEvent(Crafty.stage.elem, "click", function (e) {
-		clearTimeout(holdStarter);
-		if (holdActive == false) {
-			//console.log("click");	
-			//console.log(e);
-			//check if there is a floor tile under click
-			if (floorMap.length > 3) {
-				//get tile underneath
-				var floorTile = {x: (Math.floor(e.layerX/_tileSize)), y: (Math.floor(e.layerY/_tileSize))}
-				if (typeof floorMap[floorTile.y] != "undefined") { 
-					console.log('floor tile is ' + floorTile.x + " | " + floorTile.y + ' which is ' + floorMap[floorTile.y][floorTile.x])
-					if (floorMap[floorTile.y][floorTile.x] == "f") {
-						var tileId = Crafty('Tile' + floorTile.y + '_' + floorTile.x)[0];
-						//Crafty(tileId).clickEvent();					
-					}
-				}
-			}
-		}
-		holdActive = false;	
-	});
-
-	/*Crafty.e('btnRoom, 2D, DOM, Text, Color, Mouse')
-		.attr({x: -200, y: -100, w: 70, h: 30, z: 5})
-		.color('#FFF666')
-		.text("Make Room")
-		.bind('Click', function(){
-			generateRoom();
-		});	*/
-
 	Crafty.e('ui_level, 2D, ' + renderEngine + ', Mouse, Touch')
-		.attr({x: 0-(345/100*_tileSize), y: (_tileSize*-3), w: 345/100*_tileSize, h: 98/100*_tileSize, z: 5})
+		.attr({x: 0-(345/100*_tileSize), y: (_tileSize*-3), w: 345/100*_tileSize, h: 98/100*_tileSize, z: 15})
 		.bind('Click', function(){
 			console.log("Clicked on Level ui");
 		});
@@ -74,6 +21,7 @@ Crafty.scene('Game', function() {
 
 	//generate first room
 	generateRoom();
+	firstRun = false;
 });
 
 function createPlayerEnt() {
@@ -88,6 +36,41 @@ function createPlayerEnt() {
 	Crafty(Crafty('FloorGround')[0]).origin(((playerRoomPos.x*_tileSize)-(_tileSize/2)),((playerRoomPos.y*_tileSize)-(_tileSize/2)));
 	console.log("player created");
 }
+
+function playerEnterRoom() {
+	console.log("Player Entered Room");
+	var playerDirection = playerEntity.rotation;
+	var newX, newY;
+	switch (playerDirection) {
+		case 0:
+			newX=playerRoomPos.x
+			newY=playerRoomPos.y - 1;
+			break;
+		case 90:
+			newX=playerRoomPos.x + 1;
+			newY=playerRoomPos.y
+			break;
+		case 180:
+			newX=playerRoomPos.x
+			newY=playerRoomPos.y + 1;
+			break;
+		case 270:
+			newX=playerRoomPos.x - 1;
+			newY=playerRoomPos.y
+			break;
+		default:
+			console.log("Error direction not reconized " + playerDirection);
+			break;
+	}
+	//play animation
+	changeDoor(playerRoomPos.y,playerRoomPos.x, "opened", true);
+	console.log("playerDirection = " + playerDirection + " newX = " + newX + " newY = " + newY);
+	Crafty('Tile' + newY + '_' + newX).clickEvent();
+	setTimeout(function() {
+		changeDoor(playerRoomPos.y,playerRoomPos.x, "close", true);
+	}, 250, playerRoomPos);
+	
+};
 
 function reCenterPlayer() {
 	//centerX

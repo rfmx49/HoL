@@ -105,7 +105,7 @@ Crafty.c('PlayerCharacter', {
 			//get the door offset.
 			var doorOffset = Crafty('Tile' + (newPos.ytile) + '_' + (newPos.xtile)).offset;
 			////console.log('our door offset x: ' + doorOffset.x);
-			changeDoor(newPos, Crafty('Tile' + (newPos.ytile) + '_' + (newPos.xtile)).offset, "open", true);
+			changeDoor(newPos.ytile,newPos.xtile, "open");
 			//TODO only if this is player not any player character.
 			//move player too door
 			//wait for door to open a bit
@@ -152,6 +152,23 @@ Crafty.c('PlayerCharacter', {
 			setTimeout(function() {
 				Crafty(playerID).playerWalking();
 				Crafty(playerID).tween({x: newPos.x, y: newPos.y, rotation: newPos.rotation, alpha: 0, z: 1}, 400);
+				console.log("Rotation Value " + newPos.rotation);
+				//fix Rotation
+				switch (newPos.rotation) {
+					case 360:
+						newPos.rotation = 0;
+						break;
+					case -90:
+						newPos.rotation = 270;
+						break;
+					case -180:
+						newPos.rotation = 0;
+						break;
+					case 450:
+						newPos.rotation = 90;
+						break;
+				}
+				Crafty(playerID).rotation = newPos.rotation;
 				userPlayer.rotation = newPos.rotation;
 				setTimeout(function() {
 					//destroy and make a new room
@@ -241,7 +258,7 @@ Crafty.c('wallDoorAnimate', {
 		this.requires('2D, ' + renderEngine + ', doorSprite1_reel, SpriteAnimation');
 		this.origin("center");
 		this.reel('doorOpening', 600, 1, 0, 6);
-		this.reel('doorOpened', 10, 6, 0, 1);
+		this.reel('doorOpened', 10, 7, 0, 1);
 		this.reel('doorClosing', 600, 6, 0, -7);
 		this.reel('doorClosed', 10, 0, 0, 1);
 	},
@@ -257,6 +274,7 @@ Crafty.c('wallDoorAnimate', {
 	closedDoor: function() {
 		this.animate('doorClosed', -1);		
 	}	
+
 });
 
 //WALL OBJECT

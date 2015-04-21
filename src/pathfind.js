@@ -5,7 +5,7 @@ function pathFind(id, x, y, queue) {
 	var endPos = {xtile:(x),ytile:(y)}; //tile where click was made
 	endPos.x = Crafty('Tile' + y + '_' + x)._x
 	endPos.y = Crafty('Tile' + y + '_' + x)._y
-	//console.log(endPos);
+	console.log(endPos);
 	//get current pos.
 	var currentPos = {x: (Crafty(id)._x),y:(Crafty(id)._y),rotation:(Crafty(id)._rotation),type:"f"};
 	var revertPos = {};
