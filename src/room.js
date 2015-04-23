@@ -141,7 +141,7 @@ function generateRoom() {
 	fillWalls();
 	//get floor style
 	var floorStyle = new Math.seedrandom(gameSeed + " . " + userPlayer.pos.x + "." + userPlayer.pos.y + "." + userPlayer.pos.z + "floor");
-	var decider = Math.floor(floorStyle() * 8) + 1; //number of floor Styles
+	var decider = Math.floor(floorStyle() * numOfFloorStyles) + 1; //number of floor Styles
 	rooms[currentRoom].floorStyle = decider;
 	//get room center
 	roomCenter.y = (Math.floor(floorMap.length/2));
@@ -380,6 +380,7 @@ function drawRoom() {
 	var oppisiteRotation;
 	var tileRotation;
 	var offsetDoor = {};
+	var style;
 	//Draw ground/parent
 	//console.log("roomCenter.x = " + roomCenter.x);
 	Crafty.e('FloorGround, 2D, ' + renderEngine + ', Color')
@@ -481,7 +482,9 @@ function drawRoom() {
 								//newDoor.y = Math.round(((roomRandom() * sparseness) + 1)-(sparseness/2));
 								break;
 						}
-						Crafty.e('Tile' + row + '_' + col +', floorMap, door_1')
+						//Door creation
+						style = (Math.floor(roomRandom() * numOfDoorStyles) + 1)
+						Crafty.e('Tile' + row + '_' + col +', floorMap, door_' + style)
 							.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize, xTile: col, yTile: row});
 						Crafty(Crafty('FloorGround')[0]).attach(Crafty('Tile' + row + '_' + col));
 						Crafty('Tile' + row + '_' + col).origin("center");
@@ -500,7 +503,9 @@ function drawRoom() {
 							////console.log("rotation did not match" + oppisiteRotation + "/" + userPlayer.rotation);
 						}*/
 						//change floor map to door instead of wall
-						floorMap[row][col] = "d" + floorMap[row][col].substring(2,1);
+						//Add door colour here. Math.floor(roomRandom() * numOfDoorStyles) + 1
+						//get door colour floorMap[row][col].substring(3,2)
+						floorMap[row][col] = "d" + floorMap[row][col].substring(2,1) + style;
 						//rooms[currentRoom-1].doors.push(new Door(newDoor.x,newDoor.y,0)); //TODO make new currentfloor varible.
 					}
 					break;
@@ -539,7 +544,7 @@ function changeDoor(doorPosRow,doorPosCol, action) {
 				ytile:doorPosRow}
 	console.log(doorPos);
 	var doorOffset = Crafty('Tile'+doorPosRow+'_'+doorPosCol).offset;
-	var thisDoor = Crafty.e('Door' + (doorPos.ytile) + '_' + (doorPos.xtile) +', doorSprite1_reel1, wallDoorAnimate')
+	var thisDoor = Crafty.e('Door' + (doorPos.ytile) + '_' + (doorPos.xtile) +', doorSprite' + floorMap[doorPosRow][doorPosCol].substring(3,2) + '_reel, wallDoorAnimate')
 		.attr({y: doorPos.y+(doorOffset.y), x: doorPos.x+(doorOffset.x), w: _tileSize, h: _tileSize, xTile: doorPos.xtile, yTile: doorPos.xtile});
 	//console.log(thisDoor);
 	Crafty(Crafty('FloorGround')[0]).attach(thisDoor);

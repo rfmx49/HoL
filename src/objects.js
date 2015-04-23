@@ -100,7 +100,8 @@ Crafty.c('PlayerCharacter', {
 			////console.log("at door open door and then generate new room based on that door info");
 			//get door info first from floor map
 			////console.log(newPos.x + " " + newPos.y);
-			var door = floorMap[newPos.ytile][newPos.xtile]
+			var door = floorMap[newPos.ytile][newPos.xtile].substring(2,0)
+			var doorStyle = floorMap[newPos.ytile][newPos.xtile].substring(3,2)
 			//create door animation at this point.
 			//get the door offset.
 			var doorOffset = Crafty('Tile' + (newPos.ytile) + '_' + (newPos.xtile)).offset;
@@ -256,7 +257,7 @@ Crafty.c('wallDoorAnimate', {
 	colour: 1,
 	offSet: {},
 	init: function() {
-		this.requires('2D, ' + renderEngine + ', doorSprite' + this.colour + ' _reel, SpriteAnimation');
+		this.requires('2D, ' + renderEngine + ', SpriteAnimation');
 		this.origin("center");
 		this.reel('doorOpening', 600, 1, 0, 6);
 		this.reel('doorOpened', 10, 7, 0, 1);

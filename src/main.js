@@ -23,6 +23,7 @@ var userPlayer; // = new playerObj;
 var playerEntity;
 var lastPos = new Position(0,0,0);
 var playerRoomPos;
+
 //Room Varibles
 var maxWidth = 9;
 var maxHeight = 11;
@@ -36,11 +37,13 @@ var lastDoor;
 var roomRandom;
 var doorRandom;
 var originDoorSuccess = true;
-
+//TexturePack
+var numOfFloorStyles = 8;
+var numOfDoorStyles = 6;
 
 //difficulty
-var sparseness = 100;
-var doorChance = 3; //(1 in doorChance)
+var sparseness = 10; //lower = more chance of linked rooms.
+var doorChance = 2.5; //(1 in doorChance) higher = less doors
 
 $(document).ready(function() {
 	console.log( "Document completed!" );

@@ -22,7 +22,12 @@ Crafty.scene('Loading', function(){
 					 "floor_6": [3,2],
 					 "floor_7": [4,1],
 					 "floor_8": [4,2],
-					 "door_1": [0,6]},			 
+					 "door_1": [0,6],
+					 "door_2": [1,6],
+					 "door_3": [2,6],
+					 "door_4": [3,6],
+					 "door_5": [4,6],
+					 "door_6": [5,6]},			 
 			},
 			"blackness.png": {
 				"tile": 1200,
