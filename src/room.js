@@ -539,7 +539,7 @@ function changeDoor(doorPosRow,doorPosCol, action) {
 				ytile:doorPosRow}
 	console.log(doorPos);
 	var doorOffset = Crafty('Tile'+doorPosRow+'_'+doorPosCol).offset;
-	var thisDoor = Crafty.e('Door' + (doorPos.ytile) + '_' + (doorPos.xtile) +', doorSprite1_reel, wallDoorAnimate')
+	var thisDoor = Crafty.e('Door' + (doorPos.ytile) + '_' + (doorPos.xtile) +', doorSprite1_reel1, wallDoorAnimate')
 		.attr({y: doorPos.y+(doorOffset.y), x: doorPos.x+(doorOffset.x), w: _tileSize, h: _tileSize, xTile: doorPos.xtile, yTile: doorPos.xtile});
 	//console.log(thisDoor);
 	Crafty(Crafty('FloorGround')[0]).attach(thisDoor);

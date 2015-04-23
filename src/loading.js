@@ -39,10 +39,35 @@ Crafty.scene('Loading', function(){
 				"tileh": 50,
 				"map": { "playerSprite1_reel": [0,0],},			 
 			},
-			"doorSprite.png": {
+			"doorSprite1.png": {
 				"tile": 100,
 				"tileh": 100,
 				"map": { "doorSprite1_reel": [0,0],},			 
+			},
+			"doorSprite2.png": {
+				"tile": 100,
+				"tileh": 100,
+				"map": { "doorSprite2_reel": [0,0],},			 
+			},
+			"doorSprite3.png": {
+				"tile": 100,
+				"tileh": 100,
+				"map": { "doorSprite3_reel": [0,0],},			 
+			},
+			"doorSprite4.png": {
+				"tile": 100,
+				"tileh": 100,
+				"map": { "doorSprite4_reel": [0,0],},			 
+			},
+			"doorSprite5.png": {
+				"tile": 100,
+				"tileh": 100,
+				"map": { "doorSprite5_reel": [0,0],},			 
+			},
+			"doorSprite6.png": {
+				"tile": 100,
+				"tileh": 100,
+				"map": { "doorSprite6_reel": [0,0],},			 
 			},
 			"level_progress.png": {
 				"tile": 345,

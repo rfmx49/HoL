@@ -253,9 +253,10 @@ Crafty.c('floorMap', {
 //door animation
 Crafty.c('wallDoorAnimate', {
 	rotation: 0,
+	colour: 1,
 	offSet: {},
 	init: function() {
-		this.requires('2D, ' + renderEngine + ', doorSprite1_reel, SpriteAnimation');
+		this.requires('2D, ' + renderEngine + ', doorSprite' + this.colour + ' _reel, SpriteAnimation');
 		this.origin("center");
 		this.reel('doorOpening', 600, 1, 0, 6);
 		this.reel('doorOpened', 10, 7, 0, 1);
