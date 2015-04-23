@@ -11,12 +11,19 @@ function playerObj() {
 	this.rotation = 0;
 }
 
+//Extra Constructor
+function extraObj() {
+	this.pos = new Position(0,0,0);
+	this.rotation = 0;
+}
+
 //Room constructor
 function Room(x,y,z) {
 	this.pos = new Position(x,y,z);
 	this.floorStyle = 1;
 	this.doors = [];
 	this.map = "";
+	this.extras = [];
 	this.stairs = [];
 }
 

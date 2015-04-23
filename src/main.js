@@ -43,7 +43,7 @@ var numOfDoorStyles = 6;
 
 //difficulty
 var sparseness = 10; //lower = more chance of linked rooms.
-var doorChance = 5; //(2 in doorChance) higher = less doors
+var doorChance = 10; //(2 in doorChance) higher = less doors
 
 $(document).ready(function() {
 	console.log( "Document completed!" );

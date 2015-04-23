@@ -514,7 +514,7 @@ function drawRoom() {
 					}
 					else { 
 						decider = 3; 
-						console.log('Room already exitst dont regendoors.');
+						//console.log('Room already exitst dont regendoors.');
 					}
 					if (decider > 2) {					
 						Crafty.e('Tile' + row + '_' + col +', wallMap, wall_straight')

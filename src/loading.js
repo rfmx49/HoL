@@ -34,6 +34,11 @@ Crafty.scene('Loading', function(){
 				"tileh": 600,
 				"map": { "darkness": [0,0],},			 
 			},
+			"houseIcon.png": {
+				"tile": 834,
+				"tileh": 939,
+				"map": { "homeIcon": [0,0],},			 
+			},
 			"highlight.png": {
 				"tile": 50,
 				"tileh": 50,

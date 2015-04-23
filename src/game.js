@@ -8,7 +8,7 @@ Crafty.scene('Game', function() {
 	Crafty.viewport.centerOn(centerPoint, 0);
 
 	Crafty.e('ui_level, 2D, ' + renderEngine + ', Mouse, Touch')
-		.attr({x: 0-(345/100*_tileSize), y: (_tileSize*-3), w: 345/100*_tileSize, h: 98/100*_tileSize, z: 15})
+		.attr({x: 0-(345/250*_tileSize), y: (_tileSize*-2), w: 345/100*_tileSize, h: 98/100*_tileSize, z: 15})
 		.bind('Click', function(){
 			console.log("Clicked on Level ui");
 		});
