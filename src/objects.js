@@ -14,20 +14,20 @@ function playerObj() {
 //Room constructor
 function Room(x,y,z) {
 	this.pos = new Position(x,y,z);
-	this.map = [];
 	this.floorStyle = 1;
 	this.doors = [];
+	this.map = "";
 	this.stairs = [];
 }
 
 
 
 //Door Constructor
-function Door(toX,toY,toZ,roomX,roomY) {
+function Door(toX,toY,toZ,roomX,roomY,styles) {
 	this.toPos = new Position(toX,toY,toZ);
 	this.roomPos = new Position(roomX,roomY,0); //position in the room.
 	this.toRoomPos = new Position(0,0,0); //position in the room.
-	this.style = [];
+	this.style = styles;
 }
 
 //Player
@@ -139,7 +139,7 @@ Crafty.c('PlayerCharacter', {
 						break;
 				}
 				//create new room with doorRandom information.
-				existingDoor = rooms[currentRoom].doors.push(new Door(newDoor.x,newDoor.y,0,newPos.xtile,newPos.ytile));
+				existingDoor = rooms[currentRoom].doors.push(new Door(newDoor.x,newDoor.y,0,newPos.xtile,newPos.ytile,doorStyle));
 				existingDoor = existingDoor - 1;
 			}
 			else {

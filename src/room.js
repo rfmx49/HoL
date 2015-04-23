@@ -14,148 +14,152 @@ function generateRoom() {
 		lastRoom = currentRoom; 
 	}
 	else {
-		//this is a recreated room
-		rooms[currentRoom]="";
+		//this is a recreated room remove room from array
+		rooms.splice(currentRoom,1);
 	}
 	if (existingRoom === false) {
 		currentRoom = rooms.push(new Room(userPlayer.pos.x, userPlayer.pos.y, userPlayer.pos.z)) - 1;
-	}
-	else { currentRoom = existingRoom; }
-	/*
-	var floorWidth = Math.floor(Math.random() * (maxWidth-2)) + 1;
-	var floorHeight = Math.floor(Math.random() * (maxHeight-2)) + 1;
-	var decider = Math.floor(Math.random() * 2) + 1;
-	*/
-	var floorWidth = Math.floor(roomRandom() * (maxWidth-2)) + 1;
-	var floorHeight = Math.floor(roomRandom() * (maxHeight-2)) + 1;
-	var decider = Math.floor(roomRandom() * 2) + 1;
-	floorMap = [];
-	floorMap[0] = [];
-	if (decider == 2){
-		if (floorWidth > 1 && floorHeight > 1) {
-			//decide wether to take out corner or put in wall.
-			//or is a wall even possible.
-			//decider = Math.floor(Math.random() * 2) + 1;
-			//if (decider == 1 || ((floorWidth <= 2) || (floorHeight <= 2))){
-			if (1 == 1) {
-				//make corner
-				//pick a wall top/right/left/bottom
-				//pick sizes
-				/*
-				var wallDecided = Math.floor(Math.random() * 4) + 1;
-				var cornerWidth = Math.floor(Math.random() * (floorWidth-1)) + 1;
-				var cornerHeight = Math.floor(Math.random() * (floorHeight-1)) + 1;
-				*/
-				var wallDecided = Math.floor(roomRandom() * 4) + 1;
-				var cornerWidth = Math.floor(roomRandom() * (floorWidth-1)) + 1;
-				var cornerHeight = Math.floor(roomRandom() * (floorHeight-1)) + 1;
-				//console.log("Make room W:" + floorWidth + " H: " + floorHeight + " With corner OnWall: " + wallDecided + "  Dimensions W:" + cornerWidth + " H:" +cornerHeight);
-				//drawmap
+		var floorWidth = Math.floor(roomRandom() * (maxWidth-2)) + 1;
+		var floorHeight = Math.floor(roomRandom() * (maxHeight-2)) + 1;
+		var decider = Math.floor(roomRandom() * 2) + 1;
+		floorMap = [];
+		floorMap[0] = [];
+		if (decider == 2){
+			if (floorWidth > 1 && floorHeight > 1) {
+				//decide wether to take out corner or put in wall.
+				//or is a wall even possible.
+				//decider = Math.floor(Math.random() * 2) + 1;
+				//if (decider == 1 || ((floorWidth <= 2) || (floorHeight <= 2))){
+				if (1 == 1) {
+					//make corner
+					//pick a wall top/right/left/bottom
+					//pick sizes
+					/*
+					var wallDecided = Math.floor(Math.random() * 4) + 1;
+
+					var cornerWidth = Math.floor(Math.random() * (floorWidth-1)) + 1;
+					var cornerHeight = Math.floor(Math.random() * (floorHeight-1)) + 1;
+					*/
+					var wallDecided = Math.floor(roomRandom() * 4) + 1;
+					var cornerWidth = Math.floor(roomRandom() * (floorWidth-1)) + 1;
+					var cornerHeight = Math.floor(roomRandom() * (floorHeight-1)) + 1;
+					//console.log("Make room W:" + floorWidth + " H: " + floorHeight + " With corner OnWall: " + wallDecided + "  Dimensions W:" + cornerWidth + " H:" +cornerHeight);
+					//drawmap
+					for (var row = 1; row <= floorHeight; row++) {
+						floorMap[row] = [];
+						for (var col = 1; col <= floorWidth; col++) {
+							floorMap[row][col] = "f";
+							switch (wallDecided) {
+								 case 1:
+								 	//top right
+								 	if ((cornerHeight-row) > (-1)) {
+										//corner is on this row but also this coloumn?
+										if ((col+cornerWidth) > floorWidth) {
+											//yes this tile is part of the corner chunk.
+											floorMap[row][col] = null;
+										}
+									}
+								    break;
+								 case 2:
+								 	//bot right
+								 	if ((row+cornerHeight) > floorHeight) {
+										//corner is on this row but also this coloumn?
+										if ((col+cornerWidth) > floorWidth) {
+											//yes this tile is part of the corner chunk.
+											floorMap[row][col] = null;
+										}
+									}
+								    break;
+								 case 3:
+								 	//bot left
+								 	if ((row+cornerHeight) > floorHeight) {
+										//corner is on this row but also this coloumn?
+										if ((cornerWidth-col) > (-1)) {
+											//yes this tile is part of the corner chunk.
+											floorMap[row][col] = null;
+										}
+									}
+								    break;
+								 case 4:
+								 	//top left
+								 	if ((cornerHeight-row) > (-1)) {
+										//corner is on this row but also this coloumn?
+										if ((cornerWidth-col) > (-1)) {
+											//yes this tile is part of the corner chunk.
+											floorMap[row][col] = null;
+										}
+									}
+								    break;
+	 						}
+						}
+					}
+
+
+				}
+				else {
+					//console.log("make room with divider wall");
+					//make wall
+					//pick a wall top/right/left/bottom
+					//pick sizes
+				}
+			}
+			else {
+				//console.log('narrow room ' + floorWidth + 'x' + floorHeight);
 				for (var row = 1; row <= floorHeight; row++) {
 					floorMap[row] = [];
 					for (var col = 1; col <= floorWidth; col++) {
 						floorMap[row][col] = "f";
-						switch (wallDecided) {
-						     case 1:
-						     	//top right
-						     	if ((cornerHeight-row) > (-1)) {
-									//corner is on this row but also this coloumn?
-									if ((col+cornerWidth) > floorWidth) {
-										//yes this tile is part of the corner chunk.
-										floorMap[row][col] = null;
-									}
-								}
-						        break;
-						     case 2:
-						     	//bot right
-						     	if ((row+cornerHeight) > floorHeight) {
-									//corner is on this row but also this coloumn?
-									if ((col+cornerWidth) > floorWidth) {
-										//yes this tile is part of the corner chunk.
-										floorMap[row][col] = null;
-									}
-								}
-						        break;
-						     case 3:
-						     	//bot left
-						     	if ((row+cornerHeight) > floorHeight) {
-									//corner is on this row but also this coloumn?
-									if ((cornerWidth-col) > (-1)) {
-										//yes this tile is part of the corner chunk.
-										floorMap[row][col] = null;
-									}
-								}
-						        break;
-						     case 4:
-						     	//top left
-						     	if ((cornerHeight-row) > (-1)) {
-									//corner is on this row but also this coloumn?
-									if ((cornerWidth-col) > (-1)) {
-										//yes this tile is part of the corner chunk.
-										floorMap[row][col] = null;
-									}
-								}
-						        break;
- 						}
 					}
 				}
-
-
-			}
-			else {
-				//console.log("make room with divider wall");
-				//make wall
-				//pick a wall top/right/left/bottom
-				//pick sizes
 			}
 		}
 		else {
-			//console.log('narrow room ' + floorWidth + 'x' + floorHeight);
+			//square Room
+			//console.log("Make room W:" + floorWidth + " H: " + floorHeight);
 			for (var row = 1; row <= floorHeight; row++) {
-				floorMap[row] = [];
+				floorMap[row] = []
 				for (var col = 1; col <= floorWidth; col++) {
-					floorMap[row][col] = "f";
+					floorMap[row][col] = "f"
 				}
 			}
 		}
-	}
-	else {
-		//square Room
-		//console.log("Make room W:" + floorWidth + " H: " + floorHeight);
-		for (var row = 1; row <= floorHeight; row++) {
-			floorMap[row] = []
-			for (var col = 1; col <= floorWidth; col++) {
-				floorMap[row][col] = "f"
+		////console.log("Fill blanks");
+		floorMap[floorHeight+1] = []
+		for (var row = 0; row <= floorHeight+1; row++) {
+			for (var col = 0; col <= floorWidth+1; col++) {
+				if (floorMap[row][col] != "f") {
+					floorMap[row][col] = "x"
+				}
 			}
 		}
+		fillWalls();
+		//get floor style
+		var floorStyle = new Math.seedrandom(gameSeed + " . " + userPlayer.pos.x + "." + userPlayer.pos.y + "." + userPlayer.pos.z + "floor");
+		var decider = Math.floor(floorStyle() * numOfFloorStyles) + 1; //number of floor Styles
+		rooms[currentRoom].floorStyle = decider;
+		//get room center
+		roomCenter.y = (Math.floor(floorMap.length/2));
+		roomCenter.x = (Math.floor(floorMap[0].length/2));
+		drawRoom();
+		//set floorMap in rooms aray
+		rooms[currentRoom].map = floorMap;
 	}
-	////console.log("Fill blanks");
-	floorMap[floorHeight+1] = []
-	for (var row = 0; row <= floorHeight+1; row++) {
-		for (var col = 0; col <= floorWidth+1; col++) {
-			if (floorMap[row][col] != "f") {
-				floorMap[row][col] = "x"
-			}
-		}
+	else { 
+		console.log("this room has already been generated: " + existingRoom);
+		currentRoom = existingRoom;
+		floorMap = rooms[currentRoom].map;
+		drawRoom();
 	}
-	fillWalls();
-	//get floor style
-	var floorStyle = new Math.seedrandom(gameSeed + " . " + userPlayer.pos.x + "." + userPlayer.pos.y + "." + userPlayer.pos.z + "floor");
-	var decider = Math.floor(floorStyle() * numOfFloorStyles) + 1; //number of floor Styles
-	rooms[currentRoom].floorStyle = decider;
-	//get room center
-	roomCenter.y = (Math.floor(floorMap.length/2));
-	roomCenter.x = (Math.floor(floorMap[0].length/2));
-	drawRoom();
 	var doorsValid = locateOriginDoor();
-	if (doorsValid) {
-		//create player on room		
-		createPlayerEnt();
-		if (firstRun == false) {
-			playerEnterRoom();
+		if (doorsValid) {
+			//create player on room		
+			createPlayerEnt();
+			if (firstRun == false) {
+				playerEnterRoom();
+			}
 		}
-	}
-	centerRoom();	
+	centerRoom();
+	
 	return floorMap;
 }
 
@@ -164,7 +168,30 @@ function centerRoom(){
 }
 
 function setDoor(tileX, tileY){
-	var createdDoor = rooms[currentRoom].doors.push(new Door(lastPos.x,lastPos.y,lastPos.z,tileX,tileY));
+	var createdDoor = rooms[currentRoom].doors.push(new Door(lastPos.x,lastPos.y,lastPos.z,tileX,tileY,rooms[lastRoom].doors[lastDoor].style));
+	//set door style to previous door and update floormap
+
+
+	var offsetDoor = Crafty('Tile' + tileY + '_' + tileX).offset;
+	var tileRotation = Crafty('Tile' + tileY + '_' + tileX).rotation;
+	Crafty('Tile' + tileY + '_' + tileX).destroy();
+	
+	//Door creation
+	style = floorMap[tileY][tileX].substring(3,2)
+	Crafty.e('Tile' + tileY + '_' + tileX +', floorMap, door_' + rooms[lastRoom].doors[lastDoor].style)
+		.attr({y: tileY*_tileSize, x: tileX*_tileSize, w: _tileSize, h: _tileSize, xTile: tileX, yTile: tileY});
+	Crafty(Crafty('FloorGround')[0]).attach(Crafty('Tile' + tileY + '_' + tileX));
+	Crafty('Tile' + tileY + '_' + tileX).origin("center");
+	Crafty('Tile' + tileY + '_' + tileX).offset = offsetDoor;
+	Crafty('Tile' + tileY + '_' + tileX).rotation = tileRotation;
+	//get door colour floorMap[row][col].substring(3,2)
+	floorMap[tileY][tileX] = "d" + floorMap[tileY][tileX].substring(2,1) + rooms[lastRoom].doors[lastDoor].style;
+	rooms[lastRoom].maps = floorMap;
+		
+
+	
+
+	
 	rooms[currentRoom].doors[createdDoor - 1].toRoomPos = new Position(rooms[lastRoom].doors[lastDoor].roomPos.x,rooms[lastRoom].doors[lastDoor].roomPos.y,0);
 	//also set this matching doors destination door info.
 	rooms[lastRoom].doors[lastDoor].toRoomPos = new Position(tileX,tileY,0);
@@ -198,7 +225,7 @@ function locateOriginDoor() {
 						if (rooms[currentRoom].doors[existingDoor].toRoomPos.y == rooms[lastRoom].doors[lastDoor].roomPos.y) {
 							//Door is a match to an already created door.
 							//console.log("Revisting room no need for new origin door.");
-							originDoorReq = false;
+							originDoorReq = false;							
 							positionPlayer(originDoors[i].x,originDoors[i].y);					
 						}
 					}
@@ -246,19 +273,11 @@ function locateOriginDoor() {
 		 	}
 			originDoors = filterdDoors;		
 		
-			if (originDoors.length == 1) {
-				//just one door.
-				setDoor(originDoors[0].x,originDoors[0].y);
-				positionPlayer(originDoors[0].x,originDoors[0].y);
-				//console.log("To get back to " + lastPos.x + ":" + lastPos.y + " go through door " + originDoors[0].x + ":" + originDoors[0].y);
-			}
-			else if (originDoors.length >= 2) {
-				//more than one door pick one.
-				var decider = Math.floor(roomRandom() * originDoors.length);
-				setDoor(originDoors[decider].x,originDoors[decider].y);
-				positionPlayer(originDoors[decider].x,originDoors[decider].y);
-				//console.log("To get back to " + lastPos.x + ":" + lastPos.y + " go through door " + originDoors[decider].x + ":" + originDoors[decider].y)
-			}
+		
+			var decider = Math.floor(roomRandom() * originDoors.length);
+			setDoor(originDoors[decider].x,originDoors[decider].y);
+			positionPlayer(originDoors[decider].x,originDoors[decider].y);
+			console.log("To get back to " + lastPos.x + ":" + lastPos.y + " go through door " + originDoors[decider].x + ":" + originDoors[decider].y)
 		}
 	}
 	return true;
@@ -389,45 +408,88 @@ function drawRoom() {
 	for (var row = 0; row < rows; row++) {
 		cols = floorMap[row].length;
 		for (var col = 0; col < cols; col++) {
-			switch (floorMap[row][col]) {
+			switch (floorMap[row][col].substring(2,0)) {
+				case "da":
 				case "wa":
 					tileRotation = 0;
 					break;
+				case "db":
 				case "wb":
 					tileRotation = 180;
 					break;
+				case "dl":
 				case "wl":
 					tileRotation = 270;
 					break;
+				case "dr":
 				case "wr":
 					tileRotation = 90;
 					break;
-				case "tli":
+				case "tl":
 					tileRotation = 180;
 					break;
-				case "tri":
+				case "tr":
 					tileRotation = 270;
 					break;
-				case "bli":
+				case "bl":
 					tileRotation = 90;
 					break;
-				case "bri":
-					tileRotation = 0;
-					break;
-				case "tlc":
-					tileRotation = 180;
-					break;
-				case "trc":
-					tileRotation = 270;
-					break;
-				case "blc":
-					tileRotation = 90;
-					break;
-				case "brc":
+				case "br":
 					tileRotation = 0;
 					break;
 			}
 			offsetDoor = {};
+			switch (floorMap[row][col].substring(2,0)) {
+				case "da":
+				case "db":
+				case "dl":
+				case "dr":
+					switch (floorMap[row][col].substring(2,1)) {
+						case "a":
+							offsetDoor.y = _tileSize/2;
+							offsetDoor.x = 0;
+							break;
+						case "b":
+							offsetDoor.y = Math.abs(_tileSize/2) * -1;
+							offsetDoor.x = 0;
+							break;
+						case "l":
+							offsetDoor.y = 0;
+							offsetDoor.x = _tileSize/2;
+							break;
+						case "r":
+							offsetDoor.y = 0;
+							offsetDoor.x = Math.abs(_tileSize/2) * -1;
+							break;
+					}
+					//Door creation
+					style = floorMap[row][col].substring(3,2)
+					Crafty.e('Tile' + row + '_' + col +', floorMap, door_' + style)
+						.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize, xTile: col, yTile: row});
+					Crafty(Crafty('FloorGround')[0]).attach(Crafty('Tile' + row + '_' + col));
+					Crafty('Tile' + row + '_' + col).origin("center");
+					Crafty('Tile' + row + '_' + col).offset = offsetDoor;
+					Crafty('Tile' + row + '_' + col).rotation = tileRotation;
+					//find origin door
+					oppisiteRotation = tileRotation + 180
+					if (oppisiteRotation == 450) { oppisiteRotation = 90; }
+					if (oppisiteRotation == 360) { oppisiteRotation = 0; }
+					////console.log(oppisiteRotation + " " + userPlayer.rotation);
+					if ((oppisiteRotation == userPlayer.rotation) || ((oppisiteRotation == 270) && (userPlayer.rotation == -90)) || ((oppisiteRotation == 0) && (userPlayer.rotation == 360))) {
+						originDoors.push({x: col,y: row});
+						//console.log("Door added");
+					}
+					/*else {
+						////console.log("rotation did not match" + oppisiteRotation + "/" + userPlayer.rotation);
+					}*/
+					//change floor map to door instead of wall
+					//Add door colour here. Math.floor(roomRandom() * numOfDoorStyles) + 1
+					//get door colour floorMap[row][col].substring(3,2)
+					floorMap[row][col] = "d" + floorMap[row][col].substring(2,1) + style;
+					//rooms[currentRoom-1].doors.push(new Door(newDoor.x,newDoor.y,0)); //TODO make new currentfloor varible.
+					
+					break;
+			}
 			switch (floorMap[row][col]) {
 				case "f":
 					Crafty.e('Tile' + row + '_' + col +', floorMap, floor_' + rooms[currentRoom].floorStyle)
@@ -446,12 +508,19 @@ function drawRoom() {
 				case "wb":
 				case "wl":
 				case "wr":
-					decider = Math.floor(roomRandom() * doorChance) + 1;
-					if (decider <=2) {					
+					//check if room has been created already
+					if (rooms[currentRoom].map == "") {
+						decider = Math.floor(roomRandom() * doorChance) + 1;
+					}
+					else { 
+						decider = 3; 
+						console.log('Room already exitst dont regendoors.');
+					}
+					if (decider > 2) {					
 						Crafty.e('Tile' + row + '_' + col +', wallMap, wall_straight')
 							.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize, xTile: col, yTile: row});
 						Crafty(Crafty('FloorGround')[0]).attach(Crafty('Tile' + row + '_' + col));
-						Crafty('Tile' + row + '_' + col).origin("center")
+						Crafty('Tile' + row + '_' + col).origin("center");
 						Crafty('Tile' + row + '_' + col).rotation = tileRotation;
 					}
 					else {
@@ -460,26 +529,18 @@ function drawRoom() {
 							case "a":
 								offsetDoor.y = _tileSize/2;
 								offsetDoor.x = 0;
-								//newDoor.y = Math.floor((roomRandom() * sparseness) + 1);
-								//newDoor.x = Math.round(((roomRandom() * sparseness) + 1)-(sparseness/2));
 								break;
 							case "b":
 								offsetDoor.y = Math.abs(_tileSize/2) * -1;
 								offsetDoor.x = 0;
-								//newDoor.y = Math.floor((roomRandom() * sparseness) + 1) - sparseness;
-								//newDoor.x = Math.round(((roomRandom() * sparseness) + 1)-(sparseness/2));
 								break;
 							case "l":
 								offsetDoor.y = 0;
 								offsetDoor.x = _tileSize/2;
-								//newDoor.x = Math.floor((roomRandom() * sparseness) + 1);
-								//newDoor.y = Math.round(((roomRandom() * sparseness) + 1)-(sparseness/2));
 								break;
 							case "r":
 								offsetDoor.y = 0;
 								offsetDoor.x = Math.abs(_tileSize/2) * -1;
-								//newDoor.x = Math.floor((roomRandom() * sparseness) + 1) - sparseness;
-								//newDoor.y = Math.round(((roomRandom() * sparseness) + 1)-(sparseness/2));
 								break;
 						}
 						//Door creation
