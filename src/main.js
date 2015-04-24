@@ -6,7 +6,7 @@ var _tileSize = 66;
 var renderEngine = "DOM"
 //renderEngine = "Canvas" //
 var gameSeed = Math.floor((Math.random() * 4) + 1); //TODO DEBUG Increase to 100000
-//gameSeed = 1; //DEBUGING 
+//gameSeed = 4; //DEBUGING 
 var roomCenter = {x: _tileSize, y: _tileSize}
 
 //Mouse varibles
@@ -37,6 +37,7 @@ var lastDoor;
 var roomRandom;
 var doorRandom;
 var originDoorSuccess = true;
+var deleteRoom = false;
 //TexturePack
 var numOfFloorStyles = 8;
 var numOfDoorStyles = 6;
@@ -75,12 +76,12 @@ function beginCrafty() {
 		console.log(gameClientWidth + "width x height" + gameClientHeight);
 		// Start crafty and set a background color so that we can see it's working.
 		console.log("ready to start Crafty");
-		Crafty.mobile = true;
+		Crafty.mobile = false;
 		Crafty.init();
 		//Crafty.background('#8ed2fa'); //niceblue
 		Crafty.background('#790000');
 		
-		Crafty.viewport.init();
+		Crafty.viewport.init(11*_tileSize,14*_tileSize);
 		//start game or loading scene
 		Crafty.timer.FPS(30);
 		//Crafty.viewport.clampToEntities = false;

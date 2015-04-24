@@ -14,8 +14,10 @@ function generateRoom() {
 		lastRoom = currentRoom; 
 	}
 	else {
+		if (deleteRoom){
 		//this is a recreated room remove room from array
-		rooms.splice(currentRoom,1);
+			rooms.splice(currentRoom,1);
+		}
 	}
 	if (existingRoom === false) {
 		currentRoom = rooms.push(new Room(userPlayer.pos.x, userPlayer.pos.y, userPlayer.pos.z)) - 1;
@@ -207,7 +209,9 @@ function locateOriginDoor() {
 	//filter origin doors if origin doors are already taken do reassign them.
 	//check if this is the first room.
 	console.log(originDoors);
+	deleteRoom = false
 	var originDoorReq = true;
+	var newRoomReq = false;
 	originDoorSuccess = true;
 	if (rooms.length != 1) {
 		var filterdDoors = [];
@@ -224,16 +228,24 @@ function locateOriginDoor() {
 					if (rooms[currentRoom].doors[existingDoor].toRoomPos.x == rooms[lastRoom].doors[lastDoor].roomPos.x) {
 						if (rooms[currentRoom].doors[existingDoor].toRoomPos.y == rooms[lastRoom].doors[lastDoor].roomPos.y) {
 							//Door is a match to an already created door.
-							//console.log("Revisting room no need for new origin door.");
+							console.log("Revisting room no need for new origin door.");
 							originDoorReq = false;							
 							positionPlayer(originDoors[i].x,originDoors[i].y);					
 						}
+					}
+					else if ((originDoorReq == true) && ((originDoors.length-1) == i)) {
+						newRoomReq = true;
+						console.log('New Room Required');
 					}
 				}			
 		 	}		
 		}
 		else {
-			//console.log("NO DOORS AVAILIBLE MAKING NEW ROOM??" + originDoors);
+			newRoomReq = true;
+			deleteRoom = true;
+		}
+		if (newRoomReq) {
+			console.log("NO DOORS AVAILIBLE MAKING NEW ROOM??" + originDoors);
 			switch (userPlayer.rotation) {
 				case 360:
 				case 0:
@@ -275,6 +287,7 @@ function locateOriginDoor() {
 		
 		
 			var decider = Math.floor(roomRandom() * originDoors.length);
+			console.log("DEBUG originDoors=" + originDoors +" Decider=" + decider);
 			setDoor(originDoors[decider].x,originDoors[decider].y);
 			positionPlayer(originDoors[decider].x,originDoors[decider].y);
 			console.log("To get back to " + lastPos.x + ":" + lastPos.y + " go through door " + originDoors[decider].x + ":" + originDoors[decider].y)
