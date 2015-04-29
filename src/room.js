@@ -150,11 +150,13 @@ function generateRoom() {
 		console.log("this room has already been generated: " + existingRoom);
 		currentRoom = existingRoom;
 		floorMap = rooms[currentRoom].map;
+		roomCenter.y = (Math.floor(floorMap.length/2));
+		roomCenter.x = (Math.floor(floorMap[0].length/2));
 		drawRoom();
 	}
 	var doorsValid = locateOriginDoor();
 		if (doorsValid) {
-			//create player on room		
+			//create player on room
 			createPlayerEnt();
 			if (firstRun == false) {
 				playerEnterRoom();
@@ -166,7 +168,13 @@ function generateRoom() {
 }
 
 function centerRoom(){
-	Crafty('FloorGround').x = Crafty('centerpoint')._x
+	if (floorMap[0].length % 2 === 0) {
+		Crafty('FloorGround').x = Crafty('centerPoint')._x; // + (_tileSize/2) // This will center the room but movement is then broken :(
+	}
+	else {
+		Crafty('FloorGround').x = Crafty('centerPoint')._x
+	}
+	Crafty('FloorGround').y = Crafty('centerPoint')._y
 }
 
 function setDoor(tileX, tileY){

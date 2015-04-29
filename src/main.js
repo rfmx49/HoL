@@ -6,7 +6,7 @@ var _tileSize = 66;
 var renderEngine = "DOM"
 //renderEngine = "Canvas" //
 var gameSeed = Math.floor((Math.random() * 4) + 1); //TODO DEBUG Increase to 100000
-//gameSeed = 4; //DEBUGING 
+gameSeed = 4; //DEBUGING 
 var roomCenter = {x: _tileSize, y: _tileSize}
 
 //Mouse varibles
