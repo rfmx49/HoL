@@ -79,7 +79,8 @@ function beginCrafty() {
 		Crafty.mobile = false;
 		Crafty.init();
 		//Crafty.background('#8ed2fa'); //niceblue
-		Crafty.background('#790000');
+		//Crafty.background('#FCF0AD'); //Canary yellow
+		Crafty.background('#E9E74A');
 		
 		Crafty.viewport.init(11*_tileSize,14*_tileSize);
 		//start game or loading scene

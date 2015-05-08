@@ -63,9 +63,9 @@ function createPlayerEnt() {
 	playerEntity.origin("center");
 	playerEntity.rotation = userPlayer.rotation;
 	Crafty(Crafty('FloorGround')[0]).attach(Crafty(Crafty('PlayerCharacter')[0]));
-	Crafty.e('RoomLight, 2D, ' + renderEngine + ', darkness')
-		.attr({y: ((roomCenter.y*_tileSize)-400), x: ((roomCenter.x*_tileSize)-600), w: 1200, h: 800, z: 10});
-	Crafty(Crafty('FloorGround')[0]).attach(Crafty(Crafty('RoomLight')[0]));
+	//Crafty.e('RoomLight, 2D, ' + renderEngine + ', darkness')
+		//.attr({y: ((roomCenter.y*_tileSize)-400), x: ((roomCenter.x*_tileSize)-600), w: 1200, h: 800, z: 10});
+	//Crafty(Crafty('FloorGround')[0]).attach(Crafty(Crafty('RoomLight')[0]));
 	Crafty(Crafty('FloorGround')[0]).origin(((playerRoomPos.x*_tileSize)-(_tileSize/2)),((playerRoomPos.y*_tileSize)-(_tileSize/2)));
 	console.log("player created");
 }
