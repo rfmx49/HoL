@@ -29,6 +29,8 @@ var maxWidth = 9;
 var maxHeight = 11;
 var floorMap = [];
 floorMap[0] = [];
+var objectMap = [];
+objectMap[0] = [];
 var rooms = [];
 var originDoors = [];
 var currentRoom;

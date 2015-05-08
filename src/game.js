@@ -72,33 +72,11 @@ function createPlayerEnt() {
 
 function playerEnterRoom() {
 	console.log("Player Entered Room");
-	var playerDirection = playerEntity.rotation;
-	var newX, newY;
-	switch (playerDirection) {
-		case 0:
-			newX=playerRoomPos.x
-			newY=playerRoomPos.y - 1;
-			break;
-		case 90:
-			newX=playerRoomPos.x + 1;
-			newY=playerRoomPos.y
-			break;
-		case 180:
-			newX=playerRoomPos.x
-			newY=playerRoomPos.y + 1;
-			break;
-		case 270:
-			newX=playerRoomPos.x - 1;
-			newY=playerRoomPos.y
-			break;
-		default:
-			console.log("Error direction not reconized " + playerDirection);
-			break;
-	}
+	var newPos = getInFront("player");
 	//play animation
 	changeDoor(playerRoomPos.y,playerRoomPos.x, "opened", true);
-	console.log("playerDirection = " + playerDirection + " newX = " + newX + " newY = " + newY);
-	Crafty('Tile' + newY + '_' + newX).clickEvent();
+	console.log("playerDirection = " + newPos.direction + " newX = " + newPos.x + " newY = " + newPos.y);
+	Crafty('Tile' + newPos.y + '_' + newPos.x).clickEvent();
 	setTimeout(function() {
 		changeDoor(playerRoomPos.y,playerRoomPos.x, "close", true);
 	}, 250, playerRoomPos);
@@ -112,4 +90,48 @@ function reCenterPlayer() {
 	playerEntity.y = ((Math.round(playerEntity._y/_tileSize))*_tileSize)
 }
 
+//Get the tile infornt of an object
+function getInFront(id, y, x) {
+	if (id == "player") {
+		var direction = playerEntity.rotation;
+		var xPos = playerRoomPos.x;
+		var yPos = playerRoomPos.y;
+	}
+	else if (id == "door") {
+		var direction = floorMap[y][x].substring(2,1);
+		var xPos = x;
+		var yPos = y;
+	}
+	var newPos = {};
+	switch (direction) {
+		case 0:
+		case "b":
+			newPos.x=xPos;
+			newPos.y=yPos - 1;
+			newPos.rotation=0;
+			break;
+		case 90:
+		case "l":
+			newPos.x=xPos + 1;
+			newPos.y=yPos;
+			newPos.rotation=90;
+			break;
+		case 180:
+		case "a":
+			newPos.x=xPos;
+			newPos.y=yPos + 1;
+			newPos.rotation=180;
+			break;
+		case 270:
+		case "r":
+			newPos.x=xPos - 1;
+			newPos.y=yPos;
+			newPos.rotation=270;
+			break;
+		default:
+			console.log("Error direction not reconized " + direction);
+			break;
+	}
+	return newPos;
+}
 

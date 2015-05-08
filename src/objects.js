@@ -213,6 +213,7 @@ Crafty.c('floorMap', {
 	highlightEnt: 0,
 	Tile: 0,
 	yTile: 0,
+	xTile: 0,
 	init: function() {
 		this.requires('2D, ' + renderEngine + ', Mouse');
 		this.bind("MouseUp", function(MouseEvent) { 

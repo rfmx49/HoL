@@ -1,30 +1,21 @@
 function pathFind(id, x, y, queue) {
 	var decider;
-	var fireRoute = false;
+	var fireRoute;
 	var currentPos;
 	var needToMove = false;
 	var loopOverfill = 0;
-
-	//get current pos.
-	if (id == "fireRoute") {
-		fireRoute = true;
-		var doors = getAllDoors();
-		//currentPos = firstDoor infrontof
-		var firstStep = getInFront("door",doors[0].y,doors[0].x);
-		var currentPos = {x: firstStep.x,y: firstStep.y,rotation:firstStep.rotation,type:"f"};
-		//addThis tile to our fireTable
-		objectMap[firstStep.y][firstStep.x] = "FR";
-	}
-	else {
-		var currentPos = {x: (Crafty(id)._x),y:(Crafty(id)._y),rotation:(Crafty(id)._rotation),type:"f"};
-	}
-
-	
 	var endPos = {xtile:(x),ytile:(y)}; //tile where click was made
 	endPos.x = Crafty('Tile' + y + '_' + x)._x
 	endPos.y = Crafty('Tile' + y + '_' + x)._y
 	console.log(endPos);
-	
+	//get current pos.
+	if (id == "fireRoute") {
+		fireRoute = true;
+		getQuantity("door");
+	}
+	else {
+		var currentPos = {x: (Crafty(id)._x),y:(Crafty(id)._y),rotation:(Crafty(id)._rotation),type:"f"};
+	}
 	var revertPos = {};
 	//set player in motion.
 	var findingPath = true;
@@ -44,6 +35,7 @@ function pathFind(id, x, y, queue) {
 		revertPos = currentPos;
 		//console.log("move player(" + id + ") from x: " + currentPos.x + " y: " + currentPos.y + " (tile[" + currentPos.xtile + "][" + currentPos.ytile + "])" + " TO x:" + endPos.x + "y:" + endPos.y + "(tile[" + endPos.xtile + "][" + endPos.ytile + "])");
 		needToMove = false;
+		//fireRoute
 		decider = Math.floor(roomRandom() * 2) + 1;
 		//1 = moving along x
 		//2 = moving along y
@@ -178,19 +170,7 @@ function pathFind(id, x, y, queue) {
 			}
 		}
 		//do we need to move player this loop?
-		//Check if we are only looking for fireRoute
-		if (fireRoute) {
-			needToMove = false;
-			objectMap[currentPos.y][currentPos.x] = "FR";
-			//normalize rotaiton
-			if (currentPos.rotation == 360) {
-				currentPos.rotation = 0;
-			}
-			if (currentPos.rotation == -90) {
-				currentPos.rotation = 270;
-			}
-		}
-		if (needToMove) {			
+		if (needToMove) {
 			//console.log("yes need to move player(" + id + ") to " + currentPos.x + "|" + currentPos.xtile + ":" + currentPos.y + "|" + currentPos.ytile + " Rotation:" + currentPos.rotation);
 			Crafty(id).nodePath.push({x:currentPos.x,y:currentPos.y,rotation:currentPos.rotation,type:currentPos.type,xtile: currentPos.xtile, ytile: currentPos.ytile});
 			if (currentPos.rotation == 360) {
@@ -198,7 +178,7 @@ function pathFind(id, x, y, queue) {
 			}
 			if (currentPos.rotation == -90) {
 				currentPos.rotation = 270;
-			}		
+			}				
 		}
 		else {
 			//console.log("do not need to move");

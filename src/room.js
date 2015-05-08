@@ -698,6 +698,7 @@ function checkDoor(sRoom,sX,sY) {
  	return doorFound;
 }
 
+//returns the tiles of x/y pos
 function getFloorTile(sX,sY) {
 	//console.log("searching.. x: " + sX + " y: " + sY);
 	var tileFound=false;
@@ -715,4 +716,38 @@ function getFloorTile(sX,sY) {
 		}
  	}
  	return tileFound;
+ }
+
+//returns arry of all the doors
+function getAllDoors() {
+	var doors = [];
+	for (var y = 0; y < floorMap.length; y++) {
+		for (var x = 0; x < floorMap[0].length; x++) {
+			if (floorMap[y][x].substring(1,0) == "d") {
+				doors.push({x: x, y: y});
+			}					
+		}
+	}
+	return doors;
+};
+
+//returns quantity of query.
+//getAllDoors().lenght makes getQuantity(doors) redundant TODO
+function getQuantity(query) {
+	if ((typeof (query) == "undefined")) { 
+		return false;
+	}
+	switch (query) {
+		case "door":
+			var numOfDoors = 0;
+			for (var x = 0; x < floorMap.length; x++) {
+				for (var y = 0; y < floorMap[0].length; y++) {
+					if (floorMap[x][y].substring(1,0) == "d") {
+						numOfDoors++;
+					}					
+				}
+			}
+			return numOfDoors;
+			break;
+	}
 }
