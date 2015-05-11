@@ -252,6 +252,29 @@ function locateOriginDoor() {
 			newRoomReq = true;
 			deleteRoom = true;
 		}
+		if (originDoorReq) {
+			//remove the origin doors which have already been used.
+			for (var i = 0; i < originDoors.length; i++) {
+				existingDoor=checkDoor(currentRoom,originDoors[i].x,originDoors[i].y)
+				if ((existingDoor == false) && (typeof existingDoor =="boolean")) {
+					filterdDoors.push(originDoors[i]);
+				}			
+		 	}
+			originDoors = filterdDoors;		
+
+			if ((originDoors.length) == 0) {
+				newRoomReq = true;
+				console.log('New Room Required');
+			}
+			else {
+		
+				var decider = Math.floor(roomRandom() * originDoors.length);
+				console.log("DEBUG originDoors=" + originDoors +" Decider=" + decider);
+				setDoor(originDoors[decider].x,originDoors[decider].y);
+				positionPlayer(originDoors[decider].x,originDoors[decider].y);
+				console.log("To get back to " + lastPos.x + ":" + lastPos.y + " go through door " + originDoors[decider].x + ":" + originDoors[decider].y)
+			}
+		}
 		if (newRoomReq) {
 			console.log("NO DOORS AVAILIBLE MAKING NEW ROOM??" + originDoors);
 			switch (userPlayer.rotation) {
@@ -284,22 +307,7 @@ function locateOriginDoor() {
 			originDoorReq == false;
 			return false;
 		}
-		if (originDoorReq) {
-			for (var i = 0; i < originDoors.length; i++) {
-				existingDoor=checkDoor(currentRoom,originDoors[i].x,originDoors[i].y)
-				if ((existingDoor == false) && (typeof existingDoor =="boolean")) {
-					filterdDoors.push(originDoors[i]);
-				}			
-		 	}
-			originDoors = filterdDoors;		
 		
-		
-			var decider = Math.floor(roomRandom() * originDoors.length);
-			console.log("DEBUG originDoors=" + originDoors +" Decider=" + decider);
-			setDoor(originDoors[decider].x,originDoors[decider].y);
-			positionPlayer(originDoors[decider].x,originDoors[decider].y);
-			console.log("To get back to " + lastPos.x + ":" + lastPos.y + " go through door " + originDoors[decider].x + ":" + originDoors[decider].y)
-		}
 	}
 	return true;
 }
