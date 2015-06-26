@@ -436,6 +436,8 @@ function drawRoom() {
 		.color("#FFFFFF");
 	for (var row = 0; row < rows; row++) {
 		cols = floorMap[row].length;
+		//create objectMap array.
+		objectMap[row] = [];
 		for (var col = 0; col < cols; col++) {
 			switch (floorMap[row][col].substring(2,0)) {
 				case "da":

@@ -10,15 +10,25 @@ function pathFind(id, x, y, queue) {
 		fireRoute = true;
 		var doors = getAllDoors();
 		//currentPos = firstDoor infrontof
-		var firstStep = getInFront("door",doors[0].y,doors[0].x);
-		var currentPos = {x: firstStep.x,y: firstStep.y,rotation:firstStep.rotation,type:"f"};
+		var currentDoor = doors.shift();
+		var firstStep = getInFront("door",currentDoor.y,currentDoor.x);
+		var currentPos = {x: firstStep.x*_tileSize,y: firstStep.y*_tileSize,xtile: firstStep.x,ytile: firstStep.y,rotation:firstStep.rotation,type:"f"};
 		//addThis tile to our fireTable
 		objectMap[firstStep.y][firstStep.x] = "FR";
+		//get next door.
+		if (doors.length > 0) {
+			currentDoor = doors.shift();
+			x = currentDoor.x;
+			y = currentDoor.y;
+		}
+		else {
+			//only onedoor end fireroute detection.
+			return objectMap;
+		}
 	}
 	else {
-		var currentPos = {x: (Crafty(id)._x),y:(Crafty(id)._y),rotation:(Crafty(id)._rotation),type:"f"};
+		var currentPos = {x: (Crafty(id)._x),y:(Crafty(id)._y),rotation:(Crafty(id)._rotation),type:"f"};	
 	}
-
 	
 	var endPos = {xtile:(x),ytile:(y)}; //tile where click was made
 	endPos.x = Crafty('Tile' + y + '_' + x)._x
@@ -41,17 +51,18 @@ function pathFind(id, x, y, queue) {
 	//check if we are going left or right. Up or down.
 	while (findingPath) {
 		loopOverfill++;
-		tileFound = getFloorTile(currentPos.x,currentPos.y);
-		//console.log(tileFound);
-		//tileFound={row: row, col: col}
-		if (tileFound === false) {
-			//console.log("cannot get players tile");
-			return;
+		if (fireRoute == false) {
+			tileFound = getFloorTile(currentPos.x,currentPos.y);
+			console.log(tileFound);
+			if (tileFound === false) {
+				//console.log("cannot get players tile");
+				return;
+			}
+			currentPos.xtile = tileFound.col;
+			currentPos.ytile = tileFound.row;
+			currentPos.type = "f";
+			revertPos = currentPos;
 		}
-		currentPos.xtile = tileFound.col;
-		currentPos.ytile = tileFound.row;
-		currentPos.type = "f";
-		revertPos = currentPos;
 		//console.log("move player(" + id + ") from x: " + currentPos.x + " y: " + currentPos.y + " (tile[" + currentPos.xtile + "][" + currentPos.ytile + "])" + " TO x:" + endPos.x + "y:" + endPos.y + "(tile[" + endPos.xtile + "][" + endPos.ytile + "])");
 		skipNeedToMove = false;
 		if (cornering) {
@@ -95,10 +106,6 @@ function pathFind(id, x, y, queue) {
 					//console.log("no tile is not a floor" + floorMap[currentPos.ytile][(currentPos.xtile + 1)]);
 					//tile to right is not a floor dont move override next decider.
 					//Is destination a door move along y axis next time.
-					continueDirection = true;
-					skipNeedToMove = true;
-					needToMove = true;
-					decider = 2;
 				}
 			}
 			else if (currentPos.xtile > endPos.xtile || ((currentPos.xtile == endPos.xtile) && currentPos.xtile > endPos.inFront.x )) {
@@ -217,7 +224,7 @@ function pathFind(id, x, y, queue) {
 		//Check if we are only looking for fireRoute
 		if (fireRoute) {
 			needToMove = false;
-			objectMap[currentPos.y][currentPos.x] = "FR";
+			objectMap[currentPos.ytile][currentPos.xtile] = "FR";
 			//normalize rotaiton
 			if (currentPos.rotation == 360) {
 				currentPos.rotation = 0;
@@ -242,6 +249,24 @@ function pathFind(id, x, y, queue) {
 		if ((currentPos.xtile == endPos.xtile) && (currentPos.ytile == endPos.ytile)) {
 			//play tween file.
 			findingPath = false;
+			if (fireRoute) {
+				//get next door if it is there otherwise quit.
+				if (doors.length > 0) {
+					currentDoor = doors.shift();
+					x = currentDoor.x;
+					y = currentDoor.y;
+				}
+				else {
+					//only onedoor end fireroute detection.
+					return objectMap;
+				}	
+				endPos = {xtile:(x),ytile:(y)}; //tile where door is same as above
+				endPos.x = Crafty('Tile' + y + '_' + x)._x
+				endPos.y = Crafty('Tile' + y + '_' + x)._y
+				endPos.type = "d";
+				endPos.inFront = getInFront("door",endPos.ytile,endPos.xtile)
+				console.log(endPos);
+			}
 		}
 		else { 
 			//console.log("no ending " + currentPos.xtile + " " + endPos.xtile + " " + currentPos.ytile + " " + endPos.ytile); 
@@ -255,9 +280,10 @@ function pathFind(id, x, y, queue) {
 		if (queue != Crafty(id).movementQueue) {
 			//cancel pathfinding as new path has been assigned.
 			findingPath = false;
+			console.log("Last movement canceled");
 		}
 	}
-	if (Crafty(id).nodePath.length > 0) {
+	if (Crafty(id).nodePath.length > 0 && fireRoute == false) {
 		if (queue == Crafty(id).movementQueue) {
 			//console.log(Crafty(id).nodePath);
 			Crafty(id).playTween();
