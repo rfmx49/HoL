@@ -255,6 +255,7 @@ function pathFind(id, x, y, queue) {
 					currentDoor = doors.shift();
 					x = currentDoor.x;
 					y = currentDoor.y;
+					findingPath = true;
 				}
 				else {
 					//only onedoor end fireroute detection.
@@ -283,10 +284,12 @@ function pathFind(id, x, y, queue) {
 			console.log("Last movement canceled");
 		}
 	}
-	if (Crafty(id).nodePath.length > 0 && fireRoute == false) {
-		if (queue == Crafty(id).movementQueue) {
-			//console.log(Crafty(id).nodePath);
-			Crafty(id).playTween();
-		}
-	}	
+	if (fireRoute == false) {
+		if (Crafty(id).nodePath.length > 0) {
+			if (queue == Crafty(id).movementQueue) {
+				//console.log(Crafty(id).nodePath);
+				Crafty(id).playTween();
+			}
+		}	
+	}
 };

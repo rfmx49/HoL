@@ -135,3 +135,12 @@ function getInFront(id, y, x) {
 	return newPos;
 }
 
+function debugDrawFireRoute() {
+	for (var i = 0; i < objectMap.length; i++) {
+		for (var n = 0; n < objectMap[i].length; n++) {
+			if (objectMap[i][n] == "FR") {
+				Crafty("Tile" + i + "_" + n).mouseOverEvent();
+			}
+		}
+	}		
+}
