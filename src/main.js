@@ -38,6 +38,8 @@ var lastRoom;
 var lastDoor;
 var roomRandom;
 var doorRandom;
+var pathRandom;
+var furnitureRandom;
 var originDoorSuccess = true;
 var deleteRoom = false;
 //TexturePack

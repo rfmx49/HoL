@@ -79,8 +79,9 @@ function playerEnterRoom() {
 	Crafty('Tile' + newPos.y + '_' + newPos.x).clickEvent();
 	setTimeout(function() {
 		changeDoor(playerRoomPos.y,playerRoomPos.x, "close", true);
+		pathFind("fireRoute");
+		debugDrawFireRoute();
 	}, 250, playerRoomPos);
-	
 };
 
 function reCenterPlayer() {

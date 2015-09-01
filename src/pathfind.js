@@ -4,13 +4,14 @@ function pathFind(id, x, y, queue) {
 	var currentPos;
 	var needToMove = false;
 	var loopOverfill = 0;
-
+	pathRandom = new Math.seedrandom(gameSeed + " . " + userPlayer.pos.x + "." + userPlayer.pos.y + "." + userPlayer.pos.z);
 	//get current pos.
 	if (id == "fireRoute") {
 		fireRoute = true;
 		var doors = getAllDoors();
 		//currentPos = firstDoor infrontof
 		var currentDoor = doors.shift();
+		objectMap[currentDoor.y][currentDoor.x] = "FR";
 		var firstStep = getInFront("door",currentDoor.y,currentDoor.x);
 		var currentPos = {x: firstStep.x*_tileSize,y: firstStep.y*_tileSize,xtile: firstStep.x,ytile: firstStep.y,rotation:firstStep.rotation,type:"f"};
 		//addThis tile to our fireTable
@@ -20,6 +21,8 @@ function pathFind(id, x, y, queue) {
 			currentDoor = doors.shift();
 			x = currentDoor.x;
 			y = currentDoor.y;
+			//reset overfill loop
+			loopOverfill = 0;
 		}
 		else {
 			//only onedoor end fireroute detection.
@@ -65,13 +68,14 @@ function pathFind(id, x, y, queue) {
 		}
 		//console.log("move player(" + id + ") from x: " + currentPos.x + " y: " + currentPos.y + " (tile[" + currentPos.xtile + "][" + currentPos.ytile + "])" + " TO x:" + endPos.x + "y:" + endPos.y + "(tile[" + endPos.xtile + "][" + endPos.ytile + "])");
 		skipNeedToMove = false;
+		//Cornering = 
 		if (cornering) {
 			if (decider == 1) { decider = 2;}
 			if (decider == 2) { decider = 1;}
 			cornering = false;
 		}
 		else if (continueDirection == false || needToMove == false) {
-			decider = Math.floor(roomRandom() * 2) + 1;
+			decider = Math.floor(pathRandom() * 2) + 1;
 			continueDirection = true;
 		}
 		needToMove = false;
@@ -141,7 +145,7 @@ function pathFind(id, x, y, queue) {
 				//no need to move.
 				//console.log("no need to move on same x");
 				needToMove = false;
-				continueDirection = false;
+				 continueDirection = false;
 			}
 			else {
 				//console.log("ERROR not equal or less or greater WTH!? " + currentPos.xtile + " " + endPos.xtile);
@@ -256,6 +260,8 @@ function pathFind(id, x, y, queue) {
 					x = currentDoor.x;
 					y = currentDoor.y;
 					findingPath = true;
+					//reset overfill loop
+					loopOverfill = 0;
 				}
 				else {
 					//only onedoor end fireroute detection.

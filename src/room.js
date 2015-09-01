@@ -434,6 +434,7 @@ function drawRoom() {
 	Crafty.e('FloorGround, 2D, ' + renderEngine + ', Color')
 		.attr({x: ((roomCenter.x*_tileSize)+(_tileSize/2)), y: ((roomCenter.y*_tileSize)+(_tileSize/2)), w: 1, h: 1, alpha: 0})
 		.color("#FFFFFF");
+		objectMap = [[]];
 	for (var row = 0; row < rows; row++) {
 		cols = floorMap[row].length;
 		//create objectMap array.
