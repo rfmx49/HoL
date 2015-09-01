@@ -30,7 +30,9 @@ function pathFind(id, x, y, queue) {
 		}
 	}
 	else {
-		var currentPos = {x: (Crafty(id)._x),y:(Crafty(id)._y),rotation:(Crafty(id)._rotation),type:"f"};	
+		easyStarPathFind(id, x, y, queue);
+		return;
+		//var currentPos = {x: (Crafty(id)._x),y:(Crafty(id)._y),rotation:(Crafty(id)._rotation),type:"f"};	
 	}
 	
 	var endPos = {xtile:(x),ytile:(y)}; //tile where click was made
@@ -175,8 +177,11 @@ function pathFind(id, x, y, queue) {
 					}			
 				}
 				else {
-					//tile to right is not a floor dont move override next decider.
+					//tile below is not a floor dont move override next decider.
 					//console.log("no tile is not a floor" + floorMap[(currentPos.ytile + 1)][currentPos.xtile]);
+					//need to go down but a non floor tile is in the way go left or right?
+
+					
 					
 					needToMove = false;
 				}
@@ -204,9 +209,10 @@ function pathFind(id, x, y, queue) {
 					}
 				}
 				else {
+					//tile above is not a floor dont move override next decider.
+					//console.log("no tile is not a floor" + floorMap[(currentPos.ytile + 1)][currentPos.xtile]);
+					
 					needToMove = false;
-					//console.log("no tile is not a floor" + floorMap[(currentPos.ytile - 1)][currentPos.xtile]);
-					//tile to right is not a floor dont move override next decider.
 				}
 			}
 			else if (currentPos.ytile == endPos.ytile) {
@@ -298,4 +304,101 @@ function pathFind(id, x, y, queue) {
 			}
 		}	
 	}
+};
+
+function easyStarPathFind(id, x, y, queue) {
+	var currentPos = {x: (Crafty(id)._x),y:(Crafty(id)._y),rotation:(Crafty(id)._rotation),type:"f"};
+	tileFound = getFloorTile(currentPos.x,currentPos.y);
+	console.log(tileFound);
+	if (tileFound === false) {
+		//console.log("cannot get players tile");
+		return;
+	}
+	currentPos.xtile = tileFound.col;
+	currentPos.ytile = tileFound.row;
+	currentPos.type = "f";
+	revertPos = currentPos;
+	var starMap = [];
+	//starMap = floorMap.slice();
+	for (var row = 0; row < floorMap.length; row++) {
+		starMap[row] = [];
+		for (var col = 0; col < floorMap[0].length; col++) {
+			if (floorMap[row][col].substring(0,1) == "d") {
+				starMap[row][col] = "d";
+			}
+			else if (floorMap[row][col].substring(0,1) == "f") {
+				starMap[row][col] = "f";
+			}
+			else {
+				starMap[row][col] = "X";
+			}
+		}
+	}
+	//Start Easy Star.
+	var easystar = new EasyStar.js();
+	//set grid to floor map.
+	easystar.setGrid(starMap);
+	//set acceptable walking tiles.
+	easystar.setAcceptableTiles(['f','d']);
+	easystar.findPath(currentPos.xtile, currentPos.ytile, x, y, function( path ) {
+		if (path === null) {
+		    alert("Path was not found.");
+		} else {
+		    console.log("Path was found. The first Point is " + path[0].x + " " + path[0].y);
+		    for (var pathNode = 1; pathNode < path.length; pathNode++) {
+				//get direction of travel by comparing previous point to the current point.
+				//pathNode[current] is less than pathNode[previous]
+				//Y going UP 	0 degrees
+				//X going LEFT	270 degrees
+				//pathNode[current] is greater than pathNode[previous]
+				//Y going DOWN 	180 degrees
+				//X going RIGHT	90 degrees
+				if (path[pathNode].y < path[pathNode-1].y) {
+					//going up as next nodes y value is less.
+					currentPos.rotation = 0;
+				}
+				else if (path[pathNode].y > path[pathNode-1].y) {
+					//going down as next nodes y value is more.
+					currentPos.rotation = 180;
+				}
+				else if (path[pathNode].x < path[pathNode-1].x) {
+					//going left as next nodes x value is less.
+					currentPos.rotation = 270;
+				}
+				else if (path[pathNode].x > path[pathNode-1].x) {
+					//going right as next nodes x value is more.
+					currentPos.rotation = 90;
+				}
+				else { console.log('not moving at all something is up') }
+				//get tile type (is it a door)
+				currentPos.type = floorMap[path[pathNode].y][(path[pathNode].x)].substring(0,1)
+				//get actual x/y
+				currentPos.x = Crafty('Tile' + (path[pathNode].y) + '_' + (path[pathNode].x))._x;
+				currentPos.y = Crafty('Tile' + (path[pathNode].y) + '_' + (path[pathNode].x))._y;
+				//Add node
+				Crafty(id).nodePath.push({x:currentPos.x,y:currentPos.y,rotation:currentPos.rotation,type:currentPos.type,xtile: path[pathNode].x, ytile: path[pathNode].y});
+		    }
+		    if (Crafty(id).nodePath.length > 0) {
+				if (queue == Crafty(id).movementQueue) {
+					//console.log(Crafty(id).nodePath);
+					Crafty(id).playTween();
+				}
+			}
+		    /*Crafty(id).nodePath.push({x:currentPos.x,y:currentPos.y,rotation:currentPos.rotation,type:currentPos.type,xtile: currentPos.xtile, ytile: currentPos.ytile});
+			if (currentPos.rotation == 360) {
+				currentPos.rotation = 0;
+			}
+			if (currentPos.rotation == -90) {
+				currentPos.rotation = 270;
+			}
+			if (Crafty(id).nodePath.length > 0) {
+				if (queue == Crafty(id).movementQueue) {
+					//console.log(Crafty(id).nodePath);
+					Crafty(id).playTween();
+				}
+			}
+			*/	
+		}
+	});
+	easystar.calculate();
 };
