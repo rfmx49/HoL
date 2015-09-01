@@ -185,9 +185,7 @@ Crafty.c('PlayerCharacter', {
 					lastPos = userPlayer.pos;
 					lastDoor = existingDoor;
 					userPlayer.pos = {x: newDoor.x, y: newDoor.y, z: 0};
-					if (generateRoom() == false) {
-						return;
-					}
+					gameNewRoom();
 				}, 250);
 			}, 400, newPos, playerID);			
 		}			

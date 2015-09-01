@@ -6,7 +6,6 @@ function generateRoom() {
 	if ((typeof (Crafty('PlayerCharacter')[0]) != "undefined")) { 
 		Crafty(Crafty('PlayerCharacter')[0]).destroy();
 	}
-	roomRandom = new Math.seedrandom(gameSeed + " . " + userPlayer.pos.x + "." + userPlayer.pos.y + "." + userPlayer.pos.z);
 	var existingRoom = checkRoom(userPlayer.pos.x,userPlayer.pos.y,userPlayer.pos.z);
 	////console.log("EXISTING room STATUS == " + existingRoom + " " + (existingRoom == false) + (typeof existingRoom =="boolean"));
 	if (originDoorSuccess) {
@@ -20,6 +19,7 @@ function generateRoom() {
 		}
 	}
 	if (existingRoom === false) {
+		roomRandom = new Math.seedrandom(gameSeed + " . " + userPlayer.pos.x + "." + userPlayer.pos.y + "." + userPlayer.pos.z);
 		currentRoom = rooms.push(new Room(userPlayer.pos.x, userPlayer.pos.y, userPlayer.pos.z)) - 1;
 		var floorWidth = Math.floor(roomRandom() * (maxWidth-2)) + 1;
 		var floorHeight = Math.floor(roomRandom() * (maxHeight-2)) + 1;
@@ -150,6 +150,21 @@ function generateRoom() {
 		console.log("this room has already been generated: " + existingRoom);
 		currentRoom = existingRoom;
 		floorMap = rooms[currentRoom].map;
+		//convert o's to F's
+		var rows = floorMap.length;
+		var cols;
+		var variant;
+		//fix centering
+	
+		for (var row = 0; row < rows; row++) {
+			cols = floorMap[row].length;
+			for (var col = 0; col < cols; col++) {
+				if (floorMap[row][col] == "o") {
+					floorMap[row][col] = "f";
+				}
+			}
+		}
+		
 		roomCenter.y = (Math.floor(floorMap.length/2));
 		roomCenter.x = (Math.floor(floorMap[0].length/2));
 		drawRoom();
@@ -524,6 +539,7 @@ function drawRoom() {
 			}
 			switch (floorMap[row][col]) {
 				case "f":
+				case "o":
 					Crafty.e('Tile' + row + '_' + col +', floorMap, floor_' + rooms[currentRoom].floorStyle)
 						.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize, xTile: col, yTile: row});
 					tileName = 'Tile' + row + '_' + col

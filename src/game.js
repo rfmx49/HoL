@@ -17,8 +17,23 @@ Crafty.scene('Game', function() {
 
 	//generate first room
 	generateRoom();
+	//Draw Furniture
+	//unless room 1
+	
 	firstRun = false;
 });
+
+function gameNewRoom() {
+	//When entering a new room or an old room.
+	if (generateRoom() == false) {
+		return;
+	}
+	if (currentRoom != 0) {
+		pathFind("fireRoute");
+		getFreeFloorSpace();
+		debugHideFreeFloorSpace();
+	}
+};
 
 function getRank(rooms) {
 	//genereate degrees list
@@ -79,8 +94,7 @@ function playerEnterRoom() {
 	Crafty('Tile' + newPos.y + '_' + newPos.x).clickEvent();
 	setTimeout(function() {
 		changeDoor(playerRoomPos.y,playerRoomPos.x, "close", true);
-		pathFind("fireRoute");
-		debugDrawFireRoute();
+		//debugDrawFireRoute();
 	}, 250, playerRoomPos);
 };
 

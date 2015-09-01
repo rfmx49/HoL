@@ -29,6 +29,14 @@ Crafty.scene('Loading', function(){
 					 "door_5": [4,6],
 					 "door_6": [5,6]},			 
 			},
+			"furniture.png": {
+				"tile": 50,
+				"tileh": 50,
+				"map": { "junk_1": [0,0],
+					 "junk_2": [1,0],
+					 "junk_3": [2,0],
+					 "junk_4": [3,0]},
+			},
 			"blackness.png": {
 				"tile": 1200,
 				"tileh": 600,
