@@ -237,7 +237,7 @@ Crafty.c('floorMap', {
 				mouseFunction == "findingPath"
 				//increase movementQueue
 				playerEntity.movementQueue = playerEntity.movementQueue + 1;
-				pathFind(playerEntity[0], reRun.x, reRun.y, playerEntity.movementQueue);							
+				easyStarPathFind(playerEntity[0], reRun.x, reRun.y, playerEntity.movementQueue);							
 			}, timeOut, reRun);	
 		}
 	},

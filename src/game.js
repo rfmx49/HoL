@@ -29,7 +29,8 @@ function gameNewRoom() {
 		return;
 	}
 	if (currentRoom != 0) {
-		pathFind("fireRoute");
+		pathFindFireRoute();
+		//easyStarFireRoute();
 		getFreeFloorSpace();
 		debugHideFreeFloorSpace();
 	}
