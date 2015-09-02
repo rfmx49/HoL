@@ -84,7 +84,8 @@ function beginCrafty() {
 		Crafty.init();
 		//Crafty.background('#8ed2fa'); //niceblue
 		//Crafty.background('#FCF0AD'); //Canary yellow
-		Crafty.background('#E9E74A');
+		//Crafty.background('#E9E74A'); //yellowy not good on mobile
+		Crafty.background('#FFFFC0');
 		
 		Crafty.viewport.init(11*_tileSize,14*_tileSize);
 		//start game or loading scene

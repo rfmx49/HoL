@@ -74,13 +74,16 @@ Crafty.c('PlayerCharacter', {
 		//console.log(JSON.stringify(this.nodePath));
 		var newPos = this.nodePath.shift();
 		//get newPos tile
-		//normalize current rotation
-		if (this._rotation == 360) {
-			this.rotation = 0;
+
+		//Fix rotation jumping
+		if ((this.rotation == 0) && (newPos.rotation == 270)) {
+			this.rotation = 360;
 		}
-		if (this._rotation == -90) {
-			this.rotation = 270;
+		else if ((this.rotation == 270) && (newPos.rotation == 0)) {
+			this.rotation = -90;
 		}
+		
+		
 		//smooth 180s
 		if (((this.rotation - newPos.rotation) == 180) || ((this.rotation - newPos.rotation) == -180)) {
 			this.rotation = newPos.rotation;
@@ -88,21 +91,9 @@ Crafty.c('PlayerCharacter', {
 		if (newPos.type == "f") {
 			this.playerWalking();
 			this.tween({x: newPos.x, y: newPos.y, rotation: newPos.rotation}, 400);
-			if (newPos.rotation == 360) {
-				this.rotation = 0;
-			}
-			if (newPos.Rotation == -90) {
-				this.rotation = 270;
-			}
 		}
 		else if (newPos.type == "d") {
 			this.tween({rotation: newPos.rotation}, 200);
-			if (newPos.rotation == 360) {
-				this.rotation = 0;
-			}
-			if (newPos.Rotation == -90) {
-				this.rotation = 270;
-			}
 			this.nodePath = [];
 			////console.log("at door open door and then generate new room based on that door info");
 			//get door info first from floor map

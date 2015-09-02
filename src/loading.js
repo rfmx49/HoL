@@ -93,6 +93,11 @@ Crafty.scene('Loading', function(){
 				"map": { "ui_level": [0,0],
 						"ui_bar": [1,0],},			 
 			},
+			"hud/scoresheet.png": {
+				"tile": 400,
+				"tileh": 250,
+				"map": { "ui_scoresheet": [0,0]},			 
+			},
 			"capture.png": {
 				"tile": 256,
 				"tileh": 256,

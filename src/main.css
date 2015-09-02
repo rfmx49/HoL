@@ -4,6 +4,9 @@
 	vertical-align:center;
 	height:52px;
 	padding:3px;
+	position: absolute;
+	z-index: 100;
+	
 }
 
 .statusMessage {
