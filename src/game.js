@@ -2,12 +2,12 @@
 Crafty.scene('Game', function() {
 
 	var centerPoint = Crafty.e('centerPoint, 2D,' + renderEngine + ', Color')
-		.attr({x: ((maxWidth+2)*_tileSize)/2, y: ((maxHeight+4)*_tileSize)/2, w: 33, h: 33, alpha: 100, z: 100})
+		.attr({x: ((maxWidth+2)*_tileSize)/2, y: ((maxHeight+4)*_tileSize)/2, w: 1, h: 1, alpha: 0, z: 100})
 		.color('#FFFFFF');
 
 	Crafty.viewport.centerOn(centerPoint, 0);
 
-	createHud(centerPoint);
+	//createHud(centerPoint);
 	
 	Crafty.e('gameloop')
 		.attr({countdown: 10})
@@ -17,8 +17,15 @@ Crafty.scene('Game', function() {
 
 	//generate first room
 	generateRoom();
+	createHud(centerPoint);
 	//Draw Furniture
 	//unless room 1
+
+	//reset score values
+	userPlayer.score.actual = 0;
+	userPlayer.score.visible = 0;
+	userPlayer.score.fluff = Math.floor(roomRandom() * 8) + 3;
+	userPlayer.score.fluffCount = 0;
 	
 	firstRun = false;
 });
@@ -33,8 +40,25 @@ function gameNewRoom() {
 		//easyStarFireRoute();
 		getFreeFloorSpace();
 		debugHideFreeFloorSpace();
+		computeScore();
 	}
 };
+
+function computeScore() {
+	//player has just entered a room.
+	userPlayer.score.visible ++;
+	userPlayer.score.fluffCount ++;
+	if (userPlayer.score.fluffCount == userPlayer.score.fluff) {
+		userPlayer.score.visible = userPlayer.score.actual;
+		userPlayer.score.fluff = Math.floor(roomRandom() * 7) + 4;
+		userPlayer.score.fluffCount = 0;
+	}
+	displayScore(userPlayer.score.visible);	
+}
+
+function displayScore(score) {
+	$( "#ui-game-score" ).html(score);
+}
 
 function getRank(rooms) {
 	//genereate degrees list
@@ -68,8 +92,14 @@ function getRank(rooms) {
 	}
 }
 
+function createPlayerEntHome() {
+	var doorZero = getAllDoors()[0];
+	doorZero = getInFront('door', doorZero.y,doorZero.x)
+	playerRoomPos = new Position(doorZero.x,doorZero.y,0);
+};
+
 function createPlayerEnt() {
-	if (rooms.length == 1) { playerRoomPos = new Position(roomCenter.x,roomCenter.y,0); } //first room exceptions.
+	if (rooms.length == 1) { createPlayerEntHome(); } //first room exceptions.
 	var centerOffset = 0;
 	if (Crafty('centerPoint')._x != Crafty('floorGround')._x) {
 		console.log("an even lenght room");

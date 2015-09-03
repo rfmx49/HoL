@@ -234,7 +234,7 @@ function easyStarPathFind(id, x, y, queue) {
 	easystar.setGrid(starMap);
 	//set acceptable walking tiles.
 	easystar.setAcceptableTiles(['f','d']);
-	easystar.setTileCost('d', 100);
+	easystar.setTileCost('d', 1000000);
 	easystar.findPath(currentPos.xtile, currentPos.ytile, x, y, function( path ) {
 		if (path === null) {
 		    alert("Path was not found.");

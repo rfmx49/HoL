@@ -9,6 +9,11 @@ function Position(x,y,z) {
 function playerObj() {
 	this.pos = new Position(0,0,0);
 	this.rotation = 0;
+	this.score = {};
+	this.score.actual = 0;
+	this.score.visible = 0;
+	this.score.fluff = 0;
+	this.score.fluffCount = 0;
 }
 
 //Extra Constructor

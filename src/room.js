@@ -11,14 +11,17 @@ function generateRoom() {
 	if (originDoorSuccess) {
 		//this is not a recreation of a room
 		lastRoom = currentRoom; 
+		userPlayer.scoreVisible ++;
 	}
 	else {
 		if (deleteRoom){
 		//this is a recreated room remove room from array
 			rooms.splice(currentRoom,1);
+			userPlayer.score.actual --;
 		}
 	}
 	if (existingRoom === false) {
+		userPlayer.score.actual ++;
 		roomRandom = new Math.seedrandom(gameSeed + " . " + userPlayer.pos.x + "." + userPlayer.pos.y + "." + userPlayer.pos.z);
 		currentRoom = rooms.push(new Room(userPlayer.pos.x, userPlayer.pos.y, userPlayer.pos.z)) - 1;
 		var floorWidth = Math.floor(roomRandom() * (maxWidth-2)) + 1;
@@ -284,7 +287,7 @@ function locateOriginDoor() {
 			else {
 		
 				var decider = Math.floor(roomRandom() * originDoors.length);
-				console.log("DEBUG originDoors=" + originDoors +" Decider=" + decider);
+				console.log("DEBUG originDoors=" + JSON.stringify(originDoors) +" Decider=" + decider);
 				setDoor(originDoors[decider].x,originDoors[decider].y);
 				positionPlayer(originDoors[decider].x,originDoors[decider].y);
 				console.log("To get back to " + lastPos.x + ":" + lastPos.y + " go through door " + originDoors[decider].x + ":" + originDoors[decider].y)
