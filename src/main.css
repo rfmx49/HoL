@@ -1,7 +1,7 @@
 /*STATUS BAR AT TOP*/
 #statusWindow {
-	background-color:#999999;
-	background-image: url('../res/img/hud/scoresheet.png');
+	/*background-color:#999999;
+	background-image: url('../res/img/hud/scoresheet.png');*/
 	background-size: 100%;
 	vertical-align:center;
 	height:52px;

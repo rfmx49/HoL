@@ -86,9 +86,9 @@ function beginCrafty() {
 		//Crafty.background('#8ed2fa'); //niceblue
 		//Crafty.background('#FCF0AD'); //Canary yellow
 		//Crafty.background('#E9E74A'); //yellowy not good on mobile
-		Crafty.background('#FFFFC0');
-		
+		//Crafty.background('#FFFFC0');		
 		Crafty.viewport.init(11*_tileSize,14*_tileSize);
+		Crafty.background('#FFFFC0'); //url(res/img/hud/paper.png) center center');
 		//start game or loading scene
 		Crafty.timer.FPS(30);
 		//Crafty.viewport.clampToEntities = false;
