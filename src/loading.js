@@ -35,7 +35,8 @@ Crafty.scene('Loading', function(){
 				"map": { "junk_1": [0,0],
 					 "junk_2": [1,0],
 					 "junk_3": [2,0],
-					 "junk_4": [3,0]},
+					 "junk_4": [3,0],
+					 "junk_5": [4,0]},
 			},
 			"blackness.png": {
 				"tile": 1200,

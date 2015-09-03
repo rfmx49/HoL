@@ -8,8 +8,8 @@ function createHud() {
 			console.log("Clicked on Level ui");
 		});
 	*/
-	$( "#statusWindow" ).width(Crafty.DOM.window.width);
-	$( "#statusWindow" ).height(Crafty.DOM.window.height/15);
+	$( "#statusWindow" ).width(Crafty.viewport.width);
+	$( "#statusWindow" ).height(Crafty.viewport.height/15);
 	$( "#statusWindow" ).append("<div id='#statusWindow'><table style='width:100%'><tr style='width:100%'><td class='ui-scores'><div id='ui-score'>COUNT: <span id='ui-game-score'></span></div></td><td class='ui-times'><div id='ui-Time'>TIME: <span id='ui-game-time'></span></div></td></tr><tr style='width:100%'><td class='ui-roomname' colspan='2'><span id='ui-game-roomname'>NAME Room NAMERoom</span></td></tr></table></div>")
 	
 }
