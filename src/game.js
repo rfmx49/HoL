@@ -1,9 +1,9 @@
 //Main crafty Game scene
 Crafty.scene('Game', function() {
 
-	Crafty.e('BackGroundPaper, 2D,' + renderEngine + ', Image')
+	/*Crafty.e('BackGroundPaper, 2D,' + renderEngine + ', Image')
 		.attr({w: Crafty.viewport.width, h: Crafty.viewport.height})
-		.image("res/img/hud/paper.png", "repeat");
+		.image("res/img/hud/paper.png", "repeat");*/
 
 	var centerPoint = Crafty.e('centerPoint, 2D,' + renderEngine + ', Color')
 		.attr({x: ((maxWidth+2)*_tileSize)/2, y: ((maxHeight+4)*_tileSize)/2, w: 1, h: 1, alpha: 0, z: 100})
@@ -43,7 +43,8 @@ function gameNewRoom() {
 		pathFindFireRoute();
 		//easyStarFireRoute();
 		getFreeFloorSpace();
-		debugHideFreeFloorSpace();
+		//debugHideFreeFloorSpace();
+		placeFurniture();
 		computeScore();
 	}
 };

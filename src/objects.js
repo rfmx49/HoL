@@ -183,7 +183,7 @@ Crafty.c('PlayerCharacter', {
 					userPlayer.pos = {x: newDoor.x, y: newDoor.y, z: 0};
 					gameNewRoom();
 				}, 250);
-			}, 400, newPos, playerID);			
+			}, 150, newPos, playerID);			
 		}			
 	},
 	playerWalking: function() {
@@ -225,7 +225,7 @@ Crafty.c('floorMap', {
 		var timeOut = 50;
 		if (mouseFunction == "movePlayer") {
 			//check if plaery is already in motion
-			if (playerEntity.isPlaying()) { timeOut = 400; }
+			if (playerEntity.isPlaying()) { timeOut = 100; }
 			playerEntity.cancelMove();
 			var reRun = {x: this.xTile,y:this.yTile}			
 			setTimeout(function(){

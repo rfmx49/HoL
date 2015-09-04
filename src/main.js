@@ -5,9 +5,10 @@
 var _tileSize = 66;
 var renderEngine = "DOM"
 //renderEngine = "Canvas" //
-var gameSeeds = 10000;
+var gameSeeds = 100000;
 var gameSeed = Math.floor((Math.random() * gameSeeds) + 1); //TODO DEBUG Increase to 100000
-//gameSeed = 4; //DEBUGING 
+//gameSeed = 4; //DEBUGING
+gameSeed = 23086;
 var roomCenter = {x: _tileSize, y: _tileSize}
 
 //Mouse varibles
@@ -53,9 +54,22 @@ var doorChance = 10; //(2 in doorChance) higher = less doors
 
 $(document).ready(function() {
 	console.log( "Document completed!" );
+	//verify gameseed
+	verifySeed();
+	
 	//Start crafty
 	beginCrafty();
 });
+function verifySeed() {
+	//interesting seeds
+	//1748(1x1 room with door, 6877(only three rooms)
+	//Broken Seeds
+	var brokenSeeds = [1814,98351];
+	if (brokenSeeds.indexOf(gameSeed) != -1) {
+		gameSeed = Math.floor((Math.random() * gameSeeds) + 1); //TODO DEBUG Increase to 100000
+		verifySeed()
+	}
+}
 
 function beginCrafty() {
 	// Initialize and start our game
@@ -86,11 +100,12 @@ function beginCrafty() {
 		//Crafty.background('#8ed2fa'); //niceblue
 		//Crafty.background('#FCF0AD'); //Canary yellow
 		//Crafty.background('#E9E74A'); //yellowy not good on mobile
-		//Crafty.background('#FFFFC0');		
+		//Crafty.background('#FFFFC0');
+		
 		Crafty.viewport.init(11*_tileSize,14*_tileSize);
-		Crafty.background('#FFFFC0'); //url(res/img/hud/paper.png) center center');
+		Crafty.background('#FFFFC0 url(res/img/hud/paper.png) center center');
 		//start game or loading scene
-		Crafty.timer.FPS(30);
+		//Crafty.timer.FPS(30);
 		//Crafty.viewport.clampToEntities = false;
 		Crafty.scene('Loading');
 		
