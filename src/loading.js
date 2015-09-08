@@ -8,6 +8,13 @@ Crafty.scene('Loading', function(){
 	var assetsObj = {
 		"images": ["hud/paper.png"],			 
 		"sprites": {
+			"hud/menuItems.png": {
+				"tile": 125,
+				"tileh": 30,
+				"map": { "menu_newGame": [0,0],
+					 "menu_continueGame": [0,1],
+					 "menu_helpInfo": [0,2]},			 
+			},
 			"spritesheetx2.png": {
 				"tile": 100,
 				"tileh": 100,
@@ -205,13 +212,7 @@ Crafty.scene('Loading', function(){
 				"tile": 100,
 				"tileh": 100,
 				"map": { "doorSprite6_reel": [0,0],},			 
-			},
-			"level_progress.png": {
-				"tile": 345,
-				"tileh": 98,
-				"map": { "ui_level": [0,0],
-						"ui_bar": [1,0],},			 
-			},
+			},		
 			"hud/scoresheet.png": {
 				"tile": 400,
 				"tileh": 250,

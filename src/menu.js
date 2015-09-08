@@ -29,7 +29,7 @@ Crafty.scene('Menu', function() {
 		holdActive = false;	
 	});*/
 
-	Crafty.e('btnEnterImg, 2d, ' + renderEngine + ', ui_bar, Mouse, Touch')
+	Crafty.e('btnEnterImg, 2d, ' + renderEngine + ', menu_newGame, Mouse, Touch')
 		.attr({x: 0, y: 0, w: _tileSize * 6, h: _tileSize * 2})
 		.bind('MouseUp', function(MouseEvent){
 			//create player
@@ -38,9 +38,8 @@ Crafty.scene('Menu', function() {
 			Crafty.scene("Game");
 		});
 
-	Crafty.e('btnEnter, 2D, ' + renderEngine + ', Text, Mouse, Touch')
+	Crafty.e('btnEnter, 2D, ' + renderEngine + ', Mouse, Touch, menu_newGame')
 		.attr({x: 0, y: 0, w: 80, h: 50})
-		.text("Enter")
 		.bind('MouseUp', function(MouseEvent){
 			//create player
 			//player

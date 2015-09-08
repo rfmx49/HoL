@@ -2,6 +2,7 @@
 ## Eclipse
 #################
 *brick1.xcf
+*.xcf
 
 *.pydevproject
 .project
