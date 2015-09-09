@@ -130,7 +130,7 @@ function placeFurniture() {
 					else if (roomVariant == 1) {
 						placementFound = true;
 						furnitureVariant = Math.floor(furnitureRandom() * furniture1x1Variants) + 1
-						Crafty.e('TileOpen' + row + '_' + col + ', ' + renderEngine + ', 1_' + roomColour + '_1x1_' + furnitureVariant)
+						Crafty.e('TileOpen' + row + '_' + col + ', furnitureMap , 1_' + roomColour + '_1x1_' + furnitureVariant)
 							.attr({y: Crafty('Tile' + row + '_' + col)._y, x: Crafty('Tile' + row + '_' + col)._x, w: _tileSize, h: _tileSize, xTile: col, yTile: row});
 						Crafty(Crafty('FloorGround')[0]).attach(Crafty('TileOpen' + row + '_' + col));
 						objectMap[row][col] = "T";
@@ -165,7 +165,7 @@ function placeFurniture() {
 						if (furnitureRotation != "") {
 							if (furnitureRotation == "E") {
 								furnitureVariant = Math.floor(furnitureRandom() * furniture1x2Variants) + 1
-								Crafty.e('TileOpen' + row + '_' + col + ', ' + renderEngine + ', 1_' + roomColour + '_1x2_' + furnitureVariant)
+								Crafty.e('TileOpen' + row + '_' + col + ', furnitureMap , 1_' + roomColour + '_1x2_' + furnitureVariant)
 									.attr({y: Crafty('Tile' + row + '_' + col)._y, x: Crafty('Tile' + row + '_' + col)._x, w: _tileSize*2, h: _tileSize, xTile: col, yTile: row});
 								Crafty(Crafty('FloorGround')[0]).attach(Crafty('TileOpen' + row + '_' + col));
 								//block off tiles
@@ -176,7 +176,7 @@ function placeFurniture() {
 							}
 							else if (furnitureRotation == "W") {
 								furnitureVariant = Math.floor(furnitureRandom() * furniture1x2Variants) + 1
-								Crafty.e('TileOpen' + row + '_' + col + ', ' + renderEngine + ', 1_' + roomColour + '_1x2_' + furnitureVariant)
+								Crafty.e('TileOpen' + row + '_' + col + ', furnitureMap , 1_' + roomColour + '_1x2_' + furnitureVariant)
 									.attr({y: Crafty('Tile' + row + '_' + col)._y, x: Crafty('Tile' + row + '_' + (col-1))._x, w: _tileSize*2, h: _tileSize, xTile: col, yTile: row});
 								Crafty(Crafty('FloorGround')[0]).attach(Crafty('TileOpen' + row + '_' + col));
 								Crafty('TileOpen' + row + '_' + col).origin("center");
@@ -188,7 +188,7 @@ function placeFurniture() {
 							else if (furnitureRotation == "N") {
 
 								furnitureVariant = Math.floor(furnitureRandom() * furniture1x2Variants) + 1
-								Crafty.e('TileOpen' + row + '_' + col + ', ' + renderEngine + ', 1_' + roomColour + '_1x2_' + furnitureVariant)
+								Crafty.e('TileOpen' + row + '_' + col + ', furnitureMap , 1_' + roomColour + '_1x2_' + furnitureVariant)
 									.attr({y: Crafty('Tile' + row + '_' + col)._y, x: Crafty('Tile' + row + '_' + col)._x, w: _tileSize*2, h: _tileSize, xTile: col, yTile: row});
 								Crafty(Crafty('FloorGround')[0]).attach(Crafty('TileOpen' + row + '_' + col));
 								Crafty('TileOpen' + row + '_' + col).origin(_tileSize/2,_tileSize/2);
@@ -201,7 +201,7 @@ function placeFurniture() {
 							}
 							else if (furnitureRotation == "S") {
 								furnitureVariant = Math.floor(furnitureRandom() * furniture1x2Variants) + 1
-								Crafty.e('TileOpen' + row + '_' + col + ', ' + renderEngine + ', 1_' + roomColour + '_1x2_' + furnitureVariant)
+								Crafty.e('TileOpen' + row + '_' + col + ', furnitureMap , 1_' + roomColour + '_1x2_' + furnitureVariant)
 									.attr({y: Crafty('Tile' + row + '_' + col)._y, x: Crafty('Tile' + row + '_' + col)._x, w: _tileSize*2, h: _tileSize, xTile: col, yTile: row});
 								Crafty(Crafty('FloorGround')[0]).attach(Crafty('TileOpen' + row + '_' + col));
 								Crafty('TileOpen' + row + '_' + col).origin(_tileSize/2,_tileSize/2);

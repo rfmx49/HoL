@@ -267,6 +267,7 @@ function locateOriginDoor() {
 		 	}		
 		}
 		else {
+			originDoorSuccess = false;
 			newRoomReq = true;
 			deleteRoom = true;
 		}
@@ -283,9 +284,9 @@ function locateOriginDoor() {
 			if ((originDoors.length) == 0) {
 				newRoomReq = true;
 				console.log('New Room Required');
+				originDoorSuccess = false;
 			}
-			else {
-		
+			else {		
 				var decider = Math.floor(roomRandom() * originDoors.length);
 				console.log("DEBUG originDoors=" + JSON.stringify(originDoors) +" Decider=" + decider);
 				setDoor(originDoors[decider].x,originDoors[decider].y);

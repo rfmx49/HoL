@@ -234,7 +234,7 @@ function easyStarPathFind(id, x, y, queue) {
 	easystar.setGrid(starMap);
 	//set acceptable walking tiles.
 	easystar.setAcceptableTiles(['f','d']);
-	easystar.setTileCost('d', 1000000);
+	easystar.setTileCost('d', 99999);
 	easystar.findPath(currentPos.xtile, currentPos.ytile, x, y, function( path ) {
 		if (path === null) {
 		    alert("Path was not found.");
@@ -279,20 +279,6 @@ function easyStarPathFind(id, x, y, queue) {
 					Crafty(id).playTween();
 				}
 			}
-		    /*Crafty(id).nodePath.push({x:currentPos.x,y:currentPos.y,rotation:currentPos.rotation,type:currentPos.type,xtile: currentPos.xtile, ytile: currentPos.ytile});
-			if (currentPos.rotation == 360) {
-				currentPos.rotation = 0;
-			}
-			if (currentPos.rotation == -90) {
-				currentPos.rotation = 270;
-			}
-			if (Crafty(id).nodePath.length > 0) {
-				if (queue == Crafty(id).movementQueue) {
-					//console.log(Crafty(id).nodePath);
-					Crafty(id).playTween();
-				}
-			}
-			*/	
 		}
 	});
 	easystar.calculate();

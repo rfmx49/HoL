@@ -2,12 +2,20 @@
 //Crafty.DOM.translate(Crafty.lastEvent.clientX,Crafty.lastEvent.clientY); //gets mouse location.
 //Game settings.
 
+//Z index
+//1
+//2 - Floor Tiles
+//3 - Wall Tiles
+//4 - Door Animations
+//5 - Highlights
+//6 - Player
+
 var _tileSize = 66;
 var renderEngine = "DOM"
 //renderEngine = "Canvas" //
 var gameSeeds = 100000;
 var gameSeed = Math.floor((Math.random() * gameSeeds) + 1); //TODO DEBUG Increase to 100000
-//gameSeed = 4; //DEBUGING
+gameSeed = 4; //DEBUGING
 //gameSeed = 23086;
 var roomCenter = {x: _tileSize, y: _tileSize}
 
@@ -54,6 +62,7 @@ var doorChance = 10; //(2 in doorChance) higher = less doors
 
 $(document).ready(function() {
 	console.log( "Document completed!" );
+		
 	//verify gameseed
 	verifySeed();
 	
@@ -62,9 +71,9 @@ $(document).ready(function() {
 });
 function verifySeed() {
 	//interesting seeds
-	//1748(1x1 room with door, 6877(only three rooms)
+	//1748(1x1 room with door, 6877(only three rooms), 92166(only 3 rooms)
 	//Broken Seeds
-	var brokenSeeds = [1814,98351];
+	var brokenSeeds = [1814,98351,92166];
 	if (brokenSeeds.indexOf(gameSeed) != -1) {
 		gameSeed = Math.floor((Math.random() * gameSeeds) + 1); //TODO DEBUG Increase to 100000
 		verifySeed()

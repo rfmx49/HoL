@@ -3,34 +3,9 @@ Crafty.scene('Menu', function() {
 	//
 	//Game events (MOUSE CLICKS ECT..)
 	//
-	
-	/*Crafty.addEvent(Crafty.stage.elem, "mousedown", function (e) {
-		holdStarter = setTimeout(function() {
-			holdStarter = null;
-			holdActive = true;
-			// begin hold-only operation here, if desired
-			console.log('Dragging');		
-		}, 299);
-	});
 
-	Crafty.addEvent(Crafty.stage.elem, "mouseup", function (e) {
-		if (holdActive) {
-			console.log("hold done");
-		}					
-	});
-		
-	
-	Crafty.addEvent(Crafty.stage.elem, "click", function (e) {
-		clearTimeout(holdStarter);
-		if (holdActive == false) {
-			//console.log("click");	
-		}
-		alert("Click " + e);
-		holdActive = false;	
-	});*/
-
-	Crafty.e('btnEnterImg, 2d, ' + renderEngine + ', menu_newGame, Mouse, Touch')
-		.attr({x: 0, y: 0, w: _tileSize * 6, h: _tileSize * 2})
+	var newGameBtn = Crafty.e('btnNewGame, 2d, ' + renderEngine + ', menu_newGame, Mouse, Touch')
+		.attr({x: 0, y: 0, w: _tileSize * 6, h: _tileSize * 1})
 		.bind('MouseUp', function(MouseEvent){
 			//create player
 			//player
@@ -38,8 +13,8 @@ Crafty.scene('Menu', function() {
 			Crafty.scene("Game");
 		});
 
-	Crafty.e('btnEnter, 2D, ' + renderEngine + ', Mouse, Touch, menu_newGame')
-		.attr({x: 0, y: 0, w: 80, h: 50})
+	var conGameBtn = Crafty.e('btnContinue, 2D, ' + renderEngine + ', Mouse, Touch, menu_continueGame')
+		.attr({x: 0 , y: newGameBtn._y + newGameBtn._h + 20, w: _tileSize * 6, h: _tileSize * 1})
 		.bind('MouseUp', function(MouseEvent){
 			//create player
 			//player
@@ -47,6 +22,15 @@ Crafty.scene('Menu', function() {
 			Crafty.scene("Game");
 		});
 
-	Crafty.viewport.centerOn(Crafty("btnEnter")[0],0)
+	var statGameBtn = Crafty.e('btnStats, 2D, ' + renderEngine + ', Mouse, Touch, menu_helpInfo')
+	.attr({x: 0 , y: conGameBtn._y + conGameBtn._h + 20, w: _tileSize * 6, h: _tileSize * 1})
+	.bind('MouseUp', function(MouseEvent){
+		//create player
+		//player
+		userPlayer = new playerObj;
+		Crafty.scene("Game");
+	});
+
+	Crafty.viewport.centerOn(Crafty("btnContinue")[0],0)
 	
 });

@@ -9,8 +9,8 @@ Crafty.scene('Loading', function(){
 		"images": ["hud/paper.png"],			 
 		"sprites": {
 			"hud/menuItems.png": {
-				"tile": 125,
-				"tileh": 30,
+				"tile": 340,
+				"tileh": 80,
 				"map": { "menu_newGame": [0,0],
 					 "menu_continueGame": [0,1],
 					 "menu_helpInfo": [0,2]},			 
@@ -168,11 +168,6 @@ Crafty.scene('Loading', function(){
 				"tileh": 600,
 				"map": { "darkness": [0,0],},			 
 			},
-			"houseIcon.png": {
-				"tile": 834,
-				"tileh": 939,
-				"map": { "homeIcon": [0,0],},			 
-			},
 			"highlight.png": {
 				"tile": 50,
 				"tileh": 50,
@@ -212,16 +207,16 @@ Crafty.scene('Loading', function(){
 				"tile": 100,
 				"tileh": 100,
 				"map": { "doorSprite6_reel": [0,0],},			 
-			},		
-			"hud/scoresheet.png": {
-				"tile": 400,
-				"tileh": 250,
-				"map": { "ui_scoresheet": [0,0]},			 
 			},
 			"capture.png": {
 				"tile": 256,
 				"tileh": 256,
 				"map": { "ui_Camera": [0,0],},			 
+			},
+			"Home.png": {
+				"tile": 256,
+				"tileh": 232,
+				"map": { "ui_home": [0,0],},			 
 			},
 		},
 	};

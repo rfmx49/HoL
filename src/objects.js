@@ -219,6 +219,7 @@ Crafty.c('floorMap', {
 		this.bind("MouseOut", function(MouseEvent) { 
 			this.mouseOutEvent();
 		});
+		this.z = 2;
 	},
 	clickEvent: function() {
 		////console.log(this._x + " " + this._y);
@@ -238,11 +239,13 @@ Crafty.c('floorMap', {
 		}
 	},
 	mouseOverEvent: function() {
-		if (this.highlightId == 0) {
-			this.highlightEnt = Crafty.e ('2D, ' + renderEngine + ', highlightBlue')
-				.attr({y: this._y, x: this._x, w: _tileSize, h: _tileSize});
-			Crafty(Crafty('FloorGround')[0]).attach(this.highlightEnt);
-			this.highlightId = this.highlightEnt[0];
+		if (floorMap[this.yTile][this.xTile] != "o") {
+			if (this.highlightId == 0) {
+				this.highlightEnt = Crafty.e ('2D, ' + renderEngine + ', highlightBlue')
+					.attr({y: this._y, x: this._x, w: _tileSize, h: _tileSize, z: 5});
+				Crafty(Crafty('FloorGround')[0]).attach(this.highlightEnt);
+				this.highlightId = this.highlightEnt[0];
+			}
 		}
 	},
 	mouseOutEvent: function() {
@@ -261,6 +264,7 @@ Crafty.c('wallDoorAnimate', {
 	init: function() {
 		this.requires('2D, ' + renderEngine + ', SpriteAnimation');
 		this.origin("center");
+		this.z = 4;
 		this.reel('doorOpening', 600, 1, 0, 6);
 		this.reel('doorOpened', 10, 7, 0, 1);
 		this.reel('doorClosing', 600, 6, 0, -7);
@@ -286,6 +290,16 @@ Crafty.c('wallMap', {
 	door: false,
 	init: function() {
 		this.requires('2D, ' + renderEngine + ', Solid')
+		this.z = 3;
+	}
+});
+
+//furniture OBJECT
+Crafty.c('furnitureMap', {
+	door: false,
+	init: function() {
+		this.requires('2D, ' + renderEngine + ', Solid')
+		this.z = 4;
 	}
 });
 

@@ -9,11 +9,11 @@ Crafty.scene('Game', function() {
 
 	//createHud(centerPoint);
 	
-	Crafty.e('gameloop')
+	/*Crafty.e('gameloop')
 		.attr({countdown: 10})
 		.bind("EnterFrame", function() {
 			//frame done
-		});
+		});*/
 
 	//generate first room
 	generateRoom();
@@ -24,9 +24,7 @@ Crafty.scene('Game', function() {
 	//reset score values
 	userPlayer.score.actual = 0;
 	userPlayer.score.visible = 0;
-	userPlayer.score.fluff = Math.floor(roomRandom() * 8) + 3;
-	userPlayer.score.fluffCount = 0;
-	
+	returnedHome();
 	firstRun = false;
 });
 
@@ -43,6 +41,9 @@ function gameNewRoom() {
 		placeFurniture();
 		computeScore();
 	}
+	else {
+		returnedHome();		
+	}
 };
 
 function computeScore() {
@@ -55,6 +56,33 @@ function computeScore() {
 		userPlayer.score.fluffCount = 0;
 	}
 	displayScore(userPlayer.score.visible);	
+}
+
+function returnedHome() {
+	//Display proper Score	
+	userPlayer.score.visible = userPlayer.score.actual;
+	userPlayer.score.fluff = Math.floor(roomRandom() * 7) + 4;
+	userPlayer.score.fluffCount = 0;
+
+	displayScore(userPlayer.score.visible);	
+	
+	//Display Home Graphic.
+	//Display it at every door
+	var doors = getAllDoors();
+	
+	for (var n = 0; n < doors.length; n++) {
+		//get tile infront of door
+		doors[n] = getInFront('door', doors[n].y, doors[n].x);
+	
+		Crafty.e('TileHOME' + doors[n].y + '_' + doors[n].x + ', 2d, ' + renderEngine + ', ui_home')
+			.attr({y: Crafty('Tile' + doors[n].y + '_' + doors[n].x)._y, x: Crafty('Tile' + doors[n].y + '_' + doors[n].x)._x, w: _tileSize, h: _tileSize, z:3});
+		Crafty(Crafty('FloorGround')[0]).attach(Crafty('TileHOME' + doors[n].y + '_' + doors[n].x));
+		
+	}
+
+	/*Crafty.e('TileHOME, 2d, ' + renderEngine + ', ui_home')
+			.attr({w: Crafty.viewport.width/1.5 , h: Crafty.viewport.height/1.5, z: 1});
+		Crafty(Crafty('FloorGround')[0]).attach(Crafty('TileHOME'));*/
 }
 
 function displayScore(score) {
@@ -106,7 +134,7 @@ function createPlayerEnt() {
 		console.log("an even lenght room");
 		//centerOffset = _tileSize/2;
 	}
-	playerEntity = Crafty.e('PlayerCharacter').attr({y: (playerRoomPos.y*_tileSize), x: (playerRoomPos.x*_tileSize-centerOffset), w: _tileSize, h: _tileSize});
+	playerEntity = Crafty.e('PlayerCharacter').attr({y: (playerRoomPos.y*_tileSize), x: (playerRoomPos.x*_tileSize-centerOffset), w: _tileSize, h: _tileSize, z: 6});
 	playerEntity.origin("center");
 	playerEntity.rotation = userPlayer.rotation;
 	Crafty(Crafty('FloorGround')[0]).attach(Crafty(Crafty('PlayerCharacter')[0]));
