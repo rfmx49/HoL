@@ -27,7 +27,7 @@ function createHud() {
 			$( "#statusWindowFooter" ).height(Crafty.viewport.height/5);
 			var newTop = Crafty.viewport.height - $( "#statusWindowFooter" ).height();
 			$( "#statusWindowFooter" ).css('top', newTop + 'px');
-			$( "#statusWindowFooter" ).html('<div id="statusFooterExpand"><center>^</center><center><table><tr><td>Seed: </td><td>'+ gameSeed +'</td><td>3</td></tr><tr><td>4</td><td>5</td><td>6</td></tr></table><center></div>')
+			$( "#statusWindowFooter" ).html('<div id="statusFooterExpand"><center>^</center><center><table><tr><td>Seed: </td><td>'+ gameSeed +'</td><td>-</td></tr><tr><td>4</td><td>5</td><td>6</td></tr></table><center></div>')
 		}
 		else {
 			//Footer is up

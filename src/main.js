@@ -15,7 +15,7 @@ var renderEngine = "DOM"
 //renderEngine = "Canvas" //
 var gameSeeds = 100000;
 var gameSeed = Math.floor((Math.random() * gameSeeds) + 1); //TODO DEBUG Increase to 100000
-gameSeed = 4; //DEBUGING
+//gameSeed = 4; //DEBUGING
 //gameSeed = 23086;
 var roomCenter = {x: _tileSize, y: _tileSize}
 

@@ -214,12 +214,7 @@ function setDoor(tileX, tileY){
 	Crafty('Tile' + tileY + '_' + tileX).rotation = tileRotation;
 	//get door colour floorMap[row][col].substring(3,2)
 	floorMap[tileY][tileX] = "d" + floorMap[tileY][tileX].substring(2,1) + rooms[lastRoom].doors[lastDoor].style;
-	rooms[lastRoom].maps = floorMap;
-		
-
-	
-
-	
+	rooms[lastRoom].maps = floorMap;	
 	rooms[currentRoom].doors[createdDoor - 1].toRoomPos = new Position(rooms[lastRoom].doors[lastDoor].roomPos.x,rooms[lastRoom].doors[lastDoor].roomPos.y,0);
 	//also set this matching doors destination door info.
 	rooms[lastRoom].doors[lastDoor].toRoomPos = new Position(tileX,tileY,0);
