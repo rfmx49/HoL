@@ -26,6 +26,8 @@ Crafty.scene('Game', function() {
 	userPlayer.score.visible = 0;
 	returnedHome();
 	firstRun = false;
+	//save last seed used.
+	localStorage.lastSeed = gameSeed;
 });
 
 function gameNewRoom() {

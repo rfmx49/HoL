@@ -11,6 +11,7 @@ function createHud() {
 	$( "#statusWindowFooter" ).width(Crafty.viewport.width);
 	$( "#statusWindowFooter" ).height(Crafty.viewport.height/25); //Will expand
 	$( "#statusWindowFooter" ).append("<div id='statusFooterExpand'><center>^</center></div>")
+	$( "#statusWindowFooter" ).css('visibility', 'visible');
 
 	//postion at bottom
 	//$( "#statusWindowFooter" ).position().top //for later

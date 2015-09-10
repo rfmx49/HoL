@@ -13,7 +13,10 @@ Crafty.scene('Loading', function(){
 				"tileh": 80,
 				"map": { "menu_newGame": [0,0],
 					 "menu_continueGame": [0,1],
-					 "menu_helpInfo": [0,2]},			 
+					 "menu_helpInfo": [0,2],
+					 "menu_back": [0,3],
+					 "menu_challange": [0,5],
+					 "menu_start": [0,4]},			 
 			},
 			"spritesheetx2.png": {
 				"tile": 100,
@@ -217,6 +220,11 @@ Crafty.scene('Loading', function(){
 				"tile": 256,
 				"tileh": 232,
 				"map": { "ui_home": [0,0],},			 
+			},
+			"hud/enterSeed.png": {
+			"tile": 340,
+				"tileh": 160,
+				"map": { "menu_enterSeed": [0,0],},			 
 			},
 		},
 	};

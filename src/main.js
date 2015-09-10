@@ -14,7 +14,12 @@ var _tileSize = 66;
 var renderEngine = "DOM"
 //renderEngine = "Canvas" //
 var gameSeeds = 100000;
-var gameSeed = Math.floor((Math.random() * gameSeeds) + 1); //TODO DEBUG Increase to 100000
+
+
+
+var gameSeed;
+genGameSeed();
+
 //gameSeed = 4; //DEBUGING
 //gameSeed = 23086;
 var roomCenter = {x: _tileSize, y: _tileSize}
@@ -69,15 +74,22 @@ $(document).ready(function() {
 	//Start crafty
 	beginCrafty();
 });
+
 function verifySeed() {
 	//interesting seeds
 	//1748(1x1 room with door, 6877(only three rooms), 92166(only 3 rooms)
+	//No doors, 8696
 	//Broken Seeds
-	var brokenSeeds = [1814,98351,92166];
+	var brokenSeeds = [1814,98351,92166,8696];
 	if (brokenSeeds.indexOf(gameSeed) != -1) {
-		gameSeed = Math.floor((Math.random() * gameSeeds) + 1); //TODO DEBUG Increase to 100000
-		verifySeed()
+		genGameSeed();
+		verifySeed();
 	}
+}
+
+function genGameSeed() {
+		gameSeed = Math.floor((Math.random() * gameSeeds) + 1); //TODO DEBUG Increase to 100000
+		verifySeed();
 }
 
 function beginCrafty() {
@@ -91,8 +103,8 @@ function beginCrafty() {
 		var gameClientHeight = $(window).height();
 		//get new tile size
 		//11 tiles wide
-		var minWidth = Math.floor(gameClientWidth/(maxWidth+2));
-		var minHeight = Math.floor(gameClientHeight/(maxHeight+4));
+		var minWidth = Math.floor(gameClientWidth/(maxWidth+1));
+		var minHeight = Math.floor(gameClientHeight/(maxHeight+3));
 		if (minWidth >= minHeight) { 
 			_tileSize = minHeight;
 		}
@@ -111,7 +123,7 @@ function beginCrafty() {
 		//Crafty.background('#E9E74A'); //yellowy not good on mobile
 		//Crafty.background('#FFFFC0');
 		
-		Crafty.viewport.init(11*_tileSize,14*_tileSize);
+		Crafty.viewport.init(12*_tileSize,14*_tileSize);
 		Crafty.background('#FFFFC0 url(res/img/hud/paper.png) center center');
 		//start game or loading scene
 		//Crafty.timer.FPS(30);

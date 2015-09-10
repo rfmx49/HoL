@@ -12,6 +12,7 @@
 }
 
 #statusWindowFooter {
+	visibility: hidden;
 	background-color:#999999;
 	/*background-image: url('../res/img/hud/scoresheet.png');*/
 	background-size: 100%;
@@ -25,10 +26,24 @@
 	font-size:2em;
 }
 
+#inputSeed {
+	font-family: '1942_report1942_report', Arial, sans-serif;
+	font-size:1.25em;
+	z-index: 100;
+	position: absolute;
+	background-color: #c3b784;
+
+}
+
 .statusMessage {
 	border:1px solid black;
 	background-color:#d9d9d8;
 	text-align:left;
+}
+
+.seedTextBox {
+	border: 2px dashed #D1C7AC;
+	width: 230px;
 }
 
 .ui-scores {
