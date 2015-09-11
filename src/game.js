@@ -142,10 +142,10 @@ function createPlayerEntHome() {
 function createPlayerEnt() {
 	if (rooms.length == 1) { createPlayerEntHome(); } //first room exceptions.
 	var centerOffset = 0;
-	if (Crafty('centerPoint')._x != Crafty('floorGround')._x) {
+	/*if (Crafty('centerPoint')._x != Crafty('floorGround')._x) {
 		console.log("an even lenght room");
 		//centerOffset = _tileSize/2;
-	}
+	}*/
 	playerEntity = Crafty.e('PlayerCharacter').attr({y: (playerRoomPos.y*_tileSize), x: (playerRoomPos.x*_tileSize-centerOffset), w: _tileSize, h: _tileSize, z: 6});
 	playerEntity.origin("center");
 	playerEntity.rotation = userPlayer.rotation;

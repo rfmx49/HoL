@@ -22,17 +22,22 @@
 	width: 3px;
 	position: absolute;
 	z-index: 100;
+	
+}
+
+#bodyContain {
+	position: absolute;
+}
+
+.containsText {
 	font-family: '1942_report1942_report', Arial, sans-serif;	
-	font-size:2em;
+	font-size:1em;
 }
 
 #inputSeed {
-	font-family: '1942_report1942_report', Arial, sans-serif;
-	font-size:1.25em;
 	z-index: 100;
 	position: absolute;
 	background-color: #c3b784;
-
 }
 
 .statusMessage {

@@ -173,13 +173,13 @@ function generateRoom() {
 		drawRoom();
 	}
 	var doorsValid = locateOriginDoor();
-		if (doorsValid) {
-			//create player on room
-			createPlayerEnt();
-			if (firstRun == false) {
-				playerEnterRoom();
-			}
+	if (doorsValid) {
+		//create player on room
+		createPlayerEnt();
+		if (firstRun == false) {
+			playerEnterRoom();
 		}
+	}
 	centerRoom();
 	
 	return floorMap;
@@ -246,17 +246,20 @@ function locateOriginDoor() {
 				existingDoor=checkDoor(currentRoom,originDoors[i].x,originDoors[i].y)
 				if (existingDoor !== false) {
 					//compare this door to the last door infor to see if it is this doors match.
-					if (rooms[currentRoom].doors[existingDoor].toRoomPos.x == rooms[lastRoom].doors[lastDoor].roomPos.x) {
-						if (rooms[currentRoom].doors[existingDoor].toRoomPos.y == rooms[lastRoom].doors[lastDoor].roomPos.y) {
-							//Door is a match to an already created door.
-							console.log("Revisting room no need for new origin door.");
-							originDoorReq = false;							
-							positionPlayer(originDoors[i].x,originDoors[i].y);					
+					if ((rooms[currentRoom].doors[existingDoor].toPos.x == rooms[lastRoom].pos.x) && (rooms[currentRoom].doors[existingDoor].toPos.y == rooms[lastRoom].pos.y)) {
+						//this origindoor points to last room
+						if (rooms[currentRoom].doors[existingDoor].toRoomPos.x == rooms[lastRoom].doors[lastDoor].roomPos.x) {
+							if (rooms[currentRoom].doors[existingDoor].toRoomPos.y == rooms[lastRoom].doors[lastDoor].roomPos.y) {
+								//Door is a match to an already created door.
+								console.log("Revisting room no need for new origin door.");
+								originDoorReq = false;							
+								positionPlayer(originDoors[i].x,originDoors[i].y);					
+							}
 						}
-					}
-					else if ((originDoorReq == true) && ((originDoors.length-1) == i)) {
-						newRoomReq = true;
-						console.log('New Room Required');
+						else if ((originDoorReq == true) && ((originDoors.length-1) == i)) {
+							newRoomReq = true;
+							console.log('New Room Required');
+						}
 					}
 				}			
 		 	}		
@@ -297,24 +300,29 @@ function locateOriginDoor() {
 				case -0:
 					//last move was moving forward so move y+ a point.
 					userPlayer.pos.y = userPlayer.pos.y + 0.01;
+					rooms[lastRoom].doors[lastDoor].toPos.y = userPlayer.pos.y;
 					break;
 				case 90:
 				case 450:
 					//last move was moving left so move x+ a point.
 					userPlayer.pos.x = userPlayer.pos.x + 0.01;
+					rooms[lastRoom].doors[lastDoor].toPos.x = userPlayer.pos.x;
 					break;
 				case 180:
 				case -180:
 					//last move was moving down so move y- a point.
 					userPlayer.pos.y = userPlayer.pos.y - 0.01;
+					rooms[lastRoom].doors[lastDoor].toPos.y = userPlayer.pos.y;
 					break;
 				case 270:
 				case -90:
 					//last move was moving right so move x- a point.
 					userPlayer.pos.x = userPlayer.pos.x - 0.01;
+					rooms[lastRoom].doors[lastDoor].toPos.x = userPlayer.pos.x;
 					break;
 			}
 			//create new room
+			
 			Crafty(Crafty('FloorGround')[0]).destroy();
 			originDoorSuccess = false;
 			generateRoom();
