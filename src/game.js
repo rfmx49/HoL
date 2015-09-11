@@ -33,6 +33,7 @@ Crafty.scene('Game', function() {
 function gameNewRoom() {
 	//When entering a new room or an old room.
 	if (generateRoom() == false) {
+		console.log('genroom has returned FALSE');
 		return;
 	}
 	if (currentRoom != 0) {
@@ -47,6 +48,15 @@ function gameNewRoom() {
 		returnedHome();		
 	}
 };
+
+function debugGoBack() {
+	//destroy and make a new room
+	Crafty(Crafty('FloorGround')[0]).destroy();
+	//remember previous postions and door to refrence back to.
+	userPlayer.pos = userPlayer.last.pos;
+	lastDoor = 0;
+	gameNewRoom();
+}
 
 function computeScore() {
 	//player has just entered a room.

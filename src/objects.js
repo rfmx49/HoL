@@ -114,6 +114,10 @@ Crafty.c('PlayerCharacter', {
 			//move player too door
 			//wait for door to open a bit
 			//Generate doors random destination if not set  already though.
+			//debug info to go back to prevoius room
+			userPlayer.last = {};
+			userPlayer.last.pos = new Position(userPlayer.pos.x,userPlayer.pos.y,0);
+			userPlayer.last.door = new Position(newPos.xtile,newPos.ytile,0);
 			doorRandom = new Math.seedrandom(gameSeed + " . " + userPlayer.pos.x + "." + userPlayer.pos.y + "." + userPlayer.pos.z + "." + newPos.ytile + "." + newPos.xtile);
 			var newDoor = {x:0,y:0};
 			//check if door already exists

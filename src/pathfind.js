@@ -218,26 +218,28 @@ function easyStarPathFind(id, x, y, queue) {
 		starMap[row] = [];
 		for (var col = 0; col < floorMap[0].length; col++) {
 			if (floorMap[row][col].substring(0,1) == "d") {
-				starMap[row][col] = "d";
+				starMap[row][col] = 'c';
 			}
 			else if (floorMap[row][col].substring(0,1) == "f") {
-				starMap[row][col] = "f";
+				starMap[row][col] = 'f';
 			}
 			else {
-				starMap[row][col] = "X";
+				starMap[row][col] = 'x';
 			}
 		}
 	}
+	//set our door as walkable and only our door.
+	starMap[y][x] = 'd'
 	//Start Easy Star.
 	var easystar = new EasyStar.js();
 	//set grid to floor map.
 	easystar.setGrid(starMap);
 	//set acceptable walking tiles.
 	easystar.setAcceptableTiles(['f','d']);
-	easystar.setTileCost('d', 99999);
+	//easystar.setTileCost(2, 1000*1000);
 	easystar.findPath(currentPos.xtile, currentPos.ytile, x, y, function( path ) {
 		if (path === null) {
-		    alert("Path was not found.");
+		    console.log("Path was not found.");
 		} else {
 		    console.log("Path was found. The first Point is " + path[0].x + " " + path[0].y);
 		    for (var pathNode = 1; pathNode < path.length; pathNode++) {

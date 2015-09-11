@@ -31,7 +31,7 @@ function getFreeFloorSpace() {
 function placeFurniture() {
 	var roomVariants = 1;
 	var placementFound = false;
-	var furnitureVariants = 4; //4/5 fourth will be just blank.
+	var furnitureVariants = 6; //4/5 fourth will be just blank.
 	var furniture1x1Variants = 10;
 	var furniture1x2Variants = 6;
 	var furniture2x2Variants = 7;
@@ -121,7 +121,7 @@ function placeFurniture() {
 				while (placementFound == false) {
 					roomVariant = Math.floor(furnitureRandom() * furnitureVariants) + 1;
 					//check for blank room
-					if ((roomVariant == 4) || (roomVariant == 5)) {
+					if ((roomVariant == 4) || (roomVariant == 5) || (roomVariant == 7)) {
 						placementFound = true;
 						//make tile walkable again. (will keep the tile open on object map but open it on floor map incase a peice of furniture can occupy this tile in next intteration.(just need to remember to do this for all tiles though.)
 						objectMap[row][col] = "o";
@@ -385,7 +385,7 @@ function placeFurniture() {
 							}
 						}
 					}
-					else if (roomVariant == 3) {
+					else if ((roomVariant == 3) || (roomVariant == 6)){
 						placementFound = true;
 						//check 4 postions to see if they are open
 						var quadsAvailible = [];
@@ -454,9 +454,9 @@ function placeFurniture() {
 
 								furnitureVariant = Math.floor(furnitureRandom() * furniture2x2Variants) + 1
 								Crafty.e('TileOpen' + row + '_' + col + ', furnitureMap , 1_' + roomColour + '_2x2_' + furnitureVariant)
-									.attr({y: Crafty('Tile' + (row-1) + '_' + col)._y, x: Crafty('Tile' + row + '_' + col)._x, w: _tileSize*2, h: _tileSize+2, xTile: col, yTile: row});
+									.attr({y: Crafty('Tile' + (row-1) + '_' + col)._y, x: Crafty('Tile' + row + '_' + col)._x, w: _tileSize*2, h: _tileSize*2, xTile: col, yTile: row});
 								Crafty(Crafty('FloorGround')[0]).attach(Crafty('TileOpen' + row + '_' + col));
-								Crafty('TileOpen' + row + '_' + col).origin(_tileSize/2,_tileSize/2);
+								Crafty('TileOpen' + row + '_' + col).origin('center');
 								Crafty('TileOpen' + row + '_' + col).rotation = 270;
 								//block off tiles
 								objectMap[row][col] = "T";
@@ -473,7 +473,7 @@ function placeFurniture() {
 								Crafty.e('TileOpen' + row + '_' + col + ', furnitureMap , 1_' + roomColour + '_2x2_' + furnitureVariant)
 									.attr({y: Crafty('Tile' + (row-1) + '_' + col)._y, x: Crafty('Tile' + row + '_' + (col-1))._x, w: _tileSize*2, h: _tileSize*2, xTile: col, yTile: row});
 								Crafty(Crafty('FloorGround')[0]).attach(Crafty('TileOpen' + row + '_' + col));
-								Crafty('TileOpen' + row + '_' + col).origin(_tileSize/2,_tileSize/2);
+								Crafty('TileOpen' + row + '_' + col).origin('center');
 								Crafty('TileOpen' + row + '_' + col).rotation = 90;
 								//block off tiles
 								objectMap[row][col] = "T";
