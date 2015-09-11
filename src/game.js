@@ -66,6 +66,12 @@ function computeScore() {
 		userPlayer.score.visible = userPlayer.score.actual;
 		userPlayer.score.fluff = Math.floor(roomRandom() * 7) + 4;
 		userPlayer.score.fluffCount = 0;
+
+		//upateLevel
+		//ui-game-rank
+		displayRank();
+		
+		
 	}
 	displayScore(userPlayer.score.visible);	
 }
@@ -76,7 +82,11 @@ function returnedHome() {
 	userPlayer.score.fluff = Math.floor(roomRandom() * 7) + 4;
 	userPlayer.score.fluffCount = 0;
 
-	displayScore(userPlayer.score.visible);	
+	displayScore(userPlayer.score.visible);
+
+	//display level
+	//ui-game-rank
+	displayRank();
 	
 	//Display Home Graphic.
 	//Display it at every door
@@ -99,6 +109,11 @@ function returnedHome() {
 
 function displayScore(score) {
 	$( "#ui-game-score" ).html(score);
+}
+
+function displayRank() {
+	var rank = getRank(userPlayer.score.actual);
+	$( "#ui-game-rank" ).html(rank.currentLevel);
 }
 
 function getRank(rooms) {

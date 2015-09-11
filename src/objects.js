@@ -187,7 +187,7 @@ Crafty.c('PlayerCharacter', {
 					userPlayer.pos = {x: newDoor.x, y: newDoor.y, z: 0};
 					gameNewRoom();
 				}, 250);
-			}, 150, newPos, playerID);			
+			}, 200, newPos, playerID);			
 		}			
 	},
 	playerWalking: function() {

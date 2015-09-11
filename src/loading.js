@@ -23,7 +23,7 @@ Crafty.scene('Loading', function(){
 				"tileh": 100,
 				"map": { "wall_corner_out": [0,4],
 					 "wall_corner_in": [1,4],
-					 "wall_straight": [0,5],
+					 "wall_straight": [3,4],
 					 "floor_1": [1,1],
 					 "floor_2": [1,2],
 					 "floor_3": [2,1],
