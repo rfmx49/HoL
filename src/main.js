@@ -135,6 +135,8 @@ function beginCrafty() {
 			Crafty.viewport.init(gameClientWidth,gameClientHeight);
 		}
 		else {
+			$('.containsText').css({'font-size': (_tileSize*.75) + 'px'});
+			_tileSize = _tileSize*1.15;
 			Crafty.viewport.init(12*_tileSize,gameClientHeight);
 		}
 		Crafty.background('#FFFFC0 url(res/img/hud/paper.png) center center');
