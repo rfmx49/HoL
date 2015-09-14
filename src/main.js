@@ -70,6 +70,9 @@ $(document).ready(function() {
 		
 	//verify gameseed
 	verifySeed();
+
+	//clickHandlers
+	footClickHandlers();
 	
 	//Start crafty
 	beginCrafty();

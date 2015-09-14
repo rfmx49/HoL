@@ -34,6 +34,11 @@
 	font-size:1em;
 }
 
+.containsTextFooter {
+	font-family: '1942_report1942_report', Arial, sans-serif;	
+	font-size:.75em;
+}
+
 #inputSeed {
 	z-index: 100;
 	position: absolute;

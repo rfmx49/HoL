@@ -173,16 +173,27 @@ function generateRoom() {
 		drawRoom();
 	}
 	var doorsValid = locateOriginDoor();
-	if (doorsValid) {
-		//create player on room
-		createPlayerEnt();
-		if (firstRun == false) {
-			playerEnterRoom();
-		}
+	var doorZero = getAllDoors()[0];
+	if ((firstRun && typeof doorZero === 'undefined')) {
+		//this seed has no doors on first room.
+		gameSeed = gameSeed + "x";
+		userPlayer = new playerObj;
+		rooms = [];
+		Crafty.scene("Game");
+		return false;	
 	}
-	centerRoom();
+	else {
+		if (doorsValid) {
+			//create player on room
+			createPlayerEnt();
+			if (firstRun == false) {
+				playerEnterRoom();
+			}
+		}
+		centerRoom();
 	
-	return floorMap;
+		return floorMap;
+	}
 }
 
 function centerRoom(){
