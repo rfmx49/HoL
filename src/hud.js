@@ -27,7 +27,72 @@ function footClickHandlers() {
 		
 		if ($( "#statusWindowFooter" ).height() < Crafty.viewport.height/10) {
 			//Footer is Down
-			$( "#statusWindowFooter" ).height(Crafty.viewport.height/5);
+			footerChange(true);
+		}
+		else {
+			footerChange(false);
+		}
+		return false;
+	});
+
+	$( "#statusWindowFooter" ).on('mouseup', ' #statusFooterExpand #footEndGame' ,function() {
+		//Expand the footer
+		console.log("clicked");		
+		//footerChange(false);
+
+		popUpCreate();
+		
+	});
+}
+
+function popUpClickHandlers() {
+	$( "#gamePopUp" ).on('mouseup', '#popUpEndBtnImg' ,function() {
+		//Expand the footer
+		console.log("clicked endGame");
+		
+		
+	});
+
+	$( "#gamePopUp" ).on('mouseup', '#popUpEndConImg' ,function() {
+		//Expand the footer
+		console.log("clicked Continue Game");
+		
+		
+	});
+}
+
+function popUpCreate() {
+	$('#gamePopUp').css('top', (Crafty.viewport.height*.05)+'px');
+	$('#gamePopUp').css('left', (Crafty.viewport.width*.05)+'px');
+	$('#gamePopUp').height(Crafty.viewport.height*.8);
+	$('#gamePopUp').width(Crafty.viewport.width*.9);
+	if (currentRoom == 0) {
+		var isHome = true;
+		var lostClass = null;
+		var textLost = ['Home','Safe','At Base','Known']
+		textLost = textLost[Math.floor(Math.random() * textLost.length) + 1]
+		var leavingMessage = "End game now to save your achivements. Or continue to try increase them but be <b>WARNED</b> if you get lost your achivements are lost with you!"
+	}
+	else {
+		var isHome = false;
+		var lostClass = "endGamePopUpTableColoured"
+		var textLost = ['LOST','AWOL','Missing','Lost','Unknown','Not Home','Adrift','Disoriented','Vanished','Wandering','Irrecoverable','Irretrievable','Wherabouts Unknown','Missing Presumed Dead','MIA']
+		textLost = textLost[Math.floor(Math.random() * textLost.length) + 1]
+		var leavingMessage = "Lost? Cannot find your way? To many dead end corridors? Nothing looks farmilliar? Give up now! <b>CAUTION</b> all achivements from this exploration will be lost."
+	}
+	
+	var rank = getRank(userPlayer.score.actual);
+	$('#gamePopUp').html('<table id="endGamePopUpTable"><tr><th colspan="4"><b>Are you sure you are ready to leave?</b></th></tr><tr><td colspan="4"></td></tr><tr><td colspan="4"><hr></td></tr><tr><td colspan="2">Current Location:</td><td colspan="1" align="center" class="popUpValue ' + lostClass + ' ">' + textLost + '</td><td></td></tr><tr><td colspan="4"><hr></td></tr><tr><td colspan="3">Total number of rooms explored:</td><td class="popUpValue">' + userPlayer.score.actual + '</td></tr><tr><td colspan="3">All time total rooms explored:</td><td class="popUpValue">Total</td></tr><tr><td colspan="4"></td></tr><tr><td colspan="3">Rank achieved this exploration:</td><td class="popUpValue">' + rank.currentLevel + '</td></tr><tr><td colspan="3">Rooms required to rank up:</td><td class="popUpValue">' + rank.difference + '</td></tr><tr><td colspan="3">New overall rank:</td><td class="popUpValue">' + rank.currentLevel + '</td></tr><tr><td colspan="3">Rooms required to rank up:</td><td class="popUpValue">' + rank.difference + '</td></tr><tr><td colspan="4"></td></tr><tr><td colspan="4"></td></tr><tr><td colspan="4"><hr></td></tr><tr><td colspan="4" align="center">' + leavingMessage + '</td></tr><tr><td colspan="2" align="center"><div class="popUpImgContain" id="popUpEndBtnImg"></div></td><td></td><td><div class="popUpImgContain"  id="popUpConBtnImg"></div></td></tr></table>');
+
+	$('#popUpEndBtnImg').height(25);
+	$('#popUpConBtnImg').height(25);
+	
+}
+
+function footerChange(expand) {
+	if (expand) {
+		$( "#statusWindowFooter" ).height(Crafty.viewport.height/5);
+		//Footer is Down
 			var newTop = Crafty.viewport.height - $( "#statusWindowFooter" ).height();
 			$( "#statusWindowFooter" ).css('top', newTop + 'px');
 			var textSeed = gameSeed;
@@ -35,17 +100,14 @@ function footClickHandlers() {
 			var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 			var checkSeed = days[d.getDay()] + ' ' + d.getDay() + '/' + d.getMonth() + '/' + d.getFullYear();
 			if (textSeed == checkSeed) {textSeed = 'Daily';}
-			$( "#statusWindowFooter" ).html('<div id="statusFooterExpand"><center>v</center><center><table style="width:100%" class="containsTextFooter" ><tr><td><b>Seed: </b>'+ textSeed +'</td><td><b>Rank: </b>' + getRank(userPlayer.score.actual).currentLevel + '</td><td rowspan=2><img src="res/img/Home.png" style:"width: 10px,height: 10px;" id="footEndGame"><br /><b>END</b></td></tr><tr><td><b>Record: </b>'+ textSeed +'</td><td><b>New: </b>' + getRank(userPlayer.score.visible).currentLevel + '</td></tr></table><center></div>')
+			$( "#statusWindowFooter" ).html('<div id="statusFooterExpand"><center>v</center><center><table class="statusWindowFooterTable containsTextFooter" ><tr><td><b>Seed: </b>'+ textSeed +'</td><td><b>Rank: </b>' + getRank(userPlayer.score.actual).currentLevel + '</td><td rowspan=2 align="center"><img src="res/img/Home.png" style:"width: 10px,height: 10px;" id="footEndGame"><br /><b>END</b></td></tr><tr><td><b>Record: </b>'+ textSeed +'</td><td><b>New: </b>' + getRank(userPlayer.score.visible).currentLevel + '</td></tr></table><center></div>')
 			$('#footEndGame').height((Crafty.viewport.height/6)/2.5)
-		}
-		else {
-			//Footer is up
+	}
+	else {
+		//Footer is up
 			$( "#statusWindowFooter" ).height(Crafty.viewport.height/15);
 			var newTop = Crafty.viewport.height - $( "#statusWindowFooter" ).height();
 			$( "#statusWindowFooter" ).css('top', newTop + 'px');
 			$( "#statusWindowFooter" ).html("<div id='statusFooterExpand'><center>^</center></div>")
-		}
-
-		return false;
-	});
+	}
 }

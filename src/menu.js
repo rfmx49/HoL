@@ -98,3 +98,9 @@ Crafty.scene('Menu', function() {
 	Crafty.viewport.centerOn(Crafty("btnContinue")[0],0)
 	
 });
+
+function gameMenu2() {
+
+
+
+}

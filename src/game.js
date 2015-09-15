@@ -37,6 +37,7 @@ function gameNewRoom() {
 		return;
 	}
 	if (currentRoom != 0) {
+		footerChange(false);
 		pathFindFireRoute();
 		//easyStarFireRoute();
 		getFreeFloorSpace();
@@ -73,6 +74,9 @@ function returnedHome() {
 	//Display Home Graphic.
 	//Display it at every door
 	var doors = getAllDoors();
+	if (rooms.length != 1) {
+		footerChange(true);
+	}
 	
 	for (var n = 0; n < doors.length; n++) {
 		//get tile infront of door
