@@ -31,6 +31,7 @@ function generateRoom() {
 		var floorHeight = Math.floor(roomRandom() * (maxHeight-2)) + 1;
 		var decider = Math.floor(roomRandom() * 2) + 1;
 		floorMap = [];
+		objectMap = [[]];
 		floorMap[0] = [];
 		if (decider == 2){
 			if (floorWidth > 1 && floorHeight > 1) {

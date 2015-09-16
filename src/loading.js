@@ -19,7 +19,7 @@ Crafty.scene('Loading', function(){
 					 "menu_endGame": [0,6],
 					 "menu_start": [0,4]},			 
 			},
-			"spritesheetx2.png": {
+			"rooms/spritesheetx2.png": {
 				"tile": 100,
 				"tileh": 100,
 				"map": { "wall_corner_out": [0,4],
@@ -40,7 +40,7 @@ Crafty.scene('Loading', function(){
 					 "door_5": [4,6],
 					 "door_6": [5,6]},			 
 			},
-			"furniture1x1.png": {
+			"rooms/furniture/furniture1x1.png": {
 				"tile": 50,
 				"tileh": 50,
 				"map": { "1_1_1x1_1": [0,0],
@@ -94,7 +94,7 @@ Crafty.scene('Loading', function(){
 					 "1_5_1x1_9": [8,4],
 					 "1_5_1x1_10": [9,4]},
 			},
-			"furniture1x2.png": {
+			"rooms/furniture/furniture1x2.png": {
 				"tile": 100,
 				"tileh": 50,
 				"map": { "1_1_1x2_1": [0,0],
@@ -128,7 +128,7 @@ Crafty.scene('Loading', function(){
 					 "1_5_1x2_5": [4,4],
 					 "1_5_1x2_6": [5,4]},
 			},
-			"furniture2x2.png": {
+			"rooms/furniture/furniture2x2.png": {
 				"tile": 100,
 				"tileh": 100,
 				"map": { "1_1_2x2_1": [0,0],
@@ -167,11 +167,6 @@ Crafty.scene('Loading', function(){
 					 "1_5_2x2_6": [5,4],
 					 "1_5_2x2_7": [6,4]},
 			},
-			"blackness.png": {
-				"tile": 1200,
-				"tileh": 600,
-				"map": { "darkness": [0,0],},			 
-			},
 			"highlight.png": {
 				"tile": 50,
 				"tileh": 50,
@@ -182,40 +177,35 @@ Crafty.scene('Loading', function(){
 				"tileh": 50,
 				"map": { "playerSprite1_reel": [0,0],},			 
 			},
-			"doorSprite1.png": {
+			"rooms/doors/doorSprite1.png": {
 				"tile": 100,
 				"tileh": 100,
 				"map": { "doorSprite1_reel": [0,0],},			 
 			},
-			"doorSprite2.png": {
+			"rooms/doors/doorSprite2.png": {
 				"tile": 100,
 				"tileh": 100,
 				"map": { "doorSprite2_reel": [0,0],},			 
 			},
-			"doorSprite3.png": {
+			"rooms/doors/doorSprite3.png": {
 				"tile": 100,
 				"tileh": 100,
 				"map": { "doorSprite3_reel": [0,0],},			 
 			},
-			"doorSprite4.png": {
+			"rooms/doors/doorSprite4.png": {
 				"tile": 100,
 				"tileh": 100,
 				"map": { "doorSprite4_reel": [0,0],},			 
 			},
-			"doorSprite5.png": {
+			"rooms/doors/doorSprite5.png": {
 				"tile": 100,
 				"tileh": 100,
 				"map": { "doorSprite5_reel": [0,0],},			 
 			},
-			"doorSprite6.png": {
+			"rooms/doors/doorSprite6.png": {
 				"tile": 100,
 				"tileh": 100,
 				"map": { "doorSprite6_reel": [0,0],},			 
-			},
-			"capture.png": {
-				"tile": 256,
-				"tileh": 256,
-				"map": { "ui_Camera": [0,0],},			 
 			},
 			"Home.png": {
 				"tile": 256,
