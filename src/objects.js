@@ -14,6 +14,26 @@ function playerObj() {
 	this.score.visible = 0;
 	this.score.fluff = 0;
 	this.score.fluffCount = 0;
+	this.score.potentialLost = 0;
+}
+
+//PlayerSave Constructor
+function playerSaveObj() {
+	this.score = 0;
+	this.rank = 0;
+	this.lost = 0;
+	this.lostScore = 0;
+	this.found = 0;
+	this.stats = {};
+	this.g = [];
+}
+
+//PlayerSave Constructor
+function gameSaveObj(scores,seeds,dates) {
+	this.p = scores;
+	this.s = seeds;
+	this.st = {};
+	this.d = dates;
 }
 
 //Extra Constructor

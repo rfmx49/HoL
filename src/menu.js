@@ -91,6 +91,7 @@ Crafty.scene('Menu', function() {
 	.bind('MouseUp', function(MouseEvent){
 		//create player
 		//player
+		localStorage.clear();
 		userPlayer = new playerObj;
 		Crafty.scene("Game");
 	});

@@ -15,11 +15,29 @@ Crafty.scene('Game', function() {
 			//frame done
 		});*/
 
+	//clearAll room varibles
+	rooms = [];
+	currentRoom = null;
+	lastRoom = null; //The last Room number in rooms[]
+	lastDoor = null;
+	firstRun = true;
+	lastPos = new Position(0,0,0);
+	playerRoomPos = null;
+
 	//generate first room
 	generateRoom();
 	createHud();
 	//Draw Furniture
 	//unless room 1
+
+	//Check/create localStorage player Save Data
+	if ((typeof (localStorage.playerSaveData) == "undefined")) {
+		var userPlayerSaved = new playerSaveObj();
+		localStorage.playerSaveData = JSON.stringify(userPlayerSaved);
+	}
+	else {
+		//var userPlayerSaved = JSON.parse(localStorage.playerSaveData);
+	}
 
 	//reset score values
 	userPlayer.score.actual = 0;
@@ -75,6 +93,7 @@ function returnedHome() {
 	//Display it at every door
 	var doors = getAllDoors();
 	if (rooms.length != 1) {
+		userPlayer.score.potentialLost = userPlayer.score.actual;
 		footerChange(true);
 	}
 	

@@ -35,30 +35,31 @@ var holdActive = false;
 //player
 var firstRun = true;
 var userPlayer; // = new playerObj;
-var playerEntity;
-var lastPos = new Position(0,0,0);
-var playerRoomPos;
+//var userPlayerSaved; // Local storage player data
+var playerEntity; //The Crafty player entity
+var lastPos = new Position(0,0,0); // The last room position
+var playerRoomPos; //Position in current Room
 
 //Room Varibles
-var maxWidth = 9;
-var maxHeight = 11;
-var floorMap = [];
-floorMap[0] = [];
-var objectMap = [[]];
+var maxWidth = 9; // Max width of Room
+var maxHeight = 11; //Max height of room
+var floorMap = []; // The current rooms floor map
+floorMap[0] = []; // init 2d array
+var objectMap = [[]]; //The current rooms object map
 //objectMap[0] = [];
-var rooms = [];
-var originDoors = [];
-var currentRoom;
-var lastRoom;
-var lastDoor;
-var roomRandom;
+var rooms = []; // The array of all generated rooms
+var originDoors = []; //Origin doors are doors that are availbie depending on the direction of enty to a room
+var currentRoom; //The current room number in rooms[]
+var lastRoom; //The last Room number in rooms[]
+var lastDoor; //The position of the last door used
+var roomRandom; //Random Seeds for generation
 var doorRandom;
 var pathRandom;
 var furnitureRandom;
-var originDoorSuccess = true;
-var deleteRoom = false;
+var originDoorSuccess = true; //Check if doors existed to enter room
+var deleteRoom = false; //Check to delete room
 //TexturePack
-var numOfFloorStyles = 8;
+var numOfFloorStyles = 8; 
 var numOfDoorStyles = 6;
 
 //difficulty
@@ -73,6 +74,7 @@ $(document).ready(function() {
 
 	//clickHandlers
 	footClickHandlers();
+	popUpClickHandlers();
 	
 	//Start crafty
 	beginCrafty();
