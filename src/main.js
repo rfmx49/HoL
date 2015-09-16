@@ -15,6 +15,8 @@ var renderEngine = "DOM"
 //renderEngine = "Canvas" //
 var gameSeeds = 100000;
 
+//DEBUG
+var DEBUGinstructions = [];
 
 
 var gameSeed;

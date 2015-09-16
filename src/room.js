@@ -15,8 +15,11 @@ function generateRoom() {
 	}
 	else {
 		if (deleteRoom){
-		//this is a recreated room remove room from array
-			rooms.splice(currentRoom,1);
+			//this is a recreated room remove room from array
+			//check first if this room has other doors though.
+			if (rooms[currentRoom].doors.length == 0){
+				rooms.splice(currentRoom,1);
+			}
 			userPlayer.score.actual --;
 		}
 	}
@@ -300,7 +303,7 @@ function locateOriginDoor() {
 				console.log("DEBUG originDoors=" + JSON.stringify(originDoors) +" Decider=" + decider);
 				setDoor(originDoors[decider].x,originDoors[decider].y);
 				positionPlayer(originDoors[decider].x,originDoors[decider].y);
-				console.log("To get back to " + lastPos.x + ":" + lastPos.y + " go through door " + originDoors[decider].x + ":" + originDoors[decider].y)
+				DEBUGinstructions.push("To get back to " + lastPos.x + ":" + lastPos.y + " go through door " + originDoors[decider].x + ":" + originDoors[decider].y)
 			}
 		}
 		if (newRoomReq) {
