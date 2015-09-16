@@ -60,42 +60,22 @@ function generateRoom() {
 							switch (wallDecided) {
 								 case 1:
 								 	//top right
-								 	if ((cornerHeight-row) > (-1)) {
-										//corner is on this row but also this coloumn?
-										if ((col+cornerWidth) > floorWidth) {
-											//yes this tile is part of the corner chunk.
-											floorMap[row][col] = null;
-										}
+								 	if ((cornerHeight-row) > (-1)) {//corner is on this row but also this coloumn?if ((col+cornerWidth) > floorWidth) {	//yes this tile is part of the corner chunk.	floorMap[row][col] = null;}
 									}
 								    break;
 								 case 2:
 								 	//bot right
-								 	if ((row+cornerHeight) > floorHeight) {
-										//corner is on this row but also this coloumn?
-										if ((col+cornerWidth) > floorWidth) {
-											//yes this tile is part of the corner chunk.
-											floorMap[row][col] = null;
-										}
+								 	if ((row+cornerHeight) > floorHeight) {//corner is on this row but also this coloumn?if ((col+cornerWidth) > floorWidth) {	//yes this tile is part of the corner chunk.	floorMap[row][col] = null;}
 									}
 								    break;
 								 case 3:
 								 	//bot left
-								 	if ((row+cornerHeight) > floorHeight) {
-										//corner is on this row but also this coloumn?
-										if ((cornerWidth-col) > (-1)) {
-											//yes this tile is part of the corner chunk.
-											floorMap[row][col] = null;
-										}
+								 	if ((row+cornerHeight) > floorHeight) {//corner is on this row but also this coloumn?if ((cornerWidth-col) > (-1)) {	//yes this tile is part of the corner chunk.	floorMap[row][col] = null;}
 									}
 								    break;
 								 case 4:
 								 	//top left
-								 	if ((cornerHeight-row) > (-1)) {
-										//corner is on this row but also this coloumn?
-										if ((cornerWidth-col) > (-1)) {
-											//yes this tile is part of the corner chunk.
-											floorMap[row][col] = null;
-										}
+								 	if ((cornerHeight-row) > (-1)) {//corner is on this row but also this coloumn?if ((cornerWidth-col) > (-1)) {	//yes this tile is part of the corner chunk.	floorMap[row][col] = null;}
 									}
 								    break;
 	 						}
@@ -222,10 +202,17 @@ function setDoor(tileX, tileY){
 	style = floorMap[tileY][tileX].substring(3,2)
 	Crafty.e('Tile' + tileY + '_' + tileX +', floorMap, door_' + rooms[lastRoom].doors[lastDoor].style)
 		.attr({y: tileY*_tileSize, x: tileX*_tileSize, w: _tileSize, h: _tileSize, xTile: tileX, yTile: tileY});
+
 	Crafty(Crafty('FloorGround')[0]).attach(Crafty('Tile' + tileY + '_' + tileX));
 	Crafty('Tile' + tileY + '_' + tileX).origin("center");
 	Crafty('Tile' + tileY + '_' + tileX).offset = offsetDoor;
 	Crafty('Tile' + tileY + '_' + tileX).rotation = tileRotation;
+	/*drawRoomQueue.push('Crafty.e("Tile' + tileY + '_' + tileX +', floorMap, door_' + rooms[lastRoom].doors[lastDoor].style + '")\
+		.attr({y: ' + tileY*_tileSize + ', x: ' + tileX*_tileSize + ', w: ' + _tileSize + ', h: ' + _tileSize + ', xTile:' + tileX + ', yTile: ' + tileY + '});\
+	Crafty(Crafty("FloorGround")[0]).attach(Crafty("Tile' + tileY + '_' + tileX +'"));\
+	Crafty("Tile' + tileY + '_' + tileX + '").origin("center");\
+	Crafty("Tile' + tileY + '_' + tileX + '").offset = {x: ' + offsetDoor.x + ', y: ' + offsetDoor.y + '}\
+	Crafty("Tile' + tileY + '_' + tileX + '").rotation = ' + tileRotation + ';');*/
 	//get door colour floorMap[row][col].substring(3,2)
 	floorMap[tileY][tileX] = "d" + floorMap[tileY][tileX].substring(2,1) + rooms[lastRoom].doors[lastDoor].style;
 	rooms[lastRoom].maps = floorMap;	
@@ -266,12 +253,14 @@ function locateOriginDoor() {
 							if (rooms[currentRoom].doors[existingDoor].toRoomPos.y == rooms[lastRoom].doors[lastDoor].roomPos.y) {
 								//Door is a match to an already created door.
 								console.log("Revisting room no need for new origin door.");
-								originDoorReq = false;							
+								originDoorReq = false;	
+								buildRoom(); // buildRoom as it is valid						
 								positionPlayer(originDoors[i].x,originDoors[i].y);					
 							}
 						}
 						else if ((originDoorReq == true) && ((originDoors.length-1) == i)) {
 							newRoomReq = true;
+							buildRoom(false); // destroy queue as it is invalid
 							console.log('New Room Required');
 						}
 					}
@@ -282,6 +271,7 @@ function locateOriginDoor() {
 			originDoorSuccess = false;
 			newRoomReq = true;
 			deleteRoom = true;
+			buildRoom(false); // destroy queue as it is invalid
 		}
 		if (originDoorReq) {
 			//remove the origin doors which have already been used.
@@ -297,11 +287,14 @@ function locateOriginDoor() {
 				newRoomReq = true;
 				console.log('New Room Required');
 				originDoorSuccess = false;
+				buildRoom(false); // destroy queue as it is invalid
 			}
-			else {		
+			else {
+				buildRoom(); // buildRoom as it is valid
 				var decider = Math.floor(roomRandom() * originDoors.length);
 				console.log("DEBUG originDoors=" + JSON.stringify(originDoors) +" Decider=" + decider);
-				setDoor(originDoors[decider].x,originDoors[decider].y);
+				setDoor(originDoors[decider].x, originDoors[decider].y);
+				//drawRoomQueue.push('setDoor(' + originDoors[decider].x + ', ' + originDoors[decider].y + ');');
 				positionPlayer(originDoors[decider].x,originDoors[decider].y);
 				DEBUGinstructions.push("To get back to " + lastPos.x + ":" + lastPos.y + " go through door " + originDoors[decider].x + ":" + originDoors[decider].y)
 			}
@@ -344,6 +337,9 @@ function locateOriginDoor() {
 			return false;
 		}
 		
+	}
+	else {
+		buildRoom(); // buildRoom as it is valid and is the first room
 	}
 	return true;
 }
@@ -455,6 +451,12 @@ function fillWalls() {
 		}
 	}
 }
+function buildRoom() {
+	//go thorugh build loop.
+	while (drawRoomQueue.length != 0) {
+		eval(drawRoomQueue.shift());
+	}
+}
 
 function drawRoom() {
 	////console.log('draw room ' + floorMap);
@@ -467,10 +469,12 @@ function drawRoom() {
 	var style;
 	//Draw ground/parent
 	//console.log("roomCenter.x = " + roomCenter.x);
-	Crafty.e('FloorGround, 2D, ' + renderEngine + ', Color')
-		.attr({x: ((roomCenter.x*_tileSize)+(_tileSize/2)), y: ((roomCenter.y*_tileSize)+(_tileSize/2)), w: 1, h: 1, alpha: 0})
-		.color("#FFFFFF");
-		objectMap = [[]];
+	drawRoomQueue.push('Crafty.e("FloorGround, 2D, ' + renderEngine + ', Color") \
+		.attr({x: ' +((roomCenter.x*_tileSize)+(_tileSize/2)) + ', y: ' + ((roomCenter.y*_tileSize)+(_tileSize/2)) + ', w: 1, h: 1, alpha: 0}) \
+		.color("#FFFFFF")\
+		.objectMap = [[]];');
+	
+	
 	for (var row = 0; row < rows; row++) {
 		cols = floorMap[row].length;
 		//create objectMap array.
@@ -531,13 +535,15 @@ function drawRoom() {
 							break;
 					}
 					//Door creation
-					style = floorMap[row][col].substring(3,2)
-					Crafty.e('Tile' + row + '_' + col +', floorMap, door_' + style)
-						.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize, xTile: col, yTile: row});
-					Crafty(Crafty('FloorGround')[0]).attach(Crafty('Tile' + row + '_' + col));
-					Crafty('Tile' + row + '_' + col).origin("center");
-					Crafty('Tile' + row + '_' + col).offset = offsetDoor;
-					Crafty('Tile' + row + '_' + col).rotation = tileRotation;
+					style = floorMap[row][col].substring(3,2);
+					drawRoomQueue.push('Crafty.e("Tile' + row + '_' + col +', floorMap, door_' + style + '")\
+						.attr({y: ' + row*_tileSize + ', x: ' + col*_tileSize + ', w: ' + _tileSize + ', h: + ' + _tileSize + ' , xTile: ' + col + ', yTile: ' + row +'});\
+					Crafty(Crafty("FloorGround")[0]).attach(Crafty("Tile' + row + '_' + col + '"));\
+					Crafty("Tile' + row + '_' + col + '").origin("center");\
+					Crafty("Tile' + row + '_' + col + '").offset = {x: ' + offsetDoor.x + ', y:' + offsetDoor.y + '};\
+					Crafty("Tile' + row + '_' + col + '").rotation = ' + tileRotation + ';')
+					
+					
 					//find origin door
 					oppisiteRotation = tileRotation + 180
 					if (oppisiteRotation == 450) { oppisiteRotation = 90; }
@@ -561,17 +567,19 @@ function drawRoom() {
 			switch (floorMap[row][col]) {
 				case "f":
 				case "o":
-					Crafty.e('Tile' + row + '_' + col +', floorMap, floor_' + rooms[currentRoom].floorStyle)
-						.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize, xTile: col, yTile: row});
-					tileName = 'Tile' + row + '_' + col
-					Crafty(Crafty('FloorGround')[0]).attach(Crafty('Tile' + row + '_' + col));
+					drawRoomQueue.push('Crafty.e("Tile' + row + '_' + col +', floorMap, floor_' + rooms[currentRoom].floorStyle + '")\
+						.attr({y: ' + row*_tileSize + ', x: ' + col*_tileSize + ', w: ' + _tileSize + ' , h: ' + _tileSize + ', xTile: ' + col + ', yTile:' + row +'}); \
+					Crafty(Crafty("FloorGround")[0]).attach(Crafty("Tile' + row + '_' + col + '"));')
+
 					break;
 				case "x":
 					break;
-					Crafty.e('Tile' + row + '_' + col +', floorMap, Color')
-						.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize})
-						.color('#000000');
-					Crafty(Crafty('FloorGround')[0]).attach(Crafty('Tile' + row + '_' + col));
+					drawRoomQueue.push('Crafty.e("Tile' + row + '_' + col + ', floorMap, Color")\
+						.attr({y: ' + row*_tileSize + ', x: ' + col*_tileSize + ', w: ' + _tileSize + ', h: + ' + _tileSize + '})\
+						.color("#000000");\
+					Crafty(Crafty("FloorGround")[0]).attach(Crafty("Tile' + row + '_' + col +'"));');
+					
+					
 					break;
 				case "wa":
 				case "wb":
@@ -585,12 +593,13 @@ function drawRoom() {
 						decider = 3; 
 						//console.log('Room already exitst dont regendoors.');
 					}
-					if (decider > 2) {					
-						Crafty.e('Tile' + row + '_' + col +', wallMap, wall_straight')
-							.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize, xTile: col, yTile: row});
-						Crafty(Crafty('FloorGround')[0]).attach(Crafty('Tile' + row + '_' + col));
-						Crafty('Tile' + row + '_' + col).origin("center");
-						Crafty('Tile' + row + '_' + col).rotation = tileRotation;
+					if (decider > 2) {	
+					drawRoomQueue.push('Crafty.e("Tile' + row + '_' + col +', wallMap, wall_straight")\
+							.attr({y:' + row*_tileSize + ', x:' + col*_tileSize + ', w:' + _tileSize + ', h:' + _tileSize + ', xTile:' + col + ', yTile:' + row + ' });\
+						Crafty(Crafty("FloorGround")[0]).attach(Crafty("Tile' + row + '_' + col +'"));\
+						Crafty("Tile' + row + '_' + col + '").origin("center");\
+						Crafty("Tile' + row + '_' + col + '").rotation = ' + tileRotation + ';');
+
 					}
 					else {
 						//room directions major direction ++ minor direction  1/2 sparseness +/-
@@ -614,12 +623,13 @@ function drawRoom() {
 						}
 						//Door creation
 						style = (Math.floor(roomRandom() * numOfDoorStyles) + 1)
-						Crafty.e('Tile' + row + '_' + col +', floorMap, door_' + style)
-							.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize, xTile: col, yTile: row});
-						Crafty(Crafty('FloorGround')[0]).attach(Crafty('Tile' + row + '_' + col));
-						Crafty('Tile' + row + '_' + col).origin("center");
-						Crafty('Tile' + row + '_' + col).offset = offsetDoor;
-						Crafty('Tile' + row + '_' + col).rotation = tileRotation;
+						drawRoomQueue.push('Crafty.e("Tile' + row + '_' + col +', floorMap, door_' + style + '")\
+							.attr({y:' + row*_tileSize + ', x:' + col*_tileSize + ', w:' + _tileSize + ', h:' + _tileSize + ', xTile:' + col + ', yTile:' + row + ' });\
+						Crafty(Crafty("FloorGround")[0]).attach(Crafty("Tile' + row + '_' + col + '"));\
+						Crafty("Tile' + row + '_' + col + '").origin("center");\
+						Crafty("Tile' + row + '_' + col + '").offset = {x:' + offsetDoor.x + ', y:' + offsetDoor.y + '};\
+						Crafty("Tile' + row + '_' + col + '").rotation = ' + tileRotation + ';');
+
 						//find origin door
 						oppisiteRotation = tileRotation + 180
 						if (oppisiteRotation == 450) { oppisiteRotation = 90; }
@@ -643,21 +653,23 @@ function drawRoom() {
 				case "tri":
 				case "bli":
 				case "bri":
-					Crafty.e('Tile' + row + '_' + col +', wallMap, wall_corner_in')
-						.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize, xTile: col, yTile: row});
-					Crafty(Crafty('FloorGround')[0]).attach(Crafty('Tile' + row + '_' + col));
-					Crafty('Tile' + row + '_' + col).origin("center")
-					Crafty('Tile' + row + '_' + col).rotation = tileRotation;
+					drawRoomQueue.push('Crafty.e("Tile' + row + '_' + col +', wallMap, wall_corner_in")\
+						.attr({y:' + row*_tileSize + ', x:' + col*_tileSize + ', w:' + _tileSize + ', h:' + _tileSize + ', xTile:' + col + ', yTile:' + row + ' });\
+						Crafty(Crafty("FloorGround")[0]).attach(Crafty("Tile' + row + '_' + col +'"));\
+						Crafty("Tile' + row + '_' + col + '").origin("center");\
+						Crafty("Tile' + row + '_' + col + '").rotation = ' + tileRotation + ';');
+
 					break;
 				case "tlc":
 				case "trc":
 				case "blc":
 				case "brc":
-					Crafty.e('Tile' + row + '_' + col +', wallMap, wall_corner_out')
-						.attr({y: row*_tileSize, x: col*_tileSize, w: _tileSize, h: _tileSize, xTile: col, yTile: row});
-					Crafty(Crafty('FloorGround')[0]).attach(Crafty('Tile' + row + '_' + col));
-					Crafty('Tile' + row + '_' + col).origin("center")
-					Crafty('Tile' + row + '_' + col).rotation = tileRotation;
+					drawRoomQueue.push('Crafty.e("Tile' + row + '_' + col +', wallMap, wall_corner_out")\
+						.attr({y:' + row*_tileSize + ', x:' + col*_tileSize + ', w:' + _tileSize + ', h:' + _tileSize + ', xTile:' + col + ', yTile:' + row + ' });\
+						Crafty(Crafty("FloorGround")[0]).attach(Crafty("Tile' + row + '_' + col +'"));\
+						Crafty("Tile' + row + '_' + col + '").origin("center");\
+						Crafty("Tile' + row + '_' + col + '").rotation = ' + tileRotation + ';');
+					
 					break;
 			}
 		}
