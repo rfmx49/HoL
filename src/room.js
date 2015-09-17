@@ -1,5 +1,7 @@
 function generateRoom() {
 	originDoors = [];
+	objectMap = [[]];
+	floorMap = null;
 	//console.log("clear")
 	Crafty('FloorGround').destroy();
 	var firstRoom = false;

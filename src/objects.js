@@ -198,6 +198,7 @@ Crafty.c('PlayerCharacter', {
 				}
 				Crafty(playerID).rotation = newPos.rotation;
 				userPlayer.rotation = newPos.rotation;
+				fadeOutView(false, 300, 200);
 				setTimeout(function() {
 					//destroy and make a new room
 					Crafty(Crafty('FloorGround')[0]).destroy();

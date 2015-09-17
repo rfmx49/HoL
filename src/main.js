@@ -63,6 +63,7 @@ var pathRandom;
 var furnitureRandom;
 var originDoorSuccess = true; //Check if doors existed to enter room
 var deleteRoom = false; //Check to delete room
+var centerPoint; //Centerpoint to zoom on.
 //TexturePack
 var numOfFloorStyles = 8; 
 var numOfDoorStyles = 6;

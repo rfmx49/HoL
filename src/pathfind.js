@@ -238,9 +238,10 @@ function easyStarPathFind(id, x, y, queue) {
 	easystar.setAcceptableTiles(['f','d']);
 	//easystar.setTileCost(2, 1000*1000);
 	easystar.findPath(currentPos.xtile, currentPos.ytile, x, y, function( path ) {
-		if (path === null) {
+		if (path === null || path.length == 0) {
 		    console.log("Path was not found.");
-		} else {
+		} 
+		else {
 		    console.log("Path was found. The first Point is " + path[0].x + " " + path[0].y);
 		    for (var pathNode = 1; pathNode < path.length; pathNode++) {
 				//get direction of travel by comparing previous point to the current point.

@@ -1,9 +1,9 @@
 //Main crafty Game scene
 Crafty.scene('Game', function() {
 
-	var centerPoint = Crafty.e('centerPoint, 2D,' + renderEngine + ', Color')
-		.attr({x: ((maxWidth+2)*_tileSize)/2, y: ((maxHeight+4)*_tileSize)/2, w: 1, h: 1, alpha: 0, z: 100})
-		.color('#FFFFFF');
+	centerPoint = Crafty.e('centerPoint, 2D,' + renderEngine + ', Color')
+		.attr({x: ((maxWidth+2)*_tileSize)/2, y: ((maxHeight+4)*_tileSize)/2, w: 5, h: 5, alpha: 1, z: 100})
+		.color('#FF0000');
 
 	Crafty.viewport.centerOn(centerPoint, 0);
 
@@ -120,8 +120,11 @@ function createPlayerEntHome() {
 };
 
 function createPlayerEnt() {
-	if (rooms.length == 1) { createPlayerEntHome(); } //first room exceptions.
+	if (rooms.length == 1) { createPlayerEntHome(); }
+	else { fadeInView(false, 300, 200); }
+	 //first room exceptions.
 	var centerOffset = 0;
+	
 	/*if (Crafty('centerPoint')._x != Crafty('floorGround')._x) {
 		console.log("an even lenght room");
 		//centerOffset = _tileSize/2;
