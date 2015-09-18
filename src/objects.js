@@ -328,3 +328,22 @@ Crafty.c('furnitureMap', {
 	}
 });
 
+//door animation
+Crafty.c('loadingAnimate', {
+	init: function() {
+		this.requires('2D, ' + renderEngine + ', SpriteAnimation');
+		this.origin("center");
+		this.z = 1001;
+		this.reel('loadingForward', 300, 1, 0, 13);
+		this.reel('loadingReverse', 300, 11, 0, -11);
+	},
+	loadingForward: function() {
+		this.animate('loadingForward', 1);
+		//this.loadingReverse();
+	},
+	loadingReverse: function() {
+		this.animate('loadingReverse', 1);
+		//this.loadingForward();
+	}
+});
+

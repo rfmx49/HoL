@@ -59,7 +59,8 @@ function fadeOutView (toggle, fadeTime, delay, restartTime) {
 		.bind("TweenEnd", function(){ 
 			console.log("tween complete"); 
 			if (toggle) {
-				setTimeout(function() {
+				loadingLoop();
+				setTimeout(function() {					
 					fadeInView(false,restartTime);
 				}, delay, restartTime);
 			}
@@ -74,6 +75,13 @@ function zoomOutFade() {
 	Crafty.viewport.centerOn(centerPoint, 0);
 	Crafty.viewport.zoom(0,centerPoint._x,centerPoint._y,250);
 	
+}
+
+function loadingLoop() {
+	//fadeOutView(false,1000);
+	var loadingIcon = Crafty.e('loadingAnimate, loading_reel').attr({x: ((maxWidth+2)*_tileSize)/2, y: ((maxHeight+4)*_tileSize)/2, w: 2*_tileSize, h: 2*_tileSize, alpha: 1});
+	Crafty('fadeOut').attach(loadingIcon);
+	Crafty('loadingAnimate').loadingForward();
 }
 
 function footClickHandlers() {

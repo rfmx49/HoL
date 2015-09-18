@@ -207,6 +207,11 @@ Crafty.scene('Loading', function(){
 				"tileh": 100,
 				"map": { "doorSprite6_reel": [0,0],},			 
 			},
+			"hud/loading.png": {
+				"tile": 100,
+				"tileh": 100,
+				"map": { "loading_reel": [0,0],},			 
+			},
 			"Home.png": {
 				"tile": 256,
 				"tileh": 232,
