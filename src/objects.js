@@ -22,10 +22,12 @@ function playerSaveObj() {
 	this.score = 0;
 	this.rank = 0;
 	this.lost = 0;
+	this.disconnected = 0;
 	this.lostScore = 0;
 	this.found = 0;
 	this.stats = {};
 	this.g = [];
+	this.active = true;
 }
 
 //PlayerSave Constructor
@@ -200,6 +202,7 @@ Crafty.c('PlayerCharacter', {
 				userPlayer.rotation = newPos.rotation;
 				fadeOutView(false, 300, 200);
 				setTimeout(function() {
+					loadingLoop();
 					//destroy and make a new room
 					Crafty(Crafty('FloorGround')[0]).destroy();
 					//remember previous postions and door to refrence back to.
@@ -328,17 +331,17 @@ Crafty.c('furnitureMap', {
 	}
 });
 
-//door animation
+//loading animation
 Crafty.c('loadingAnimate', {
 	init: function() {
 		this.requires('2D, ' + renderEngine + ', SpriteAnimation');
 		this.origin("center");
 		this.z = 1001;
-		this.reel('loadingForward', 300, 1, 0, 13);
-		this.reel('loadingReverse', 300, 11, 0, -11);
+		this.reel('loadingForward', 1000, 0, 0, 14);
+		this.reel('loadingReverse', 3000, 14, 0, -15);
 	},
 	loadingForward: function() {
-		this.animate('loadingForward', 1);
+		this.animate('loadingForward', -1);
 		//this.loadingReverse();
 	},
 	loadingReverse: function() {

@@ -94,10 +94,10 @@ function mobileCheck() {
 
 function verifySeed() {
 	//interesting seeds
-	//1748(1x1 room with door, 6877(only three rooms), 92166(only 3 rooms)
+	//1748(1x1 room with door, 6877(only three rooms), 92166(only 3 rooms), 53769 (only 2 rooms)
 	//No doors, 8696
 	//Broken Seeds
-	var brokenSeeds = [1814,98351,92166,8696];
+	var brokenSeeds = [1814,98351,92166,8696,53769];
 	if (brokenSeeds.indexOf(gameSeed) != -1) {
 		genGameSeed();
 		verifySeed();
@@ -140,15 +140,16 @@ function beginCrafty() {
 		//Crafty.background('#FCF0AD'); //Canary yellow
 		//Crafty.background('#E9E74A'); //yellowy not good on mobile
 		//Crafty.background('#FFFFC0');
-		if (mobileCheck) {
-			$('.containsText').css({'font-size': (_tileSize*.75) + 'px'});
+		mobileFontSize();
+		if (mobileCheck()) {
 			_tileSize = Math.floor(_tileSize*1.15);
+			$('.containsText').css({'font-size': (_tileSize*.75) + 'px'});
 			Crafty.viewport.init(gameClientWidth,gameClientHeight);
 		}
 		else {
 			$('.containsText').css({'font-size': (_tileSize*.75) + 'px'});
-			_tileSize = Math.floor(_tileSize*1.15);
-			Crafty.viewport.init(12*_tileSize,gameClientHeight);
+			//_tileSize = Math.floor(_tileSize*1.15);
+			//Crafty.viewport.init(12*_tileSize,gameClientHeight);
 		}
 		Crafty.background('#FFFFC0 url(res/img/hud/paper.png) center center');
 		//start game or loading scene

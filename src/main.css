@@ -53,6 +53,10 @@
   	border-left: solid 1px #000000;
 }
 
+#endGamePopUpTable .noBorder{
+	border: none;
+}
+
 .popUpValue{
 	font-weight: bold;
 }

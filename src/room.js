@@ -170,6 +170,7 @@ function generateRoom() {
 	}
 	else {
 		if (doorsValid) {
+			
 			//create player on room
 			createPlayerEnt();
 			if (firstRun == false) {
@@ -177,6 +178,7 @@ function generateRoom() {
 			}
 		}
 		centerRoom();
+		
 	
 		return floorMap;
 	}
@@ -184,12 +186,12 @@ function generateRoom() {
 
 function centerRoom(){
 	if (floorMap[0].length % 2 === 0) {
-		Crafty('FloorGround').x = Crafty('centerPoint')._x; // + (_tileSize/2) // This will center the room but movement is then broken :(
+		Crafty('FloorGround').x = centerPoint._x;//+ (_tileSize/2); // This will center the room but movement is then broken :(
 	}
 	else {
-		Crafty('FloorGround').x = Crafty('centerPoint')._x
+		Crafty('FloorGround').x = centerPoint._x
 	}
-	Crafty('FloorGround').y = Crafty('centerPoint')._y
+	Crafty('FloorGround').y = centerPoint._y
 }
 
 function setDoor(tileX, tileY){

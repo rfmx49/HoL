@@ -36,7 +36,13 @@ Crafty.scene('Game', function() {
 		localStorage.playerSaveData = JSON.stringify(userPlayerSaved);
 	}
 	else {
-		//var userPlayerSaved = JSON.parse(localStorage.playerSaveData);
+		var userPlayerSaved = JSON.parse(localStorage.playerSaveData);
+		if (userPlayerSaved.active) {
+			userPlayerSaved.disconnected = userPlayerSaved.disconnected + 1;
+			userPlayerSaved.active = true;
+			localStorage.playerSaveData = JSON.stringify(userPlayerSaved);
+		}
+		
 	}
 
 	//reset score values
