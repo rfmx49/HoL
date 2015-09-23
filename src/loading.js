@@ -217,6 +217,16 @@ Crafty.scene('Loading', function(){
 				"tileh": 232,
 				"map": { "ui_home": [0,0],},			 
 			},
+			"door.png": {
+				"tile": 200,
+				"tileh": 200,
+				"map": { "ui_door": [0,0],},			 
+			},
+			"checklist.png": {
+				"tile": 200,
+				"tileh": 200,
+				"map": { "ui_checklist": [0,0],},			 
+			},
 			"hud/enterSeed.png": {
 			"tile": 340,
 				"tileh": 160,
