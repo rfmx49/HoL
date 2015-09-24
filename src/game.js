@@ -108,7 +108,7 @@ function returnedHome() {
 		doors[n] = getInFront('door', doors[n].y, doors[n].x);
 	
 		Crafty.e('TileHOME' + doors[n].y + '_' + doors[n].x + ', 2d, ' + renderEngine + ', ui_home')
-			.attr({y: Crafty('Tile' + doors[n].y + '_' + doors[n].x)._y, x: Crafty('Tile' + doors[n].y + '_' + doors[n].x)._x, w: _tileSize, h: _tileSize, z:3});
+			.attr({y: Crafty('Tile' + doors[n].y + '_' + doors[n].x)._y, x: Crafty('Tile' + doors[n].y + '_' + doors[n].x)._x, w: _tileSize, h: _tileSize, z:3, alpha:.5});
 		Crafty(Crafty('FloorGround')[0]).attach(Crafty('TileHOME' + doors[n].y + '_' + doors[n].x));
 		
 	}
@@ -219,4 +219,22 @@ function debugDrawFireRoute() {
 			}
 		}
 	}		
+}
+
+function hintShowRoom() {
+	//create a popup that says if this room has been visited before.
+	
+	popUpCreate('hintRoom');
+	
+}
+
+function hintShowDoors() {
+	//Show doors which have been used in a room.
+	setTimeout(function() {
+		for (var n = 0; n < rooms[currentRoom].doors.length; n++) {
+			changeDoor(rooms[currentRoom].doors[n].roomPos.y,rooms[currentRoom].doors[n].roomPos.x,'open')
+			Crafty("Tile" + rooms[currentRoom].doors[n].roomPos.y + "_" + rooms[currentRoom].doors[n].roomPos.x).mouseOverEvent();
+		}
+	}, 250);
+	
 }

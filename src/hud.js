@@ -104,8 +104,25 @@ function footClickHandlers() {
 		console.log("clicked");		
 		//footerChange(false);
 
-		popUpCreate();
+		popUpCreate("endGame");
 		
+	});
+
+	$( "#statusWindowFooter" ).on('mouseup', ' #statusFooterExpand #hintShowDoor' ,function() {
+		//Expand the footer
+		console.log("hint Cliked show Door");		
+		//footerChange(false);
+
+		hintShowDoors();
+		
+	});
+
+	$( "#statusWindowFooter" ).on('mouseup', ' #statusFooterExpand #hintShowRoom' ,function() {
+		//Expand the footer
+		console.log("hint Cliked show room");		
+		//footerChange(false);
+		
+		hintShowRoom();
 	});
 }
 
@@ -120,8 +137,10 @@ function footerChange(expand) {
 			var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 			var checkSeed = days[d.getDay()] + ' ' + d.getDay() + '/' + d.getMonth() + '/' + d.getFullYear();
 			if (textSeed == checkSeed) {textSeed = 'Daily';}
-			$( "#statusWindowFooter" ).html('<div id="statusFooterExpand"><center>v</center><center><table class="statusWindowFooterTable containsTextFooter" ><tr><td><b>Seed: </b>'+ textSeed +'</td><td><b>Rank: </b>' + getRank(userPlayer.score.visible).currentLevel + '</td><td rowspan=2 align="center"><img src="res/img/Home.png" style:"width: 10px,height: 10px;" id="footEndGame"><br /><b>END</b></td></tr><tr><td><b>Record: </b>'+ textSeed +'</td><td><b>Next in: </b>' + getRank(userPlayer.score.visible).difference + ' rooms.</td></tr></table><center></div>')
-			$('#footEndGame').height((Crafty.viewport.height/6)/2.5)
+			$( "#statusWindowFooter" ).html('<div id="statusFooterExpand"><center>v</center><center><table class="statusWindowFooterTable containsTextFooter" ><tr><td rowspan=2><center><img src="res/img/hud/door.png" style:"width: 10px,height: 10px;"  id="hintShowDoor"><img src="res/img/hud/checkList.png" style:"width: 10px,height: 10px;" id="hintShowRoom"></center></td><td><b>Rank: </b>' + getRank(userPlayer.score.visible).currentLevel + '</td><td rowspan=2 align="center"><img src="res/img/hud/home.png" style:"width: 10px,height: 10px;" id="footEndGame"><br /><b>END</b></td></tr><tr><td><b>Next in: </b>' + getRank(userPlayer.score.visible).difference + ' rooms.</td></tr></table><center></div>')
+			$('#footEndGame').height((Crafty.viewport.height/6)/2.5);
+			$('#hintShowDoor').height((Crafty.viewport.height/6)/1.5);
+			$('#hintShowRoom').height((Crafty.viewport.height/6)/1.5);
 	}
 	else {
 		//Footer is up
@@ -182,41 +201,65 @@ function popUpDestroy() {
 	$('#gamePopUp').width(0);
 }
 
-function popUpCreate() {
-	fadeOutView(false, 500);
-	$('#gamePopUp').css('top', (Crafty.viewport.height*.05)+'px');
-	$('#gamePopUp').css('left', (Crafty.viewport.width*.05)+'px');
-	$('#gamePopUp').height(Crafty.viewport.height*.8);
-	$('#gamePopUp').width(Crafty.viewport.width*.9);
-	if (currentRoom == 0) {
-		var isHome = true;
-		var lostClass = null;
-		var textLost = ['Home','Safe','At Base','Known']
-		textLost = textLost[Math.floor(Math.random() * textLost.length)]
-		var leavingMessage = "End game now to save your achivements. Or continue to try increase them but be <strong>WARNED</strong> if you get lost your achivements are lost with you!"
-	}
-	else {
-		var isHome = false;
-		var lostClass = "endGamePopUpTableColoured"
-		var textLost = ['LOST','AWOL','Missing','Lost','Unknown','Not Home','Adrift','Disoriented','Vanished','Wandering','Irrecoverable','Irretrievable','Wherabouts Unknown','Missing Presumed Dead','MIA']
-		textLost = textLost[Math.floor(Math.random() * textLost.length)]
-		var leavingMessage = "Lost? Cannot find your way? To many dead end corridors? Nothing looks farmilliar? Give up now!<br /><br /> <strong>CAUTION</strong> all achivements from this exploration will be lost."
-	}
+function popUpCreate(type) {
+	fadeOutView(false, 300);
+	Crafty('fadeOut').addComponent('Mouse')
+	Crafty('fadeOut').bind("MouseUp", function(MouseEvent) { 
+		fadeInView(false, 300);
+		popUpDestroy();
+	});
 	
-	var rank = getRank(userPlayer.score.actual);
-	var userPlayerSaved = JSON.parse(localStorage.playerSaveData);
-	var totalRank = getRank((parseInt(userPlayerSaved.score) + userPlayer.score.actual));
-	if (isHome) {
-		$('#gamePopUp').html('<table id="endGamePopUpTable"><tr><th colspan="4"><strong>Are you sure you are ready to leave?</strong></th></tr><tr><td colspan="4"></td></tr><tr><td colspan="4"><hr></td></tr><tr><td colspan="2">Current Location:</td><td colspan="1" align="center" class="popUpValue ' + lostClass + ' ">' + textLost + '</td><td></td></tr><tr><td colspan="4"><hr></td></tr><tr><td colspan="3">Total number of rooms explored:</td><td class="popUpValue">' + userPlayer.score.actual + '</td></tr><tr><td colspan="3">All time total rooms explored:</td><td class="popUpValue">' + (parseInt(userPlayerSaved.score) + userPlayer.score.actual) + '</td></tr><tr><td colspan="4"></td></tr><tr><td colspan="3">Rank achieved this exploration:</td><td class="popUpValue">' + rank.currentLevel + '</td></tr><tr><td colspan="3">Rooms required to rank up:</td><td class="popUpValue">' + rank.difference + '</td></tr><tr><td colspan="3">New overall rank:</td><td class="popUpValue">' + totalRank.currentLevel + '</td></tr><tr><td colspan="3">Rooms required to rank up:</td><td class="popUpValue">' + totalRank.difference + '</td></tr><tr><td colspan="4"></td></tr><tr><td colspan="4"></td></tr><tr><td colspan="4"><hr></td></tr><tr><td colspan="4" align="center">' + leavingMessage + '</td></tr><tr><td colspan="2" align="center" class="noBorder"><div class="popUpImgContain" id="popUpConBtnImg"></div></td><td class="noBorder"></td><td class="noBorder"><div class="popUpImgContain"  id="popUpEndBtnImg"></div></td></tr></table>');
-	}
-	else {
-		rank = getRank(userPlayer.score.visible);
-		totalRank = getRank((parseInt(userPlayerSaved.score) + userPlayer.score.visible));
-		$('#gamePopUp').html('<table id="endGamePopUpTable"><tr><th colspan="4"><strong>Are you sure you are ready to leave?</strong></th></tr><b><tr><td colspan="4"></td></tr><tr><td colspan="4"><hr></td></tr><tr><td colspan="2">Current Location:</td><td colspan="1" align="center" class="popUpValue ' + lostClass + ' ">' + textLost + '</td><td></td></tr><tr><td colspan="4"><hr></td></tr><tr><td colspan="3">Total number of rooms explored:</td><td class="popUpValue">' + userPlayer.score.visible + '</td></tr><tr><td colspan="3">All time total rooms explored:</td><td class="popUpValue">' + (parseInt(userPlayerSaved.score) + userPlayer.score.visible) + '</td></tr><tr><td colspan="4"></td></tr><tr><td colspan="3">Rank achieved this exploration:</td><td class="popUpValue">' + rank.currentLevel + '</td></tr><tr><td colspan="3">Rooms required to rank up:</td><td class="popUpValue">' + rank.difference + '</td></tr><tr><td colspan="3">New overall rank:</td><td class="popUpValue">' + totalRank.currentLevel + '</td></tr><tr><td colspan="3">Rooms required to rank up:</td><td class="popUpValue">' + totalRank.difference + '</td></tr><tr><td colspan="4"></td></tr><tr><td colspan="4"></td></tr><tr><td colspan="4"><hr></td></tr><tr><td colspan="4" align="center">' + leavingMessage + '</td></tr><tr><td colspan="2" align="center" class="noBorder"><div class="popUpImgContain" id="popUpConBtnImg"></div></td><td class="noBorder"></td><td class="noBorder"><div class="popUpImgContain"  id="popUpEndBtnImg"></div></td></tr></b>></table>');
-	}
+	if (type == 'endGame') {
+		$('#gamePopUp').css('top', (Crafty.viewport.height*.05)+'px');
+		$('#gamePopUp').css('left', (Crafty.viewport.width*.05)+'px');
+		$('#gamePopUp').height(Crafty.viewport.height*.8);
+		$('#gamePopUp').width(Crafty.viewport.width*.9);
+		if (currentRoom == 0) {
+			var isHome = true;
+			var lostClass = null;
+			var textLost = ['Home','Safe','At Base','Known']
+			textLost = textLost[Math.floor(Math.random() * textLost.length)]
+			var leavingMessage = "End game now to save your achivements. Or continue to try increase them but be <strong>WARNED</strong> if you get lost your achivements are lost with you!"
+		}
+		else {
+			var isHome = false;
+			var lostClass = "endGamePopUpTableColoured"
+			var textLost = ['LOST','AWOL','Missing','Lost','Unknown','Not Home','Adrift','Disoriented','Vanished','Wandering','Irrecoverable','Irretrievable','Wherabouts Unknown','Missing Presumed Dead','MIA']
+			textLost = textLost[Math.floor(Math.random() * textLost.length)]
+			var leavingMessage = "Lost? Cannot find your way? To many dead end corridors? Nothing looks farmilliar? Give up now!<br /><br /> <strong>CAUTION</strong> all achivements from this exploration will be lost."
+		}
+	
+		var rank = getRank(userPlayer.score.actual);
+		var userPlayerSaved = JSON.parse(localStorage.playerSaveData);
+		var totalRank = getRank((parseInt(userPlayerSaved.score) + userPlayer.score.actual));
+		if (isHome) {
+			$('#gamePopUp').html('<table id="endGamePopUpTable"><tr><th colspan="4"><strong>Are you sure you are ready to leave?</strong></th></tr><tr><td colspan="4"></td></tr><tr><td colspan="4"><hr></td></tr><tr><td colspan="2">Current Location:</td><td colspan="1" align="center" class="popUpValue ' + lostClass + ' ">' + textLost + '</td><td></td></tr><tr><td colspan="4"><hr></td></tr><tr><td colspan="3">Total number of rooms explored:</td><td class="popUpValue">' + userPlayer.score.actual + '</td></tr><tr><td colspan="3">All time total rooms explored:</td><td class="popUpValue">' + (parseInt(userPlayerSaved.score) + userPlayer.score.actual) + '</td></tr><tr><td colspan="4"></td></tr><tr><td colspan="3">Rank achieved this exploration:</td><td class="popUpValue">' + rank.currentLevel + '</td></tr><tr><td colspan="3">Rooms required to rank up:</td><td class="popUpValue">' + rank.difference + '</td></tr><tr><td colspan="3">New overall rank:</td><td class="popUpValue">' + totalRank.currentLevel + '</td></tr><tr><td colspan="3">Rooms required to rank up:</td><td class="popUpValue">' + totalRank.difference + '</td></tr><tr><td colspan="4"></td></tr><tr><td colspan="4"></td></tr><tr><td colspan="4"><hr></td></tr><tr><td colspan="4" align="center">' + leavingMessage + '</td></tr><tr><td colspan="2" align="center" class="noBorder"><div class="popUpImgContain" id="popUpConBtnImg"></div></td><td class="noBorder"></td><td class="noBorder"><div class="popUpImgContain"  id="popUpEndBtnImg"></div></td></tr></table>');
+		}
+		else {
+			rank = getRank(userPlayer.score.visible);
+			totalRank = getRank((parseInt(userPlayerSaved.score) + userPlayer.score.visible));
+			$('#gamePopUp').html('<table id="endGamePopUpTable"><tr><th colspan="4"><strong>Are you sure you are ready to leave?</strong></th></tr><b><tr><td colspan="4"></td></tr><tr><td colspan="4"><hr></td></tr><tr><td colspan="2">Current Location:</td><td colspan="1" align="center" class="popUpValue ' + lostClass + ' ">' + textLost + '</td><td></td></tr><tr><td colspan="4"><hr></td></tr><tr><td colspan="3">Total number of rooms explored:</td><td class="popUpValue">' + userPlayer.score.visible + '</td></tr><tr><td colspan="3">All time total rooms explored:</td><td class="popUpValue">' + (parseInt(userPlayerSaved.score) + userPlayer.score.visible) + '</td></tr><tr><td colspan="4"></td></tr><tr><td colspan="3">Rank achieved this exploration:</td><td class="popUpValue">' + rank.currentLevel + '</td></tr><tr><td colspan="3">Rooms required to rank up:</td><td class="popUpValue">' + rank.difference + '</td></tr><tr><td colspan="3">New overall rank:</td><td class="popUpValue">' + totalRank.currentLevel + '</td></tr><tr><td colspan="3">Rooms required to rank up:</td><td class="popUpValue">' + totalRank.difference + '</td></tr><tr><td colspan="4"></td></tr><tr><td colspan="4"></td></tr><tr><td colspan="4"><hr></td></tr><tr><td colspan="4" align="center">' + leavingMessage + '</td></tr><tr><td colspan="2" align="center" class="noBorder"><div class="popUpImgContain" id="popUpConBtnImg"></div></td><td class="noBorder"></td><td class="noBorder"><div class="popUpImgContain"  id="popUpEndBtnImg"></div></td></tr></b>></table>');
+		}
 
-	$('#popUpEndBtnImg').height(_tileSize);
-	$('#popUpConBtnImg').height(_tileSize);
+		$('#popUpEndBtnImg').height(_tileSize);
+		$('#popUpConBtnImg').height(_tileSize);
+	}
+	else if (type == 'hintRoom') {
+		$('#gamePopUp').css('top', (Crafty.viewport.height*.33)+'px');
+		$('#gamePopUp').css('left', (Crafty.viewport.width*.05)+'px');
+		$('#gamePopUp').height(Crafty.viewport.height*.15);
+		$('#gamePopUp').width(Crafty.viewport.width*.9);
+
+		var notVisited = (rooms.length - 1) == currentRoom;
+
+		if (notVisited) {
+			$('#gamePopUp').html('<center><b>This room has NOT been visited before.</b></center>');
+		}
+		else {
+			$('#gamePopUp').html('<center><b>This room HAS been visited before.</b></center>');
+		}
+		
+	}
 	mobileFontSize();
 	
 }
