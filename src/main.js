@@ -57,10 +57,15 @@ var originDoors = []; //Origin doors are doors that are availbie depending on th
 var currentRoom; //The current room number in rooms[]
 var lastRoom; //The last Room number in rooms[]
 var lastDoor; //The position of the last door used
+
+//Randmon Seeds
 var roomRandom; //Random Seeds for generation
 var doorRandom;
 var pathRandom;
 var furnitureRandom;
+var hintRandom;
+
+//Room varibles
 var originDoorSuccess = true; //Check if doors existed to enter room
 var deleteRoom = false; //Check to delete room
 var centerPoint; //Centerpoint to zoom on.

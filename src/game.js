@@ -52,6 +52,8 @@ Crafty.scene('Game', function() {
 	firstRun = false;
 	//save last seed used.
 	localStorage.lastSeed = gameSeed;
+
+	hintRandom = new Math.seedrandom(gameSeed);
 });
 
 function gameNewRoom() {
@@ -221,20 +223,33 @@ function debugDrawFireRoute() {
 	}		
 }
 
+function awardHint() {
+	var decider = Math.floor(roomRandom() * 2);
+	if (decider) {
+		userPlayer.hints.room++;
+	}
+	else {
+		userPlayer.hints.door++;
+	}
+}
+
 function hintShowRoom() {
 	//create a popup that says if this room has been visited before.
-	
-	popUpCreate('hintRoom');
-	
+	if (userPlayer.hints.room >= 1) {
+		popUpCreate('hintRoom');
+		userPlayer.hints.room--;
+	}
 }
 
 function hintShowDoors() {
 	//Show doors which have been used in a room.
-	setTimeout(function() {
-		for (var n = 0; n < rooms[currentRoom].doors.length; n++) {
-			changeDoor(rooms[currentRoom].doors[n].roomPos.y,rooms[currentRoom].doors[n].roomPos.x,'open')
-			Crafty("Tile" + rooms[currentRoom].doors[n].roomPos.y + "_" + rooms[currentRoom].doors[n].roomPos.x).mouseOverEvent();
-		}
-	}, 250);
-	
+	if (userPlayer.hints.door >= 1) {
+		setTimeout(function() {
+			for (var n = 0; n < rooms[currentRoom].doors.length; n++) {
+				changeDoor(rooms[currentRoom].doors[n].roomPos.y,rooms[currentRoom].doors[n].roomPos.x,'open')
+				Crafty("Tile" + rooms[currentRoom].doors[n].roomPos.y + "_" + rooms[currentRoom].doors[n].roomPos.x).mouseOverEvent();
+			}
+		}, 250);
+		userPlayer.hints.door--;
+	}
 }

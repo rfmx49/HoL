@@ -632,6 +632,7 @@ function drawRoom() {
 							.attr({y:' + row*_tileSize + ', x:' + col*_tileSize + ', w:' + _tileSize + ', h:' + _tileSize + ', xTile:' + col + ', yTile:' + row + ' });\
 						Crafty(Crafty("FloorGround")[0]).attach(Crafty("Tile' + row + '_' + col + '"));\
 						Crafty("Tile' + row + '_' + col + '").origin("center");\
+						Crafty("Tile' + row + '_' + col + '").style = ' + style + ';\
 						Crafty("Tile' + row + '_' + col + '").offset = {x:' + offsetDoor.x + ', y:' + offsetDoor.y + '};\
 						Crafty("Tile' + row + '_' + col + '").rotation = ' + tileRotation + ';');
 
@@ -688,9 +689,12 @@ function changeDoor(doorPosRow,doorPosCol, action) {
 				y:Crafty('Tile'+doorPosRow+'_'+doorPosCol)._y,
 				rotation: Crafty('Tile'+doorPosRow+'_'+doorPosCol)._rotation,
 				xtile:doorPosCol,
-				ytile:doorPosRow}
+				ytile:doorPosRow,
+				style:Crafty('Tile'+doorPosRow+'_'+doorPosCol).style}
 	console.log(doorPos);
 	var doorOffset = Crafty('Tile'+doorPosRow+'_'+doorPosCol).offset;
+	
+	
 	var thisDoor = Crafty.e('Door' + (doorPos.ytile) + '_' + (doorPos.xtile) +', doorSprite' + floorMap[doorPosRow][doorPosCol].substring(3,2) + '_reel, wallDoorAnimate')
 		.attr({y: doorPos.y+(doorOffset.y), x: doorPos.x+(doorOffset.x), w: _tileSize, h: _tileSize, xTile: doorPos.xtile, yTile: doorPos.xtile});
 	//console.log(thisDoor);
@@ -699,7 +703,15 @@ function changeDoor(doorPosRow,doorPosCol, action) {
 	thisDoor.rotation = doorPos.rotation;
 	////console.log("door ID " + thisDoor);
 	if (action == "open") {
+		/*Crafty.e('Tile' + doorPos.ytile + '_' + doorPos.xtile +'_open, floorMap, door_' + doorPos.style + '_open')
+			.attr({y: doorPos.y, x: doorPos.x, w: _tileSize, h: _tileSize, xTile: doorPos.xtile, yTile: doorPos.ytile });
+		Crafty(Crafty("FloorGround")[0]).attach(Crafty('Tile' + doorPos.ytile + '_' + doorPos.xtile + '_open'));
+		Crafty('Tile' + doorPos.ytile + '_' + doorPos.xtile + '_open').origin("center");
+		Crafty('Tile' + doorPos.ytile + '_' + doorPos.xtile + '_open').style = doorPos.style;
+		Crafty('Tile' + doorPos.ytile + '_' + doorPos.xtile + '_open').offset = {x: doorOffset.x, y: doorOffset.y};
+		Crafty('Tile' + doorPos.ytile + '_' + doorPos.xtile + '_open').rotation = doorPos.rotation;*/
 		thisDoor.openDoor();
+		//Crafty('Tile'+doorPosRow+'_'+doorPosCol).destroy();
 	}
 	else if (action == "close") {
 		thisDoor.closeDoor();

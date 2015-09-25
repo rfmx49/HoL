@@ -23,6 +23,31 @@ function displayScore(score) {
 function displayRank() {
 	var rank = getRank(userPlayer.score.actual);
 	$( "#ui-game-rank" ).html(rank.currentLevel);
+
+	//check if rank has changed.
+	if (userPlayer.score.rank != rank.currentLevel) {
+		if (userPlayer.score.rank < 5 && rank.currentLevel >= 5) {
+			awardHint();
+		}
+		if (userPlayer.score.rank < 9 && rank.currentLevel >= 9) {
+			awardHint();
+		}
+		if (userPlayer.score.rank < 14 && rank.currentLevel >= 14) {
+			awardHint();
+		}
+		if (userPlayer.score.rank < 16 && rank.currentLevel >= 16) {
+			awardHint();
+		}
+		if (rank.currentLevel > 16) {
+			if (userPlayer.score.rank <= 16) {
+				userPlayer.score.rank = 16;
+			}
+			for (userPlayer.score.rank; userPlayer.score.rank < rank.currentLevel; userPlayer.score.rank++) {
+				awardHint();
+			}
+		}
+	}
+	userPlayer.score.rank = rank.currentLevel;	
 }
 
 function getRank(rooms) {

@@ -137,7 +137,7 @@ function footerChange(expand) {
 			var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 			var checkSeed = days[d.getDay()] + ' ' + d.getDay() + '/' + d.getMonth() + '/' + d.getFullYear();
 			if (textSeed == checkSeed) {textSeed = 'Daily';}
-			$( "#statusWindowFooter" ).html('<div id="statusFooterExpand"><center>v</center><center><table class="statusWindowFooterTable containsTextFooter" ><tr><td rowspan=2><center><img src="res/img/hud/door.png" style:"width: 10px,height: 10px;"  id="hintShowDoor"><img src="res/img/hud/checkList.png" style:"width: 10px,height: 10px;" id="hintShowRoom"></center></td><td><b>Rank: </b>' + getRank(userPlayer.score.visible).currentLevel + '</td><td rowspan=2 align="center"><img src="res/img/hud/home.png" style:"width: 10px,height: 10px;" id="footEndGame"><br /><b>END</b></td></tr><tr><td><b>Next in: </b>' + getRank(userPlayer.score.visible).difference + ' rooms.</td></tr></table><center></div>')
+			$( "#statusWindowFooter" ).html('<div id="statusFooterExpand"><center>v</center><center><table class="statusWindowFooterTable containsTextFooter" ><tr><td rowspan=2><center><img src="res/img/hud/door.png" style:"width: 10px,height: 10px;"  id="hintShowDoor"><img src="res/img/hud/checkList.png" style:"width: 10px,height: 10px;" id="hintShowRoom"></center></td><td><b>Rank: </b>' + userPlayer.score.rank + '</td><td rowspan=2 align="center"><img src="res/img/hud/home.png" style:"width: 10px,height: 10px;" id="footEndGame"><br /><b>END</b></td></tr><tr><td><b>Next in: </b>' + getRank(userPlayer.score.visible).difference + ' rooms.</td></tr></table><center></div>')
 			$('#footEndGame').height((Crafty.viewport.height/6)/2.5);
 			$('#hintShowDoor').height((Crafty.viewport.height/6)/1.5);
 			$('#hintShowRoom').height((Crafty.viewport.height/6)/1.5);
@@ -165,7 +165,7 @@ function popUpClickHandlers() {
 		if (currentRoom == 0) {
 			//Are home
 			userPlayerSaved.score = parseInt(userPlayerSaved.score) + userPlayer.score.actual;
-			userPlayerSaved.rank = getRank(userPlayerSaved.score).currentLevel;
+			userPlayerSaved.rank = userPlayer.score.rank;
 			userPlayerSaved.found = userPlayerSaved.found + 1;
 		}
 		else {

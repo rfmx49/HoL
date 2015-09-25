@@ -15,6 +15,10 @@ function playerObj() {
 	this.score.fluff = 0;
 	this.score.fluffCount = 0;
 	this.score.potentialLost = 0;
+	this.score.rank = 0;
+	this.hints = {};
+	this.hints.room = 1;
+	this.hints.door = 1;
 }
 
 //PlayerSave Constructor
@@ -236,6 +240,7 @@ Crafty.c('floorMap', {
 	Tile: 0,
 	yTile: 0,
 	xTile: 0,
+	style: "",
 	init: function() {
 		this.requires('2D, ' + renderEngine + ', Mouse');
 		this.bind("MouseUp", function(MouseEvent) { 
