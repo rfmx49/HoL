@@ -63,22 +63,42 @@ function generateRoom() {
 							switch (wallDecided) {
 								 case 1:
 								 	//top right
-								 	if ((cornerHeight-row) > (-1)) {//corner is on this row but also this coloumn?if ((col+cornerWidth) > floorWidth) {	//yes this tile is part of the corner chunk.	floorMap[row][col] = null;}
+								 	if ((cornerHeight-row) > (-1)) {
+//corner is on this row but also this coloumn?
+if ((col+cornerWidth) > floorWidth) {
+	//yes this tile is part of the corner chunk.
+	floorMap[row][col] = null;
+}
 									}
 								    break;
 								 case 2:
 								 	//bot right
-								 	if ((row+cornerHeight) > floorHeight) {//corner is on this row but also this coloumn?if ((col+cornerWidth) > floorWidth) {	//yes this tile is part of the corner chunk.	floorMap[row][col] = null;}
+								 	if ((row+cornerHeight) > floorHeight) {
+//corner is on this row but also this coloumn?
+if ((col+cornerWidth) > floorWidth) {
+	//yes this tile is part of the corner chunk.
+	floorMap[row][col] = null;
+}
 									}
 								    break;
 								 case 3:
 								 	//bot left
-								 	if ((row+cornerHeight) > floorHeight) {//corner is on this row but also this coloumn?if ((cornerWidth-col) > (-1)) {	//yes this tile is part of the corner chunk.	floorMap[row][col] = null;}
+								 	if ((row+cornerHeight) > floorHeight) {
+//corner is on this row but also this coloumn?
+if ((cornerWidth-col) > (-1)) {
+	//yes this tile is part of the corner chunk.
+	floorMap[row][col] = null;
+}
 									}
 								    break;
 								 case 4:
 								 	//top left
-								 	if ((cornerHeight-row) > (-1)) {//corner is on this row but also this coloumn?if ((cornerWidth-col) > (-1)) {	//yes this tile is part of the corner chunk.	floorMap[row][col] = null;}
+								 	if ((cornerHeight-row) > (-1)) {
+//corner is on this row but also this coloumn?
+if ((cornerWidth-col) > (-1)) {
+	//yes this tile is part of the corner chunk.
+	floorMap[row][col] = null;
+}
 									}
 								    break;
 	 						}
@@ -205,7 +225,7 @@ function setDoor(tileX, tileY){
 	
 	//Door creation
 	style = floorMap[tileY][tileX].substring(3,2)
-	Crafty.e('Tile' + tileY + '_' + tileX +', floorMap, door_' + rooms[lastRoom].doors[lastDoor].style)
+	Crafty.e('Tile' + tileY + '_' + tileX +', floorMap, doorSprite' + rooms[lastRoom].doors[lastDoor].style + '_reel, wallDoorAnimate')
 		.attr({y: tileY*_tileSize, x: tileX*_tileSize, w: _tileSize, h: _tileSize, xTile: tileX, yTile: tileY});
 
 	Crafty(Crafty('FloorGround')[0]).attach(Crafty('Tile' + tileY + '_' + tileX));
@@ -541,7 +561,7 @@ function drawRoom() {
 					}
 					//Door creation
 					style = floorMap[row][col].substring(3,2);
-					drawRoomQueue.push('Crafty.e("Tile' + row + '_' + col +', floorMap, door_' + style + '")\
+					drawRoomQueue.push('Crafty.e("Tile' + row + '_' + col +', floorMap, doorSprite' + style + '_reel, wallDoorAnimate")\
 						.attr({y: ' + row*_tileSize + ', x: ' + col*_tileSize + ', w: ' + _tileSize + ', h: + ' + _tileSize + ' , xTile: ' + col + ', yTile: ' + row +'});\
 					Crafty(Crafty("FloorGround")[0]).attach(Crafty("Tile' + row + '_' + col + '"));\
 					Crafty("Tile' + row + '_' + col + '").origin("center");\
@@ -628,7 +648,7 @@ function drawRoom() {
 						}
 						//Door creation
 						style = (Math.floor(roomRandom() * numOfDoorStyles) + 1)
-						drawRoomQueue.push('Crafty.e("Tile' + row + '_' + col +', floorMap, door_' + style + '")\
+						drawRoomQueue.push('Crafty.e("Tile' + row + '_' + col +', floorMap, doorSprite' + style + '_reel, wallDoorAnimate")\
 							.attr({y:' + row*_tileSize + ', x:' + col*_tileSize + ', w:' + _tileSize + ', h:' + _tileSize + ', xTile:' + col + ', yTile:' + row + ' });\
 						Crafty(Crafty("FloorGround")[0]).attach(Crafty("Tile' + row + '_' + col + '"));\
 						Crafty("Tile' + row + '_' + col + '").origin("center");\
@@ -683,35 +703,10 @@ function drawRoom() {
 }
 
 function changeDoor(doorPosRow,doorPosCol, action) {
-	//console.log("change door at " + doorPos.x + " " + doorPos.y + " rotation:" + doorPos.rotation + " offset x" + doorOffset.x + " offset y" + doorOffset.y);
-	
-	var doorPos = {x: Crafty('Tile'+doorPosRow+'_'+doorPosCol)._x,
-				y:Crafty('Tile'+doorPosRow+'_'+doorPosCol)._y,
-				rotation: Crafty('Tile'+doorPosRow+'_'+doorPosCol)._rotation,
-				xtile:doorPosCol,
-				ytile:doorPosRow,
-				style:Crafty('Tile'+doorPosRow+'_'+doorPosCol).style}
-	console.log(doorPos);
-	var doorOffset = Crafty('Tile'+doorPosRow+'_'+doorPosCol).offset;
-	
-	
-	var thisDoor = Crafty.e('Door' + (doorPos.ytile) + '_' + (doorPos.xtile) +', doorSprite' + floorMap[doorPosRow][doorPosCol].substring(3,2) + '_reel, wallDoorAnimate')
-		.attr({y: doorPos.y+(doorOffset.y), x: doorPos.x+(doorOffset.x), w: _tileSize, h: _tileSize, xTile: doorPos.xtile, yTile: doorPos.xtile});
-	//console.log(thisDoor);
-	Crafty(Crafty('FloorGround')[0]).attach(thisDoor);
-	thisDoor.origin("center");
-	thisDoor.rotation = doorPos.rotation;
-	////console.log("door ID " + thisDoor);
+	thisDoor = Crafty('Tile' + doorPosRow + '_' + doorPosCol)
+
 	if (action == "open") {
-		/*Crafty.e('Tile' + doorPos.ytile + '_' + doorPos.xtile +'_open, floorMap, door_' + doorPos.style + '_open')
-			.attr({y: doorPos.y, x: doorPos.x, w: _tileSize, h: _tileSize, xTile: doorPos.xtile, yTile: doorPos.ytile });
-		Crafty(Crafty("FloorGround")[0]).attach(Crafty('Tile' + doorPos.ytile + '_' + doorPos.xtile + '_open'));
-		Crafty('Tile' + doorPos.ytile + '_' + doorPos.xtile + '_open').origin("center");
-		Crafty('Tile' + doorPos.ytile + '_' + doorPos.xtile + '_open').style = doorPos.style;
-		Crafty('Tile' + doorPos.ytile + '_' + doorPos.xtile + '_open').offset = {x: doorOffset.x, y: doorOffset.y};
-		Crafty('Tile' + doorPos.ytile + '_' + doorPos.xtile + '_open').rotation = doorPos.rotation;*/
-		thisDoor.openDoor();
-		//Crafty('Tile'+doorPosRow+'_'+doorPosCol).destroy();
+		thisDoor.openDoor();		
 	}
 	else if (action == "close") {
 		thisDoor.closeDoor();

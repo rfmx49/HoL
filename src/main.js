@@ -44,6 +44,7 @@ var userPlayer; // = new playerObj;
 var playerEntity; //The Crafty player entity
 var lastPos = new Position(0,0,0); // The last room position
 var playerRoomPos; //Position in current Room
+var dailyChallange = false;
 
 //Room Varibles
 var maxWidth = 9; // Max width of Room
@@ -71,7 +72,7 @@ var deleteRoom = false; //Check to delete room
 var centerPoint; //Centerpoint to zoom on.
 //TexturePack
 var numOfFloorStyles = 8; 
-var numOfDoorStyles = 6;
+var numOfDoorStyles = 6; //Max 6 must be defined in loading_js ex  "doorSprite3_reel"
 
 //difficulty
 var sparseness = 10; //lower = more chance of linked rooms.

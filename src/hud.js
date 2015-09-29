@@ -158,6 +158,9 @@ function popUpClickHandlers() {
 		//Expand the footer
 		console.log("clicked endGame");
 		//destroy the popup.
+
+		//Send Score to Google.
+		if (dailyChallange) { postToGoogleDaily(); }
 		popUpDestroy();
 		//Save userdata
 		var userPlayerSaved = JSON.parse(localStorage.playerSaveData);
