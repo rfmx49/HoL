@@ -10,7 +10,7 @@ function createHud() {
 	//Footer
 	$( "#statusWindowFooter" ).width(Crafty.viewport.width);
 	$( "#statusWindowFooter" ).height(Crafty.viewport.height/15); //Will expand
-	$( "#statusWindowFooter" ).html("<div id='statusFooterExpand'><center>^</center></div>");
+	$( "#statusWindowFooter" ).html("<div id='statusFooterExpand'><center><img src='res/img/hud/expand.png' style:'width: 10px,height: " + Crafty.viewport.height/15.5 + "px;' id='footExpand'></center></div>");
 	$( "#statusWindowFooter" ).css('visibility', 'visible');
 
 	//postion at bottom
@@ -147,7 +147,7 @@ function footerChange(expand) {
 			$( "#statusWindowFooter" ).height(Crafty.viewport.height/15);
 			var newTop = Crafty.viewport.height - $( "#statusWindowFooter" ).height();
 			$( "#statusWindowFooter" ).css('top', newTop + 'px');
-			$( "#statusWindowFooter" ).html("<div id='statusFooterExpand'><center>^</center></div>")
+			$( "#statusWindowFooter" ).html("<div id='statusFooterExpand'><center><img src='res/img/hud/expand.png' style:'width: 10px,height: 10px;' id='footExpand'></center></div>")
 	}
 }
 

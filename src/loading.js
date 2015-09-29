@@ -231,6 +231,11 @@ Crafty.scene('Loading', function(){
 				"tileh": 200,
 				"map": { "ui_checklist": [0,0],},			 
 			},
+			"hud/expand.png": {
+				"tile": 74,
+				"tileh": 36,
+				"map": { "ui_expand": [0,0],},			 
+			},
 			"hud/enterSeed.png": {
 			"tile": 340,
 				"tileh": 160,
@@ -246,7 +251,7 @@ Crafty.scene('Loading', function(){
 
 
 		function(e) { //progress
-			Crafty(Crafty('craftyProgress')[0]).text("Loading ... "+ e.percent + "%").unselectable();
+			Crafty(Crafty('craftyProgress')[0]).text("Loading ... " + Math.floor(e.percent) + "%").unselectable();
 		},
 
 		function(e) { //uh oh, error loading
