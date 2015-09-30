@@ -93,17 +93,24 @@ Crafty.scene('Menu', function() {
 	.bind('MouseUp', function(MouseEvent){
 		//create player
 		//player
-		localStorage.clear();
-		userPlayer = new playerObj;
-		Crafty.scene("Game");
+		optionsMenu();
+		//localStorage.clear();
+		//userPlayer = new playerObj;
+		//Crafty.scene("Game");
 	});
 
 	Crafty.viewport.centerOn(Crafty("btnContinue")[0],0)
 	
 });
 
-function gameMenu2() {
-
-
+function optionsMenu() {
+	//create Popup
+	$('#gamePopUp').css('top', (Crafty.viewport.height*.05)+'px');
+	$('#gamePopUp').css('left', (Crafty.viewport.width*.05)+'px');
+	$('#gamePopUp').height(Crafty.viewport.height*.8);
+	$('#gamePopUp').width(Crafty.viewport.width*.9);
+	//Needed clear local storage button.
+	//need create user button.
+	fadeOutView(false, 300,0,0,.5);
 
 }

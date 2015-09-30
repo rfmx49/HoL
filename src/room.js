@@ -322,6 +322,7 @@ function locateOriginDoor() {
 				//drawRoomQueue.push('setDoor(' + originDoors[decider].x + ', ' + originDoors[decider].y + ');');
 				positionPlayer(originDoors[decider].x,originDoors[decider].y);
 				DEBUGinstructions.push("To get back to " + lastPos.x + ":" + lastPos.y + " go through door " + originDoors[decider].x + ":" + originDoors[decider].y)
+				DEBUGreplay.push(DEBUGreplay.lenght + "- Col: " + userPlayer.last.door.x + " Row: " + userPlayer.last.door.y)
 			}
 		}
 		if (newRoomReq) {

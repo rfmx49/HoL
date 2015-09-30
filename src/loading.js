@@ -6,7 +6,7 @@ Crafty.scene('Loading', function(){
 		.attr({ x: Crafty.viewport._width/2, y: Crafty.viewport._height/2, w: 200 });
 	Crafty.paths({audio: "res/audio/", images: "res/img/", sprites: "res/img/"});
 	var assetsObj = {
-		"images": ["hud/paper.png"],			 
+		"images": ["hud/paper.png","hud/cork.png"],			 
 		"sprites": {
 			"hud/menuItems.png": {
 				"tile": 340,
@@ -235,6 +235,11 @@ Crafty.scene('Loading', function(){
 				"tile": 74,
 				"tileh": 36,
 				"map": { "ui_expand": [0,0],},			 
+			},
+			"hud/dropDown.png": {
+				"tile": 74,
+				"tileh": 36,
+				"map": { "ui_dropDown": [0,0],},			 
 			},
 			"hud/enterSeed.png": {
 			"tile": 340,

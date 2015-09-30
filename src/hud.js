@@ -9,8 +9,8 @@ function createHud() {
 
 	//Footer
 	$( "#statusWindowFooter" ).width(Crafty.viewport.width);
-	$( "#statusWindowFooter" ).height(Crafty.viewport.height/15); //Will expand
-	$( "#statusWindowFooter" ).html("<div id='statusFooterExpand'><center><img src='res/img/hud/expand.png' style:'width: 10px,height: " + Crafty.viewport.height/15.5 + "px;' id='footExpand'></center></div>");
+	$( "#statusWindowFooter" ).height(_tileSize); //Will expand
+	$( "#statusWindowFooter" ).html("<div id='statusFooterExpand'><center><img src='res/img/hud/expand.png' style:'width: " + _tileSize + "px,height: " + _tileSize + "px;' id='footExpand'></center></div>");
 	$( "#statusWindowFooter" ).css('visibility', 'visible');
 
 	//postion at bottom
@@ -30,14 +30,19 @@ function destroyHud() {
 	$( "#statusWindowFooter" ).height(0);
 }
 
-function fadeInView (toggle, fadeTime, delay, restartTime) {
+function fadeInView (toggle, fadeTime, delay, restartTime, alpha) {
 	Crafty('fadeOut').destroy();
 	Crafty('fadeIn').destroy();
+	if (typeof toggle === 'undefined') { toggle = false; }
+	if (typeof fadeTime === 'undefined') { fadeTime = 250; }
+	if (typeof delay === 'undefined') { delay = 250; }
+	if (typeof restartTime === 'undefined') { restartTime = 250; }
+	if (typeof alpha === 'undefined') { alpha = 0; }
 	//zoomOutFade();
 	Crafty.e('fadeIn, 2D,' + renderEngine + ', Color, Tween')
 		.attr({x: -10-Crafty.viewport.x, y: -10-Crafty.viewport.y, w: 10+Crafty.viewport.width, h: 10+Crafty.viewport.height, alpha: 1, z: 1000})
 		.color('#000000')
-		.tween({ alpha: 0}, fadeTime)
+		.tween({ alpha: alpha}, fadeTime)
 		.bind("TweenEnd", function(){ 
 			//console.log("tween complete"); 
 			if (toggle) {
@@ -48,14 +53,19 @@ function fadeInView (toggle, fadeTime, delay, restartTime) {
 		});
 }
 
-function fadeOutView (toggle, fadeTime, delay, restartTime) {
+function fadeOutView (toggle, fadeTime, delay, restartTime, alpha) {
 	Crafty('fadeIn').destroy();
 	Crafty('fadeOut').destroy();
+	if (typeof toggle === 'undefined') { toggle = false; }
+	if (typeof fadeTime === 'undefined') { fadeTime = 250; }
+	if (typeof delay === 'undefined') { delay = 250; }
+	if (typeof restartTime === 'undefined') { restartTime = 250; }
+	if (typeof alpha === 'undefined') { alpha = 1; }
 	//zoomInFade();
 	Crafty.e('fadeOut, 2D,' + renderEngine + ', Color, Tween')
 		.attr({x: -10-Crafty.viewport.x, y: -10-Crafty.viewport.y, w: 10+Crafty.viewport.width, h: 10+Crafty.viewport.height, alpha: 0,z: 1000})
 		.color('#000000')
-		.tween({ alpha: 1}, fadeTime)
+		.tween({ alpha: alpha}, fadeTime)
 		.bind("TweenEnd", function(){ 
 			//console.log("tween complete"); 
 			if (toggle) {
@@ -64,16 +74,6 @@ function fadeOutView (toggle, fadeTime, delay, restartTime) {
 				}, delay, restartTime);
 			}
 		});
-}
-
-function zoomInFade() {
-	Crafty.viewport.zoom(4,playerEntity._x + (_tileSize/2),playerEntity._y + (_tileSize/2),200);
-}
-
-function zoomOutFade() {
-	Crafty.viewport.centerOn(centerPoint, 0);
-	Crafty.viewport.zoom(0,centerPoint._x,centerPoint._y,250);
-	
 }
 
 function loadingLoop() {
@@ -89,7 +89,7 @@ function footClickHandlers() {
 		console.log("clicked");
 		//check if footer is expanded.
 		
-		if ($( "#statusWindowFooter" ).height() < Crafty.viewport.height/10) {
+		if ($( "#statusWindowFooter" ).height() <= _tileSize) {
 			//Footer is Down
 			footerChange(true);
 		}
@@ -128,7 +128,7 @@ function footClickHandlers() {
 
 function footerChange(expand) {
 	if (expand) {
-		$( "#statusWindowFooter" ).height(Crafty.viewport.height/5);
+		$( "#statusWindowFooter" ).height(_tileSize*5);
 		//Footer is Down
 			var newTop = Crafty.viewport.height - $( "#statusWindowFooter" ).height();
 			$( "#statusWindowFooter" ).css('top', newTop + 'px');
@@ -137,17 +137,17 @@ function footerChange(expand) {
 			var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 			var checkSeed = days[d.getDay()] + ' ' + d.getDay() + '/' + d.getMonth() + '/' + d.getFullYear();
 			if (textSeed == checkSeed) {textSeed = 'Daily';}
-			$( "#statusWindowFooter" ).html('<div id="statusFooterExpand"><center>v</center><center><table class="statusWindowFooterTable containsTextFooter" ><tr><td rowspan=2><center><img src="res/img/hud/door.png" style:"width: 10px,height: 10px;"  id="hintShowDoor"><img src="res/img/hud/checkList.png" style:"width: 10px,height: 10px;" id="hintShowRoom"></center></td><td><b>Rank: </b>' + userPlayer.score.rank + '</td><td rowspan=2 align="center"><img src="res/img/hud/home.png" style:"width: 10px,height: 10px;" id="footEndGame"><br /><b>END</b></td></tr><tr><td><b>Next in: </b>' + getRank(userPlayer.score.visible).difference + ' rooms.</td></tr></table><center></div>')
-			$('#footEndGame').height((Crafty.viewport.height/6)/2.5);
-			$('#hintShowDoor').height((Crafty.viewport.height/6)/1.5);
-			$('#hintShowRoom').height((Crafty.viewport.height/6)/1.5);
+			$( "#statusWindowFooter" ).html('<div id="statusFooterExpand"><center><img src="res/img/hud/dropDown.png" style:"width: ' + _tileSize + 'px,height: ' + _tileSize + 'px;" id="footDrop"></center><table class="statusWindowFooterTable containsTextFooter" ><tr><td rowspan=2><center><img src="res/img/hud/door.png" style:"width: 10px,height: 10px;"  id="hintShowDoor"><img src="res/img/hud/checkList.png" style:"width: 10px,height: 10px;" id="hintShowRoom"></center></td><td><b>Rank: </b>' + userPlayer.score.rank + '</td><td rowspan=2 align="center"><img src="res/img/hud/home.png" style:"width: 10px,height: 10px;" id="footEndGame"><br /><b>END</b></td></tr><tr><td><b>Next in: </b>' + getRank(userPlayer.score.visible).difference + ' rooms.</td></tr></table><center></div>')
+			$('#footEndGame').height(_tileSize*2.5);
+			$('#hintShowDoor').height(_tileSize*2);
+			$('#hintShowRoom').height(_tileSize*2);
 	}
 	else {
 		//Footer is up
-			$( "#statusWindowFooter" ).height(Crafty.viewport.height/15);
+			$( "#statusWindowFooter" ).height(_tileSize);
 			var newTop = Crafty.viewport.height - $( "#statusWindowFooter" ).height();
 			$( "#statusWindowFooter" ).css('top', newTop + 'px');
-			$( "#statusWindowFooter" ).html("<div id='statusFooterExpand'><center><img src='res/img/hud/expand.png' style:'width: 10px,height: 10px;' id='footExpand'></center></div>")
+			$( "#statusWindowFooter" ).html("<div id='statusFooterExpand'><center><img src='res/img/hud/expand.png' style:'width: " + _tileSize + "px,height: " + _tileSize + "px;' id='footExpand'></center></div>")
 	}
 }
 
@@ -199,13 +199,14 @@ function popUpClickHandlers() {
 
 function popUpDestroy() {
 	//destroy the popup.
+	$('#gamePopUp').css("visibility","hidden");
 	$('#gamePopUp').html("")
 	$('#gamePopUp').height(0);
 	$('#gamePopUp').width(0);
 }
 
 function popUpCreate(type) {
-	fadeOutView(false, 300);
+	fadeOutView(false, 300,0,0,.5);
 	Crafty('fadeOut').addComponent('Mouse')
 	Crafty('fadeOut').bind("MouseUp", function(MouseEvent) { 
 		fadeInView(false, 300);
@@ -213,6 +214,7 @@ function popUpCreate(type) {
 	});
 	
 	if (type == 'endGame') {
+		$('#gamePopUp').css("visibility","visible");
 		$('#gamePopUp').css('top', (Crafty.viewport.height*.05)+'px');
 		$('#gamePopUp').css('left', (Crafty.viewport.width*.05)+'px');
 		$('#gamePopUp').height(Crafty.viewport.height*.8);
@@ -236,18 +238,20 @@ function popUpCreate(type) {
 		var userPlayerSaved = JSON.parse(localStorage.playerSaveData);
 		var totalRank = getRank((parseInt(userPlayerSaved.score) + userPlayer.score.actual));
 		if (isHome) {
-			$('#gamePopUp').html('<table id="endGamePopUpTable"><tr><th colspan="4"><strong>Are you sure you are ready to leave?</strong></th></tr><tr><td colspan="4"></td></tr><tr><td colspan="4"><hr></td></tr><tr><td colspan="2">Current Location:</td><td colspan="1" align="center" class="popUpValue ' + lostClass + ' ">' + textLost + '</td><td></td></tr><tr><td colspan="4"><hr></td></tr><tr><td colspan="3">Total number of rooms explored:</td><td class="popUpValue">' + userPlayer.score.actual + '</td></tr><tr><td colspan="3">All time total rooms explored:</td><td class="popUpValue">' + (parseInt(userPlayerSaved.score) + userPlayer.score.actual) + '</td></tr><tr><td colspan="4"></td></tr><tr><td colspan="3">Rank achieved this exploration:</td><td class="popUpValue">' + rank.currentLevel + '</td></tr><tr><td colspan="3">Rooms required to rank up:</td><td class="popUpValue">' + rank.difference + '</td></tr><tr><td colspan="3">New overall rank:</td><td class="popUpValue">' + totalRank.currentLevel + '</td></tr><tr><td colspan="3">Rooms required to rank up:</td><td class="popUpValue">' + totalRank.difference + '</td></tr><tr><td colspan="4"></td></tr><tr><td colspan="4"></td></tr><tr><td colspan="4"><hr></td></tr><tr><td colspan="4" align="center">' + leavingMessage + '</td></tr><tr><td colspan="2" align="center" class="noBorder"><div class="popUpImgContain" id="popUpConBtnImg"></div></td><td class="noBorder"></td><td class="noBorder"><div class="popUpImgContain"  id="popUpEndBtnImg"></div></td></tr></table>');
+			$('#gamePopUp').html('<table id="endGamePopUpTable"><tr><th colspan="4"><strong>Are you sure you are ready to leave?</strong></th></tr><tr><td colspan="4"></td></tr><tr><td colspan="4"><hr></td></tr><tr><td colspan="2">Current Location:</td><td colspan="1" align="center" class="popUpValue ' + lostClass + ' ">' + textLost + '</td><td></td></tr><tr><td colspan="4"><hr></td></tr><tr><td colspan="3">Rooms explored:</td><td class="popUpValue">' + userPlayer.score.actual + '</td></tr><tr><td colspan="3">All time rooms explored:</td><td class="popUpValue">' + (parseInt(userPlayerSaved.score) + userPlayer.score.actual) + '</td></tr><tr><td colspan="4"></td></tr><tr><td colspan="3">Rank achieved this exploration:</td><td class="popUpValue">' + rank.currentLevel + '</td></tr><tr><td colspan="3">Rooms required to rank up:</td><td class="popUpValue">' + rank.difference + '</td></tr><tr><td colspan="3">New overall rank:</td><td class="popUpValue">' + totalRank.currentLevel + '</td></tr><tr><td colspan="3">Rooms required to rank up:</td><td class="popUpValue">' + totalRank.difference + '</td></tr><tr><td colspan="4"></td></tr><tr><td colspan="4"></td></tr><tr><td colspan="4"><hr></td></tr><tr><td colspan="4" align="center">' + leavingMessage + '</td></tr><tr id="popUpBtnRow"><td colspan="2" align="center" class="noBorder"><div class="popUpImgContain" id="popUpConBtnImg"></div></td><td class="noBorder"></td><td class="noBorder"><div class="popUpImgContain"  id="popUpEndBtnImg"></div></td></tr></table>');
 		}
 		else {
 			rank = getRank(userPlayer.score.visible);
 			totalRank = getRank((parseInt(userPlayerSaved.score) + userPlayer.score.visible));
-			$('#gamePopUp').html('<table id="endGamePopUpTable"><tr><th colspan="4"><strong>Are you sure you are ready to leave?</strong></th></tr><b><tr><td colspan="4"></td></tr><tr><td colspan="4"><hr></td></tr><tr><td colspan="2">Current Location:</td><td colspan="1" align="center" class="popUpValue ' + lostClass + ' ">' + textLost + '</td><td></td></tr><tr><td colspan="4"><hr></td></tr><tr><td colspan="3">Total number of rooms explored:</td><td class="popUpValue">' + userPlayer.score.visible + '</td></tr><tr><td colspan="3">All time total rooms explored:</td><td class="popUpValue">' + (parseInt(userPlayerSaved.score) + userPlayer.score.visible) + '</td></tr><tr><td colspan="4"></td></tr><tr><td colspan="3">Rank achieved this exploration:</td><td class="popUpValue">' + rank.currentLevel + '</td></tr><tr><td colspan="3">Rooms required to rank up:</td><td class="popUpValue">' + rank.difference + '</td></tr><tr><td colspan="3">New overall rank:</td><td class="popUpValue">' + totalRank.currentLevel + '</td></tr><tr><td colspan="3">Rooms required to rank up:</td><td class="popUpValue">' + totalRank.difference + '</td></tr><tr><td colspan="4"></td></tr><tr><td colspan="4"></td></tr><tr><td colspan="4"><hr></td></tr><tr><td colspan="4" align="center">' + leavingMessage + '</td></tr><tr><td colspan="2" align="center" class="noBorder"><div class="popUpImgContain" id="popUpConBtnImg"></div></td><td class="noBorder"></td><td class="noBorder"><div class="popUpImgContain"  id="popUpEndBtnImg"></div></td></tr></b>></table>');
+			$('#gamePopUp').html('<table id="endGamePopUpTable"><tr><th colspan="4"><strong>Are you sure you are ready to leave?</strong></th></tr><b><tr><td colspan="4"></td></tr><tr><td colspan="4"><hr></td></tr><tr><td colspan="2">Current Location:</td><td colspan="1" align="center" class="popUpValue ' + lostClass + ' ">' + textLost + '</td><td></td></tr><tr><td colspan="4"><hr></td></tr><tr><td colspan="3">Rooms explored:</td><td class="popUpValue">' + userPlayer.score.visible + '</td></tr><tr><td colspan="3">All time rooms explored:</td><td class="popUpValue">' + (parseInt(userPlayerSaved.score) + userPlayer.score.visible) + '</td></tr><tr><td colspan="4"></td></tr><tr><td colspan="3">Rank:</td><td class="popUpValue">' + rank.currentLevel + '</td></tr><tr><td colspan="3">Rooms required to rank up:</td><td class="popUpValue">' + rank.difference + '</td></tr><tr><td colspan="3">New overall rank:</td><td class="popUpValue">' + totalRank.currentLevel + '</td></tr><tr><td colspan="3">Rooms required to rank up:</td><td class="popUpValue">' + totalRank.difference + '</td></tr><tr><td colspan="4"></td></tr><tr><td colspan="4"></td></tr><tr><td colspan="4"><hr></td></tr><tr><td colspan="4" align="center">' + leavingMessage + '</td></tr><tr id="popUpBtnRow"><td colspan="2" class="noBorder"><div class="popUpImgContain" id="popUpConBtnImg"></div></td><td class="noBorder"></td><td class="noBorder"><div class="popUpImgContain"  id="popUpEndBtnImg"></div></td></tr></b></table>');
 		}
 
 		$('#popUpEndBtnImg').height(_tileSize);
 		$('#popUpConBtnImg').height(_tileSize);
+		$('#popUpBtnRow').height(_tileSize+2);
 	}
 	else if (type == 'hintRoom') {
+		$('#gamePopUp').css("visibility","visible");
 		$('#gamePopUp').css('top', (Crafty.viewport.height*.33)+'px');
 		$('#gamePopUp').css('left', (Crafty.viewport.width*.05)+'px');
 		$('#gamePopUp').height(Crafty.viewport.height*.15);

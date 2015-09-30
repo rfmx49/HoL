@@ -16,7 +16,8 @@ var renderEngine = "DOM"
 var gameSeeds = 100000;
 
 //DEBUG
-var DEBUGinstructions = [];
+var DEBUGinstructions;
+var DEBUGreplay;
 
 //DrawRoom Queue
 //A queue for all craft functions use EVAL to preform crafty operations.

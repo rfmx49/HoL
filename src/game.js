@@ -34,6 +34,7 @@ Crafty.scene('Game', function() {
 	if ((typeof (localStorage.playerSaveData) == "undefined")) {
 		var userPlayerSaved = new playerSaveObj();
 		localStorage.playerSaveData = JSON.stringify(userPlayerSaved);
+		localStorage.playerUUID = uuid();
 	}
 	else {
 		var userPlayerSaved = JSON.parse(localStorage.playerSaveData);
@@ -52,6 +53,8 @@ Crafty.scene('Game', function() {
 	firstRun = false;
 	//save last seed used.
 	localStorage.lastSeed = gameSeed;
+	DEBUGinstructions = [];
+	DEBUGreplay = [];
 
 	hintRandom = new Math.seedrandom(gameSeed);
 });
