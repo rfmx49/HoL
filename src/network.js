@@ -23,11 +23,11 @@ function postToGoogleDaily() {
 		rank: getRank(userPlayer.score.actual).currentLevel,
 		date: dateString,
 		time: timeString});
-	var sheet = atob("aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vZm9ybXMvZC8xWVlpRGpRWUV4SFh4YkVFY0JRNl9VYlJIWVJqdnp3S0JBNHN5Sms0S0lxVS9mb3JtUmVzcG9uc2U=")
+	var sheet = atob("aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vZm9ybXMvZC8xX1hIeHd6NHZtbzhTVzlnLWU3SGJOcmxOaGZHY0FDMkhXT0RLb1NQc1lXWS9mb3JtUmVzcG9uc2U=")
 
     $.ajax({
         url: sheet,
-        data: {"entry.1364062968": score},
+        data: {"entry.903661351": score},
         type: "POST",
         dataType: "xml",
         statusCode: {
@@ -44,11 +44,10 @@ function postToGoogleDaily() {
 }
 
 function newNetWorkUser(userName,emailAddress) {
-	var sheet = atob("aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vZm9ybXMvZC8xZnV3M01JVmlMUzYxdDA5ZGJwWUMxY2pMZlpxaldkamxudklRNnQ0THR3WS9mb3JtUmVzcG9uc2U=")
-
-    $.ajax({
+	var sheet = atob("aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vZm9ybXMvZC8xTXYzX2YwcS1uaDVGVC13R3RiMUprS2pqc2Jmc2E5aUszWXlPZHI1ZjVLdy9mb3JtUmVzcG9uc2U=")
+	$.ajax({
         url: sheet,
-        data: {"entry.2074070425": userName, "entry.497874372": emailAddress, "entry.2077210173": localStorage.playerUUID},
+        data: {"entry.24760897": userName, "entry.1853508102": emailAddress, "entry.462132499": localStorage.playerUUID},
         type: "POST",
         dataType: "xml",
         statusCode: {

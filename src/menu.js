@@ -42,6 +42,7 @@ Crafty.scene('Menu', function() {
 
 			$('#' + Crafty('menuSeedText')._element.id).append('<input id="inputSeed" class="containsText" type="text" />');
 			$('#inputSeed').width(menuSeedEntity._w*.66);
+			$('#inputSeed').height(_tileSize/2);
 			$('#inputSeed').val('DailyChallange')
 
 			
