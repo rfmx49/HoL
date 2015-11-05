@@ -228,11 +228,17 @@ function debugDrawFireRoute() {
 
 function awardHint() {
 	var decider = Math.floor(roomRandom() * 2);
+	console.log(Function.caller)
 	if (decider) {
 		userPlayer.hints.room++;
+		console.log("Room hint awarded")
+		//show hint added animation
+		
 	}
 	else {
 		userPlayer.hints.door++;
+		console.log("Door hint awarded")
+		//show hint added animation
 	}
 }
 

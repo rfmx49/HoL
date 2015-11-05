@@ -137,10 +137,15 @@ function footerChange(expand) {
 			var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 			var checkSeed = days[d.getDay()] + ' ' + d.getDay() + '/' + d.getMonth() + '/' + d.getFullYear();
 			if (textSeed == checkSeed) {textSeed = 'Daily';}
-			$( "#statusWindowFooter" ).html('<div id="statusFooterExpand"><center><img src="res/img/hud/dropDown.png" style:"width: ' + _tileSize + 'px,height: ' + _tileSize + 'px;" id="footDrop"></center><table class="statusWindowFooterTable containsTextFooter" ><tr><td rowspan=2><center><img src="res/img/hud/door.png" style:"width: 10px,height: 10px;"  id="hintShowDoor"><img src="res/img/hud/checkList.png" style:"width: 10px,height: 10px;" id="hintShowRoom"></center></td><td><b>Rank: </b>' + userPlayer.score.rank + '</td><td rowspan=2 align="center"><img src="res/img/hud/home.png" style:"width: 10px,height: 10px;" id="footEndGame"><br /><b>END</b></td></tr><tr><td><b>Next in: </b>' + getRank(userPlayer.score.visible).difference + ' rooms.</td></tr></table><center></div>')
+			$( "#statusWindowFooter" ).html('<div id="statusFooterExpand"><center><img src="res/img/hud/dropDown.png" style:"width: ' + _tileSize + 'px,height: ' + _tileSize + 'px;" id="footDrop"></center><table class="statusWindowFooterTable containsTextFooter" ><tr><td rowspan=2><center><img src="res/img/hud/doorOff.png" style:"width: 10px,height: 10px;"  id="hintShowDoor"><img src="res/img/hud/checkListOff.png" style:"width: 10px,height: 10px;" id="hintShowRoom"></center></td><td><b>Rank: </b>' + userPlayer.score.rank + '</td><td rowspan=2 align="center"><img src="res/img/hud/home.png" style:"width: 10px,height: 10px;" id="footEndGame"><br /><b>END</b></td></tr><tr><td><b>Next in: </b>' + getRank(userPlayer.score.visible).difference + ' rooms.</td></tr></table><center></div>')
 			$('#footEndGame').height(_tileSize*2.5);
 			$('#hintShowDoor').height(_tileSize*2);
 			$('#hintShowRoom').height(_tileSize*2);
+			setTimeout(function() {
+				updateDoorHints(userPlayer.hints.door);
+				updateRoomHints(userPlayer.hints.room);
+			}, 150);
+			
 	}
 	else {
 		//Footer is up
@@ -282,4 +287,69 @@ function mobileFontSize() {
 		$('#endGamePopUpTable td').css({'font-size': (_tileSize*.4) + 'px'});
 		$('#endGamePopUpTable th').css({'font-size': (_tileSize*.45) + 'px'});
 	}
+}
+
+//display hints
+function updateRoomHints(amount) {
+	if ($('#roomHintCountImg').length == 0) {
+		$('#roomHintCountImg').remove();
+		$('#roomHintQty').remove();
+	}
+
+	if (amount == 0) {
+		//$('#hintShowRoom').attr('src', "res/img/hud/checkListOff.png");
+		return;
+	}
+	else {
+		$('#hintShowRoom').attr('src', "res/img/hud/checkList.png");
+	}
+
+	$('#hintShowRoom').after('<img src="res/img/hud/powerUpCount.png" id="roomHintCountImg" style="height: ' + _tileSize/2 + 'px;position:absolute;">')
+	var offset = $('#hintShowRoom').offset();
+	$('#roomHintCountImg').offset({top:offset.top,left:offset.left});
+	//put quantity in middle
+	$('#roomHintCountImg').after('<span id="roomHintQty" style="position:absolute;">' + amount + '</span>');
+	var fontSize;
+	if (amount >= 10) {
+		fontSize = .25;
+	}
+	else {
+		fontSize = .33;
+	}
+	$('#roomHintQty').css({'color': 'white', 'font-weight': 'bold', 'font-family':'"Lucida Console", "Courier New", monospace','font-size': (_tileSize*fontSize) + 'px'});
+	offset = $('#roomHintCountImg').offset();
+	$('#roomHintQty').offset({top:offset.top+($('#roomHintCountImg').height()*0.25),left:offset.left+($('#roomHintCountImg').width()*0.25)});
+	
+}
+
+function updateDoorHints(amount) {
+	if ($('#doorHintCountImg').length == 0) {
+		$('#doorHintCountImg').remove();
+		$('#doorHintQty').remove();
+	}
+	if (amount == 0) {
+		//$('#hintShowDoor').attr('src', "res/img/hud/doorOff.png");
+		return;
+	}
+	else {
+		$('#hintShowDoor').attr('src', "res/img/hud/door.png");
+	}
+
+	$('#hintShowDoor').after('<img src="res/img/hud/powerUpCount.png" id="doorHintCountImg" style="height: ' + _tileSize/2 + 'px;position:absolute;">')
+	var offset = $('#hintShowDoor').offset();
+	$('#doorHintCountImg').offset({top:offset.top,left:offset.left});
+	//put quantity in middle
+	$('#doorHintCountImg').after('<span id="doorHintQty" style="position:absolute;">' + amount + '</span>');
+	var fontSize;
+	if (amount >= 10) {
+		fontSize = .25;
+	}
+	else {
+		fontSize = .33;
+	}
+	$('#doorHintQty').css({'color': 'white', 'font-weight': 'bold', 'font-family':'"Lucida Console", "Courier New", monospace','font-size': (_tileSize*fontSize) + 'px'});
+	offset = $('#doorHintCountImg').offset();
+	$('#doorHintQty').offset({top:offset.top+($('#doorHintCountImg').height()*0.25),left:offset.left+($('#doorHintCountImg').width()*0.25)});
+
+	
 }

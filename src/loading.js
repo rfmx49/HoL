@@ -6,7 +6,7 @@ Crafty.scene('Loading', function(){
 		.attr({ x: Crafty.viewport._width/2, y: Crafty.viewport._height/2, w: 200 });
 	Crafty.paths({audio: "res/audio/", images: "res/img/", sprites: "res/img/"});
 	var assetsObj = {
-		"images": ["hud/paper.png","hud/cork.png"],			 
+		"images": ["hud/paper.png","hud/cork.png","hud/powerUpCount.png"],			 
 		"sprites": {
 			"hud/menuItems.png": {
 				"tile": 340,
