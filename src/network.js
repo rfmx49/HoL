@@ -43,6 +43,25 @@ function postToGoogleDaily() {
     });
 }
 
+function newGameAccount(userName,emailAddress) {
+	$.ajax({
+        url: "http://65.94.192.230/userSubmit.php",
+        data: {"username": userName, "email": emailAddress, "uuid": localStorage.playerUUID},
+        type: "POST",
+        dataType: "xml",
+        statusCode: {
+            0: function() {
+                //Success message
+                console.log("return 0");
+            },
+            200: function() {
+                //Success Message
+                console.log("return 200");
+            }
+        }
+    });
+}
+
 function newNetWorkUser(userName,emailAddress) {
 	var sheet = atob("aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vZm9ybXMvZC8xTXYzX2YwcS1uaDVGVC13R3RiMUprS2pqc2Jmc2E5aUszWXlPZHI1ZjVLdy9mb3JtUmVzcG9uc2U=")
 	$.ajax({
