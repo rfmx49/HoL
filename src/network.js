@@ -12,28 +12,112 @@ function uuid() {
     return 'xxxxxxxx-xxxx-4xxx-8xxx-xxxxxxxxxxxx'.replace(/x/g, randomDigit);
 }
 
-function postToGoogleDaily() {
-	var d = new Date();
-	var dateString = d.getUTCFullYear() + "/" + (d.getUTCMonth()+1) + "/" + d.getUTCDate();
-	var timeString = d.getUTCHours() + ":" + (d.getUTCMinutes()+1) + ":" + d.getUTCSeconds();
-	var score = JSON.stringify({
+function sqlNewGameAccount(userName,emailAddress,password) {
+	$.ajax({
+        url: "http://65.94.193.108/userSubmit.php",
+        data: {"username": userName, "email": emailAddress, "uuid": localStorage.playerUUID, "password": password},
+        type: "POST",
+        dataType: "xml",
+        statusCode: {
+            0: function() {
+                //Success message
+                console.log("return 0");
+            },
+            420: function() {
+                //Success message
+                console.log("return 420 - INVALID USERNAME");
+            },
+            421: function() {
+                //Success message
+                console.log("return 421 - INVALID EMAIL");
+            },
+            422: function() {
+                //Success message
+                console.log("return 422 - INVALID UUID");
+            },
+            423: function() {
+                //Success message
+                console.log("return 423 - DUPLICATE UUID");
+            },
+            200: function() {
+                //Success Message
+                console.log("return 200");
+            }
+        }
+    });
+}
+
+function sqlAccountLogin(userName,password) {
+	$.ajax({
+        url: "http://65.94.193.108/userLogin.php",
+        data: {"username": userName, "password": password},
+        type: "POST",
+        dataType: "xml",
+        statusCode: {
+            0: function() {
+                //Success message
+                console.log("return 0");
+            },
+            420: function() {
+                //Success message
+                console.log("return 420 - INVALID USERNAME");
+            },
+            421: function() {
+                //Success message
+                console.log("return 421 - INVALID EMAIL");
+            },
+            422: function() {
+                //Success message
+                console.log("return 422 - INVALID UUID");
+            },
+            423: function() {
+                //Success message
+                console.log("return 423 - DUPLICATE UUID");
+            },
+            200: function() {
+                //Success Message
+                console.log("return 200");
+            }
+        }
+    });
+}
+
+function sqlPostGame() {
+	//var d = new Date();
+	//var dateString = d.getUTCFullYear() + "/" + (d.getUTCMonth()+1) + "/" + d.getUTCDate();
+	//var timeString = d.getUTCHours() + ":" + (d.getUTCMinutes()+1) + ":" + d.getUTCSeconds();
+	var score = {
 		seed: gameSeed,
 		user: localStorage.playerUUID,
 		score: userPlayer.score.actual,
-		rank: getRank(userPlayer.score.actual).currentLevel,
-		date: dateString,
-		time: timeString});
-	var sheet = atob("aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vZm9ybXMvZC8xX1hIeHd6NHZtbzhTVzlnLWU3SGJOcmxOaGZHY0FDMkhXT0RLb1NQc1lXWS9mb3JtUmVzcG9uc2U=")
+		rank: getRank(userPlayer.score.actual).currentLevel};
 
     $.ajax({
-        url: sheet,
-        data: {"entry.903661351": score},
+        url: "http://65.94.193.108/gameSubmit.php",
+        data: {"uuid": score.user, "seed": score.seed, "score": score.score, "rank": score.rank},
+        {uuid: "2f8704b0-96c5-49ca-8c11-f36bd945855a", seed: "test", score: "100", rank: "23"}
         type: "POST",
         dataType: "xml",
         statusCode: {
             0: function() {
                 //Success message
                 console.log("return 0");
+            },
+            420: function() {
+                //Success message
+                console.log("return 440 - No score submited");
+            },
+            421: function() {
+                //Success message
+                console.log("return 441 - No Seed Submited");
+            },
+            422: function() {
+                //Success message
+                console.log("return 442 - INVALID UUID");
+            },
+            423: function() {
+                //Success message
+                console.log("return 444 - No Rank Submited");
             },
             200: function() {
                 //Success Message
@@ -43,41 +127,10 @@ function postToGoogleDaily() {
     });
 }
 
-function newGameAccount(userName,emailAddress) {
-	$.ajax({
-        url: "http://65.94.192.230/userSubmit.php",
-        data: {"username": userName, "email": emailAddress, "uuid": localStorage.playerUUID},
-        type: "POST",
-        dataType: "xml",
-        statusCode: {
-            0: function() {
-                //Success message
-                console.log("return 0");
-            },
-            200: function() {
-                //Success Message
-                console.log("return 200");
-            }
-        }
-    });
+function createRegistrationForm() {
+	
 }
 
-function newNetWorkUser(userName,emailAddress) {
-	var sheet = atob("aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vZm9ybXMvZC8xTXYzX2YwcS1uaDVGVC13R3RiMUprS2pqc2Jmc2E5aUszWXlPZHI1ZjVLdy9mb3JtUmVzcG9uc2U=")
-	$.ajax({
-        url: sheet,
-        data: {"entry.24760897": userName, "entry.1853508102": emailAddress, "entry.462132499": localStorage.playerUUID},
-        type: "POST",
-        dataType: "xml",
-        statusCode: {
-            0: function() {
-                //Success message
-                console.log("return 0");
-            },
-            200: function() {
-                //Success Message
-                console.log("return 200");
-            }
-        }
-    });
+function createLoginForm() {
+	
 }

@@ -80,7 +80,7 @@ Crafty.c('PlayerCharacter', {
 	init: function() {
 		this.requires('2D, ' + renderEngine + ', Tween, playerSprite1_reel, SpriteAnimation');
 		this.origin("center");
-		this.reel('playerWalking', 400, 1, 0, 15);
+		this.reel('playerWalking', playerSpeed, 1, 0, 15);
 		this.reel('playerIdle', 10, 0, 0, 1);
 		this.bind("TweenEnd", function() {
 			reCenterPlayer();
@@ -121,10 +121,10 @@ Crafty.c('PlayerCharacter', {
 		}
 		if (newPos.type == "f") {
 			this.playerWalking();
-			this.tween({x: newPos.x, y: newPos.y, rotation: newPos.rotation}, 400);
+			this.tween({x: newPos.x, y: newPos.y, rotation: newPos.rotation}, playerSpeed);
 		}
 		else if (newPos.type == "d") {
-			this.tween({rotation: newPos.rotation}, 200);
+			this.tween({rotation: newPos.rotation}, playerSpeed/2);
 			this.nodePath = [];
 			////console.log("at door open door and then generate new room based on that door info");
 			//get door info first from floor map
@@ -185,7 +185,7 @@ Crafty.c('PlayerCharacter', {
 			var playerID = this[0];
 			setTimeout(function() {
 				Crafty(playerID).playerWalking();
-				Crafty(playerID).tween({x: newPos.x, y: newPos.y, rotation: newPos.rotation, alpha: 0, z: 1}, 400);
+				Crafty(playerID).tween({x: newPos.x, y: newPos.y, rotation: newPos.rotation, alpha: 0, z: 1}, playerSpeed);
 				console.log("Rotation Value " + newPos.rotation);
 				//fix Rotation
 				switch (newPos.rotation) {

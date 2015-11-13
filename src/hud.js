@@ -165,7 +165,8 @@ function popUpClickHandlers() {
 		//destroy the popup.
 
 		//Send Score to Google.
-		if (dailyChallange) { postToGoogleDaily(); }
+		//if (dailyChallange) { postToGoogleDaily(); }
+		sqlPostGame();
 		popUpDestroy();
 		//Save userdata
 		var userPlayerSaved = JSON.parse(localStorage.playerSaveData);
