@@ -18,6 +18,10 @@ local.properties
 .settings/
 .loadpath
 
+#extra directories
+server/
+Extras/
+
 # External tool builders
 .externalToolBuilders/
 
