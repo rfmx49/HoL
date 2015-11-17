@@ -1,3 +1,5 @@
+var SERVERNAME = "http://65.94.193.108";
+
 function uuid() {
     function randomDigit() {
         if (crypto && crypto.getRandomValues) {
@@ -14,7 +16,7 @@ function uuid() {
 
 function sqlNewGameAccount(userName,emailAddress,password) {
 	$.ajax({
-        url: "http://65.94.193.108/userSubmit.php",
+        url: SERVERNAME + "/php/userSubmit.php",
         data: {"username": userName, "email": emailAddress, "uuid": localStorage.playerUUID, "password": password},
         type: "POST",
         dataType: "xml",
@@ -48,37 +50,59 @@ function sqlNewGameAccount(userName,emailAddress,password) {
 }
 
 function sqlAccountLogin(userName,password) {
-	$.ajax({
-        url: "http://65.94.193.108/userLogin.php",
+	var request = $.ajax({
+        url: SERVERNAME + "/php/userLogin.php",
         data: {"username": userName, "password": password},
         type: "POST",
         dataType: "xml",
+        success: function(response) {
+        	console.log(response);
+        },
+        error: function(xhr, status, error) {
+        	console.log(xhr.responseText);
+        	var uuidLogin = xhr.responseText;
+        	if (xhr.status == "456") {
+						//login succesful
+						localStorage.playerUUID = uuidLogin;
+						//go to home page show user login succes.
+        	}
+        },
         statusCode: {
             0: function() {
                 //Success message
                 console.log("return 0");
             },
-            420: function() {
+            450: function() {
                 //Success message
-                console.log("return 420 - INVALID USERNAME");
+                console.log("return 450 - INVALID USERNAME");
             },
-            421: function() {
+            451: function() {
                 //Success message
-                console.log("return 421 - INVALID EMAIL");
+                console.log("return 451 - NO PASSWOR");
             },
-            422: function() {
+            452: function() {
                 //Success message
-                console.log("return 422 - INVALID UUID");
+                console.log("return 452 - INVALID UUID");
             },
-            423: function() {
+            456: function() {
                 //Success message
-                console.log("return 423 - DUPLICATE UUID");
+                console.log("return 456 - LOGIN SUCCESS");
+            },
+            457: function() {
+                //Success message
+                console.log("return 457 - INCORRECT PASSWORD");
             },
             200: function() {
                 //Success Message
                 console.log("return 200");
             }
         }
+    });
+    request.done(function(msg) {
+    	console.log(msg);
+    });
+    request.success(function(msg) {
+    	console.log(msg);
     });
 }
 
@@ -93,9 +117,8 @@ function sqlPostGame() {
 		rank: getRank(userPlayer.score.actual).currentLevel};
 
     $.ajax({
-        url: "http://65.94.193.108/gameSubmit.php",
+        url: SERVERNAME + "/php/gameSubmit.php",
         data: {"uuid": score.user, "seed": score.seed, "score": score.score, "rank": score.rank},
-        {uuid: "2f8704b0-96c5-49ca-8c11-f36bd945855a", seed: "test", score: "100", rank: "23"}
         type: "POST",
         dataType: "xml",
         statusCode: {

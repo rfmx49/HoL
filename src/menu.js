@@ -113,5 +113,6 @@ function optionsMenu() {
 	//Needed clear local storage button.
 	//need create user button.
 	fadeOutView(false, 300,0,0,.5);
+	alert(localStorage.playerUUID);
 
 }

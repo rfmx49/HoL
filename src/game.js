@@ -132,7 +132,7 @@ function createPlayerEntHome() {
 
 function createPlayerEnt() {
 	if (rooms.length == 1) { createPlayerEntHome(); }
-	else { fadeInView(false, 300, 200); }
+	else { fadeView({alpha:{start:1,end:0},fadeTime:500}); }
 	 //first room exceptions.
 	var centerOffset = 0;
 	

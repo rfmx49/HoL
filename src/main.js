@@ -169,17 +169,3 @@ function beginCrafty() {
 	}, 300);
 	
 };
-
-function toolPauseGame() {
-	//check if game is 
-	if ( Crafty.isPaused() ) {
-		console.log("unpausing game");
-		Crafty.pause();
-		//$("#toolboxPlay").removeAttr("id").attr("id", "toolboxPause");
-	}
-	else {
-		console.log("pausing game");
-		Crafty.pause();
-		//$("#toolboxPause").removeAttr("id").attr("id", "toolboxPlay");
-	}	
-};

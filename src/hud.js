@@ -31,47 +31,48 @@ function destroyHud() {
 }
 
 function fadeInView (toggle, fadeTime, delay, restartTime, alpha) {
-	Crafty('fadeOut').destroy();
-	Crafty('fadeIn').destroy();
-	if (typeof toggle === 'undefined') { toggle = false; }
-	if (typeof fadeTime === 'undefined') { fadeTime = 250; }
-	if (typeof delay === 'undefined') { delay = 250; }
-	if (typeof restartTime === 'undefined') { restartTime = 250; }
-	if (typeof alpha === 'undefined') { alpha = 0; }
-	//zoomOutFade();
-	Crafty.e('fadeIn, 2D,' + renderEngine + ', Color, Tween')
-		.attr({x: -10-Crafty.viewport.x, y: -10-Crafty.viewport.y, w: 10+Crafty.viewport.width, h: 10+Crafty.viewport.height, alpha: 1, z: 1000})
-		.color('#000000')
-		.tween({ alpha: alpha}, fadeTime)
-		.bind("TweenEnd", function(){ 
-			//console.log("tween complete"); 
-			if (toggle) {
-				setTimeout(function() {
-					fadeOutView(false,restartTime);
-				}, delay, restartTime);				
-			}
-		});
+	console.log("DO NOT USE");
 }
 
 function fadeOutView (toggle, fadeTime, delay, restartTime, alpha) {
-	Crafty('fadeIn').destroy();
-	Crafty('fadeOut').destroy();
-	if (typeof toggle === 'undefined') { toggle = false; }
-	if (typeof fadeTime === 'undefined') { fadeTime = 250; }
-	if (typeof delay === 'undefined') { delay = 250; }
-	if (typeof restartTime === 'undefined') { restartTime = 250; }
-	if (typeof alpha === 'undefined') { alpha = 1; }
-	//zoomInFade();
-	Crafty.e('fadeOut, 2D,' + renderEngine + ', Color, Tween')
-		.attr({x: -10-Crafty.viewport.x, y: -10-Crafty.viewport.y, w: 10+Crafty.viewport.width, h: 10+Crafty.viewport.height, alpha: 0,z: 1000})
+	console.log("DO NOT USE");
+}
+
+function fadeView(options) {
+	Crafty('fade').destroy();
+	//get/set options
+	//options {alpha: {start: 1, end:0},toggle: {active: false, delay: 250, restartTime: 250},fadeTime: 250}
+	if (typeof options.fadeTime === 'undefined') { options.fadeTime = 250; }
+	if (typeof options.toggle === 'undefined') { 
+		options.toggle = {active:false};
+	}
+	if (typeof options.toggle.active === 'undefined') { 
+		options.toggle.active = false;
+	}
+	else if (options.toggle.active == true) {
+		if (typeof options.toggle.delay === 'undefined') { options.toggle.delay = options.fadeTime; }
+		if (typeof options.toggle.restartTime === 'undefined') { options.toggle.restartTime = options.fadeTime; }
+	}
+	if (typeof options.alpha.start === 'undefined' && typeof options.alpha.end === 'undefined') { 
+		options.alpha.end = 0;
+		options.alpha.start = 0;
+	}
+	else if (typeof options.alpha.end === 'undefined' && options.alpha.start == 1) { options.alpha.end = 0; }
+	else if (typeof options.alpha.start === 'undefined' && options.alpha.end == 1) { options.alpha.start = 0; }
+	
+	Crafty.e('fade, 2D,' + renderEngine + ', Color, Tween')
+		.attr({x: -10-Crafty.viewport.x, y: -10-Crafty.viewport.y, w: 10+Crafty.viewport.width, h: 10+Crafty.viewport.height, alpha: options.alpha.start,z: 1000})
 		.color('#000000')
-		.tween({ alpha: alpha}, fadeTime)
+		.tween({ alpha: options.alpha.end}, options.fadeTime)
 		.bind("TweenEnd", function(){ 
-			//console.log("tween complete"); 
-			if (toggle) {
+			//console.log("tween complete");
+			var restartTime = options.toggle.restartTime;
+			var restartEnd = options.alpha.start;
+			var restartStart = options.alpha.end;
+			if (options.toggle.active) {
 				setTimeout(function() {					
-					fadeInView(false,restartTime);
-				}, delay, restartTime);
+					fadeView({alpha: {start: restartStart, end: restartEnd}, fadeTime: restartTime});
+				}, delay, restartTime, restartEnd, restartStart);
 			}
 		});
 }
@@ -79,7 +80,7 @@ function fadeOutView (toggle, fadeTime, delay, restartTime, alpha) {
 function loadingLoop() {
 	//fadeOutView(false,1000);
 	var loadingIcon = Crafty.e('loadingAnimate, loading_reel').attr({x: centerPoint._x-(_tileSize*1.5), y: centerPoint._y-_tileSize, w: 2*_tileSize, h: 2*_tileSize, alpha: 1});
-	Crafty('fadeOut').attach(loadingIcon);
+	Crafty('fade').attach(loadingIcon);
 	Crafty('loadingAnimate').loadingForward();
 }
 
@@ -159,7 +160,8 @@ function footerChange(expand) {
 function popUpClickHandlers() {
 	$( "#gamePopUp" ).on('mouseup', '#popUpEndBtnImg' ,function() {
 		//fade in view
-		fadeInView(false, 500);
+		//fadeInView(false, 500);
+		fadeView({alpha:{start:1,end:0},fadeTime:500})
 		//Expand the footer
 		console.log("clicked endGame");
 		//destroy the popup.
@@ -195,7 +197,8 @@ function popUpClickHandlers() {
 
 	$( "#gamePopUp" ).on('mouseup', '#popUpConBtnImg' ,function() {
 		//Expand the footer
-		fadeInView(false, 500);
+		//fadeInView(false, 500);
+		fadeView({alpha:{start:1,end:0},fadeTime:500})
 		console.log("clicked Continue Game");
 		//destroy the popup.
 		popUpDestroy();
@@ -212,10 +215,11 @@ function popUpDestroy() {
 }
 
 function popUpCreate(type) {
-	fadeOutView(false, 300,0,0,.5);
-	Crafty('fadeOut').addComponent('Mouse')
-	Crafty('fadeOut').bind("MouseUp", function(MouseEvent) { 
-		fadeInView(false, 300);
+	//fadeOutView(false, 300,0,0,.5);
+	fadeView({alpha:{start:0,end:.5},fadeTime:300})
+	Crafty('fade').addComponent('Mouse')
+	Crafty('fade').bind("MouseUp", function(MouseEvent) { 
+		fadeView({alpha:{start:.5,end:0},fadeTime:300})
 		popUpDestroy();
 	});
 	

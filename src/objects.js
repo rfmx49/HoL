@@ -204,7 +204,8 @@ Crafty.c('PlayerCharacter', {
 				}
 				Crafty(playerID).rotation = newPos.rotation;
 				userPlayer.rotation = newPos.rotation;
-				fadeOutView(false, 300, 200);
+				//fadeOutView(false, 300, 200);
+				fadeView({alpha:{start:0,end:1},fadeTime:300,delay:200})
 				setTimeout(function() {
 					loadingLoop();
 					//destroy and make a new room
