@@ -15,35 +15,76 @@ function uuid() {
 }
 
 function sqlNewGameAccount(userName,emailAddress,password) {
+	var status;
 	$.ajax({
         url: SERVERNAME + "/php/userSubmit.php",
         data: {"username": userName, "email": emailAddress, "uuid": localStorage.playerUUID, "password": password},
         type: "POST",
         dataType: "xml",
+        success: function(response) {
+        	console.log(response);
+        },
+        error: function(xhr, status, error) {
+        	console.log(xhr.responseText);
+        	var errorCheck = xhr.responseText.search(/SQLSTATE\[23000\]: Integrity constraint violation: 1062 Duplicate entry /);
+        	if (errorCheck >= 0) {
+						errorCheck = test.search(/' for key 'uuid'/);
+						if (errorCheck >= 0) {
+							//duplicate uuid
+						}
+						else {
+							errorCheck = test.search(/' for key 'userName''/);
+							if (errorCheck >= 0) {
+								//duplicate userName
+							}
+							else {
+								//Unknown SQL error
+							}
+						}
+        	}
+        	console.log(errorCheck);
+        },
         statusCode: {
             0: function() {
                 //Success message
                 console.log("return 0");
+                status = 0;
             },
             420: function() {
                 //Success message
                 console.log("return 420 - INVALID USERNAME");
+                status = "Invalid Username";
+                return status;
             },
             421: function() {
                 //Success message
                 console.log("return 421 - INVALID EMAIL");
+                status = "Invalid Email";
+                return status;
             },
             422: function() {
                 //Success message
                 console.log("return 422 - INVALID UUID");
+                status = "Invalid UUID";
+                return status;
             },
             423: function() {
                 //Success message
                 console.log("return 423 - DUPLICATE UUID");
+                status = "Duplicate UUID, Regen UUID";
+                return status;
+            },
+            429: function() {
+								//Success message
+                console.log("return 429 - SQL ERROR");
+                status = "SQL ERROR CHECK RESPONSE TEXT";
+                return status;
             },
             200: function() {
                 //Success Message
                 console.log("return 200");
+                status = "Registration Succesful";
+                return status;
             }
         }
     });

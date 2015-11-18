@@ -158,6 +158,8 @@ function footerChange(expand) {
 }
 
 function popUpClickHandlers() {
+	//END GAME POPUP
+
 	$( "#gamePopUp" ).on('mouseup', '#popUpEndBtnImg' ,function() {
 		//fade in view
 		//fadeInView(false, 500);
@@ -202,8 +204,55 @@ function popUpClickHandlers() {
 		console.log("clicked Continue Game");
 		//destroy the popup.
 		popUpDestroy();
-		
 	});
+ 	
+	//LOGIN FORM
+	//#inputLoginRegisterForm = pull up register form instead
+	//#inputLoginSubmit = submit login
+
+	$( "#gamePopUp" ).on('mouseup', '#inputLoginRegisterForm' ,function() {
+		//console.log("clicked inputLoginRegisterForm");
+		fadeView({alpha:{start:1,end:0},fadeTime:500})
+		//destroy the popup.
+		popUpDestroy();
+		popUpCreate('register')
+	});
+
+	$( "#gamePopUp" ).on('mouseup', '#inputLoginSubmit' ,function() {
+		console.log("clicked inputLoginSubmit");
+		getLogin();
+	});
+
+
+	//REGISTER FORM
+	//#inputRegisterLoginForm = pull up login page instead
+	//#inputRegisterSubmit = submit register form
+
+	$( "#gamePopUp" ).on('mouseup', '#inputRegisterLoginForm' ,function() {
+		//console.log("clicked inputRegisterLoginForm");
+		fadeView({alpha:{start:1,end:0},fadeTime:500})
+		//destroy the popup.
+		popUpDestroy();
+		popUpCreate('login')
+	});
+
+	$( "#gamePopUp" ).on('mouseup', '#inputRegisterSubmit' ,function() {
+		console.log("clicked inputRegisterSubmit");
+		getRegister();
+	});
+	
+}
+
+function popUpStatusDestroy() {
+	//destroy the popup.
+	$('#gamePopUpStatus').css("visibility","hidden");
+	$('#gamePopUpStatus').html("")
+	$('#gamePopUpStatus').height(0);
+	$('#gamePopUpStatus').width(0);
+}
+
+function popUpCreateStatus(type, data) {
+	
 }
 
 function popUpDestroy() {
@@ -214,7 +263,7 @@ function popUpDestroy() {
 	$('#gamePopUp').width(0);
 }
 
-function popUpCreate(type) {
+function popUpCreate(type, data) {
 	//fadeOutView(false, 300,0,0,.5);
 	fadeView({alpha:{start:0,end:.5},fadeTime:300})
 	Crafty('fade').addComponent('Mouse')
@@ -275,6 +324,121 @@ function popUpCreate(type) {
 		else {
 			$('#gamePopUp').html('<center><b>This room HAS been visited before.</b></center>');
 		}
+		
+	}
+	else if (type == 'login') {
+		$('#gamePopUp').css("visibility","visible");
+		$('#gamePopUp').height(Crafty.viewport.height*.20);
+		$('#gamePopUp').width(Crafty.viewport.width*.5);
+		if (typeof data === 'undefined') {
+				data = {username:"",password:""} 
+		}
+		else {
+			if (typeof data.username === 'undefined') {
+				data.username = "" ;
+			}
+			if (typeof data.password === 'undefined') {
+				data.password = "" ;
+			}
+		}
+
+		var html = '<table id="inputLoginForm">\
+									<tr>\
+										<td colspan="2">\
+											<p class="containsText">Account Login</p>\
+										</td>\
+									</tr>\
+									<tr>\
+										<td class="containsTextNormal">Username: </td>\
+										<td>\
+											<input id="inputLoginUsername" class="inputFormSQL" type="text" value="' + data.username + '"/>\
+										</td>\
+									</tr>\
+									<tr>\
+										<td class="containsTextNormal">Password: </td>\
+										<td>\
+											<input id="inputLoginPassword" class="inputFormSQL" type="password" value="' + data.password + '"/>\
+										</td>\
+									</tr>\
+									<tr>\
+										<td>\
+											<p>Not registered? <a id="inputLoginRegisterForm" href="#">Register Here</a></p>\
+										</td>\
+										<td>\
+											<center><input id="inputLoginSubmit" type="button" class="containsTextNormal" value="Login" /></center>\
+										</td>\
+									</tr>\
+								</table>'
+		$('#gamePopUp').html(html);
+		//fix Dimensions
+		$('#gamePopUp').width($('#inputLoginForm').width()*1.1);
+		$('#gamePopUp').height($('#inputLoginForm').height()*1.5);
+		$('#gamePopUp').css('top', ((Crafty.viewport.height/2)-($('#gamePopUp').height()/2))+'px');
+		$('#gamePopUp').css('left', ((Crafty.viewport.width/2)-($('#gamePopUp').width()/2))+'px');
+		
+	}
+	else if (type == 'register') {
+		$('#gamePopUp').css("visibility","visible");
+		$('#gamePopUp').css('top', (Crafty.viewport.height*.25)+'px');
+		$('#gamePopUp').css('left', (Crafty.viewport.width*.05)+'px');
+		$('#gamePopUp').height(Crafty.viewport.height);
+		$('#gamePopUp').width(Crafty.viewport.width*.5);
+
+		if (typeof data === 'undefined') {
+			data = {username:"",password:"",email:""} 
+		}
+		else {
+			if (typeof data.username === 'undefined') {
+				data.username = "" ;
+			}
+			if (typeof data.password === 'undefined') {
+				data.password = "" ;
+			}
+			if (typeof data.email === 'undefined') {
+				data.email = "" ;
+			}
+		}
+
+		var html = '<table id="inputregistrationForm">\
+									<tr>\
+										<td colspan="2">\
+											<p class="containsText">Account Registration</p>\
+										</td>\
+									</tr>\
+									<tr>\
+										<td class="containsTextNormal">Username: </td>\
+										<td>\
+											<input id="inputRegisterUsername" class="inputFormSQL" type="text" value="' + data.username + '"/>\
+										</td>\
+									</tr>\
+									<tr>\
+										<td class="containsTextNormal">Email: </td>\
+										<td>\
+											<input id="inputRegisterEmail" class="inputFormSQL" type="text" value="' + data.email + '"/>\
+										</td>\
+									</tr>\
+									<tr>\
+										<td class="containsTextNormal">Password: </td>\
+										<td>\
+											<input id="inputRegisterPassword" class="inputFormSQL" type="password" value="' + data.password + '"/>\
+										</td>\
+									</tr>\
+									<tr>\
+										<td>\
+											<p>Already Registerd? <a id="inputRegisterLoginForm" href="#">Login Here</a></p>\
+										</td>\
+										<td>\
+											<center><input id="inputRegisterSubmit" type="button" class="containsTextNormal" value="Register" /></center>\
+										</td>\
+									</tr>\
+								</table>'
+		$('#gamePopUp').html(html);
+
+		//fix Dimensions
+		$('#gamePopUp').width($('#inputregistrationForm').width()*1.1);
+		$('#gamePopUp').height($('#inputregistrationForm').height()*1.5);
+		$('#gamePopUp').css('top', ((Crafty.viewport.height/2)-($('#gamePopUp').height()/2))+'px');
+		$('#gamePopUp').css('left', ((Crafty.viewport.width/2)-($('#gamePopUp').width()/2))+'px');
 		
 	}
 	mobileFontSize();
@@ -355,6 +519,32 @@ function updateDoorHints(amount) {
 	$('#doorHintQty').css({'color': 'white', 'font-weight': 'bold', 'font-family':'"Lucida Console", "Courier New", monospace','font-size': (_tileSize*fontSize) + 'px'});
 	offset = $('#doorHintCountImg').offset();
 	$('#doorHintQty').offset({top:offset.top+($('#doorHintCountImg').height()*0.25),left:offset.left+($('#doorHintCountImg').width()*0.25)});
+}
 
+function getLogin() {
+	var username = $('#inputLoginUsername').val();
+	var password = $('#inputLoginPassword').val();
+
+	//simple sanitation Server takes care of reset if idiots will be idiots.
+
+	if (username == "" || password == "") {
+		console.log("User Name or Password Incorrect");
+	}
+
+}
+
+function getRegister() {
+	var username = $('#inputRegisterUsername').val();
+	var password = $('#inputRegisterPassword').val();
+	var email = $('#inputRegisterEmail').val();
+
+	//simple sanitation Server takes care of reset if idiots will be idiots.
+
+	if (username == "" || password == "") {
+		console.log("User Name or Password Blank");
+		return;
+	}
+	var status = sqlNewGameAccount(username,email,password);
+	console.log(status);
 	
 }
