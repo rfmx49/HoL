@@ -170,12 +170,12 @@ function popUpClickHandlers() {
 
 		//Send Score to Google.
 		//if (dailyChallange) { postToGoogleDaily(); }
-		sqlPostGame();
 		popUpDestroy();
 		//Save userdata
 		var userPlayerSaved = JSON.parse(localStorage.playerSaveData);
 		//check if we are home
 		if (currentRoom == 0) {
+			sqlPostGame();
 			//Are home
 			userPlayerSaved.score = parseInt(userPlayerSaved.score) + userPlayer.score.actual;
 			userPlayerSaved.rank = userPlayer.score.rank;

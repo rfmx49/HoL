@@ -3,13 +3,21 @@ TODO -
 Client:
 
 -Hand draw.
+
 -Random Events.
+
 -Animaitons for:
 --Level Up
 --Hints
+
 -Options for:
 --game speed
 --Graphics
+
+-Confimration to submit game.
+
+-Cahce games if server not availible.
+
 
 Server:
 
