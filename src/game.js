@@ -6,6 +6,7 @@ Crafty.scene('Game', function() {
 		.color('#FF0000');
 
 	Crafty.viewport.centerOn(centerPoint, 0);
+	hideAccounts();
 
 	//createHud(centerPoint);
 	

@@ -240,6 +240,11 @@ function popUpClickHandlers() {
 		console.log("clicked inputRegisterSubmit");
 		getRegister();
 	});
+
+	$( "#gamePopUpStatus" ).on('mouseup', '#statusConfirm' ,function() {
+		popUpStatusDestroy();
+	});
+	
 	
 }
 
@@ -249,10 +254,26 @@ function popUpStatusDestroy() {
 	$('#gamePopUpStatus').html("")
 	$('#gamePopUpStatus').height(0);
 	$('#gamePopUpStatus').width(0);
+	fadeView({alpha:{start:1,end:0},fadeTime:500});
 }
 
-function popUpCreateStatus(type, data) {
-	
+function popUpCreateStatus(data) {
+	$('#gamePopUpStatus').css("visibility","visible");
+	$('#gamePopUpStatus').css('top', (Crafty.viewport.height*.05)+'px');
+	$('#gamePopUpStatus').css('left', (Crafty.viewport.width*.05)+'px');
+	$('#gamePopUpStatus').height(Crafty.viewport.height*.25);
+	$('#gamePopUpStatus').width(Crafty.viewport.width*.8);
+	var html = '<div id="statusContainer"><p>' + data.message + '</p>\
+							<input id="statusConfirm" type="button" class="containsTextNormal" value="OK" /></div>';
+	$('#gamePopUpStatus').html(html);
+	//fix Dimensions
+	$('#gamePopUpStatus').width($('#statusContainer').width()*1.1);
+	$('#gamePopUpStatus').height($('#statusContainer').height()*1.5);
+	$('#statusButtonContain').css('margin', '0 auto');
+	//Center
+	$('#gamePopUpStatus').css('top', ((Crafty.viewport.height/2)-($('#gamePopUpStatus').height()/2))+'px');
+	$('#gamePopUpStatus').css('left', ((Crafty.viewport.width/2)-($('#gamePopUpStatus').width()/2))+'px');	
+	$('#gamePopUpStatus').css('text-align', 'center');
 }
 
 function popUpDestroy() {
@@ -525,11 +546,17 @@ function getLogin() {
 	var username = $('#inputLoginUsername').val();
 	var password = $('#inputLoginPassword').val();
 
+	//disable fields
+	$('#inputLoginForm').find(':input:not(:disabled)').prop('disabled', true);
+
 	//simple sanitation Server takes care of reset if idiots will be idiots.
 
 	if (username == "" || password == "") {
-		console.log("User Name or Password Incorrect");
+		popUpCreateStatus({message:"User Name or Password Incorrect"});
+		return 1;
 	}
+
+	sqlAccountLogin(username,password);
 
 }
 
@@ -538,13 +565,14 @@ function getRegister() {
 	var password = $('#inputRegisterPassword').val();
 	var email = $('#inputRegisterEmail').val();
 
+	//disable fields
+	$('#inputregistrationForm').find(':input:not(:disabled)').prop('disabled', true);
+
 	//simple sanitation Server takes care of reset if idiots will be idiots.
 
 	if (username == "" || password == "") {
-		console.log("User Name or Password Blank");
-		return;
+		popUpCreateStatus({message:"Please enter a username and password."});
+		return 1;
 	}
-	var status = sqlNewGameAccount(username,email,password);
-	console.log(status);
-	
+	sqlNewGameAccount(username,email,password);	
 }

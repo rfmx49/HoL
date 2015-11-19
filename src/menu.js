@@ -101,18 +101,63 @@ Crafty.scene('Menu', function() {
 	});
 
 	Crafty.viewport.centerOn(Crafty("btnContinue")[0],0)
+	displayAccounts();
 	
 });
 
 function optionsMenu() {
-	//create Popup
-	$('#gamePopUp').css('top', (Crafty.viewport.height*.05)+'px');
-	$('#gamePopUp').css('left', (Crafty.viewport.width*.05)+'px');
-	$('#gamePopUp').height(Crafty.viewport.height*.8);
-	$('#gamePopUp').width(Crafty.viewport.width*.9);
-	//Needed clear local storage button.
-	//need create user button.
 	fadeOutView(false, 300,0,0,.5);
 	alert(localStorage.playerUUID);
+}
 
+function displayAccounts() {
+	$('#accountsContainer').css("visibility","visible");
+	$('#accountsContainer').css('top', '0px');
+	$('#accountsContainer').height(Crafty.viewport.height*.25);
+	$('#accountsContainer').width(Crafty.viewport.width*.8);
+	$('#accountsContainer').css('left', (Crafty.viewport.width - $('#accountsContainer').width())+'px');
+	//checked if logged in
+	var logedin = false;
+	var html;
+	if (typeof sessionStorage.roomJumeUser !== 'undefined') {
+		logedin = true;
+	}
+	if (logedin) {
+		var roomJumeUser = sessionStorage.roomJumeUser;
+		html = '<div id="accountsDivs"><p>' + roomJumeUser + ' is logged in. <a id="accountsLogout" href="#">logout</a></p></div>';
+	}
+	else {
+		html = '<div id="accountsDivs"><a id="accountsLogin" href="#">Login</a> / <a id="accountsRegister" href="#">Register</a></div>';
+	}
+	$('#accountsContainer').html(html);
+	$('#accountsContainer').height($('#accountsDivs').height());
+}
+
+function hideAccounts() {
+	//destroy the accounts info.
+	$('#accountsContainer').css("visibility","hidden");
+	$('#accountsContainer').html("");
+	$('#accountsContainer').height(0);
+	$('#accountsContainer').width(0);
+}
+
+function accountsClickHandlers() {
+	//END GAME POPUP
+
+	$( "#accountsContainer" ).on('mouseup', '#accountsLogin' ,function() {
+		console.log('clicked login');
+		popUpCreate('login');
+	});
+
+	$( "#accountsContainer" ).on('mouseup', '#accountsRegister' ,function() {
+		console.log('clicked register');
+		popUpCreate('register');
+	});
+
+	$( "#accountsContainer" ).on('mouseup', '#accountsLogout' ,function() {
+		sessionStorage.removeItem('roomJumeUser');
+		displayAccounts();
+	});
+
+	
 }

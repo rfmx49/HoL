@@ -46,7 +46,7 @@ var playerEntity; //The Crafty player entity
 var lastPos = new Position(0,0,0); // The last room position
 var playerRoomPos; //Position in current Room
 var dailyChallange = false;
-var playerSpeed = 400;
+var playerSpeed = 250;
 
 //Room Varibles
 var maxWidth = 9; // Max width of Room
@@ -89,6 +89,7 @@ $(document).ready(function() {
 	//clickHandlers
 	footClickHandlers();
 	popUpClickHandlers();
+	accountsClickHandlers();
 	
 	//Start crafty
 	beginCrafty();
