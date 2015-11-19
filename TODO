@@ -1,0 +1,26 @@
+TODO -
+
+Client:
+
+-Hand draw.
+-Random Events.
+-Animaitons for:
+--Level Up
+--Hints
+-Options for:
+--game speed
+--Graphics
+
+Server:
+
+- Display games
+- Display Daily Ranks
+
+- Game validation.
+
+- Mark user last login.
+- Mark number of failed logins. Track/block.
+- Mark number of failed user creation attempts.
+-	Limit user creations capacha possilbe on external app?
+- Google Auth.
+ 
