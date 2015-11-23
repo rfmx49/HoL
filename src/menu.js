@@ -73,7 +73,7 @@ Crafty.scene('Menu', function() {
 						var d = new Date();
 						//var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 						//gameSeed = days[d.getDay()] + ' ' + d.getDay() + '/' + d.getMonth() + '/' + d.getFullYear();
-						gameSeed = d.getDay() + '/' + d.getMonth() + '/' + d.getFullYear();
+						gameSeed = d.getDate() + '/' + d.getMonth() + '/' + d.getFullYear();
 					}
 					else {
 						gameSeed = $('#inputSeed').val();
