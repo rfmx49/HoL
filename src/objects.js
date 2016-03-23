@@ -92,6 +92,9 @@ Crafty.c('PlayerCharacter', {
 				this.playTween();
 			}
 			else {
+				if (Crafty.audio.isPlaying("walking")) {
+					Crafty.audio.stop("walking")
+				}
 				mouseFunction = "movePlayer";							
 				this.inMotion = false;
 			}				
@@ -102,6 +105,9 @@ Crafty.c('PlayerCharacter', {
 	//  this entity hits an entity with the "Solid" component
 		
 	playTween: function() {
+		if (Crafty.audio.isPlaying("walking") == false) {
+			playSound("walking");
+		}
 		//console.log(JSON.stringify(this.nodePath));
 		var newPos = this.nodePath.shift();
 		//get newPos tile
@@ -305,6 +311,10 @@ Crafty.c('wallDoorAnimate', {
 		this.reel('doorClosed', 10, 0, 0, 1);
 	},
 	openDoor: function() {
+		if (this.style == "") {
+			this.style = this._element.className.charAt(this._element.className.indexOf("doorSprite") + 10);
+		}
+		playSound("door_open_" + this.style,.75);
 		this.animate('doorOpening', 1);
 	},
 	openedDoor: function() {

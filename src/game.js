@@ -15,7 +15,8 @@ Crafty.scene('Game', function() {
 		.bind("EnterFrame", function() {
 			//frame done
 		});*/
-
+  //Load Sounds
+  loadSounds();
 	//clearAll room varibles
 	rooms = [];
 	currentRoom = null;

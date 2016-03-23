@@ -7,7 +7,7 @@ Crafty.scene('Loading', function(){
 	Crafty.paths({audio: "res/audio/", images: "res/img/", sprites: "res/img/"});
 	var assetsObj = {
 		"images": ["hud/paper.png","hud/cork.png","hud/powerUpCount.png"],
-		"audio": ["doors/door_open_1.ogg","doors/door_open_2.ogg","doors/door_open_3.ogg","doors/door_open_4.ogg","doors/door_open_5.ogg",],		 
+		"audio": ["doors/door_open_1.ogg","doors/door_open_2.ogg","doors/door_open_3.ogg","doors/door_open_4.ogg","doors/door_open_5.ogg","doors/door_open_6.ogg","player/walking.ogg"],		 
 		"sprites": {
 			"hud/menuItems.png": {
 				"tile": 340,
