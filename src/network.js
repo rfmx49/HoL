@@ -1,5 +1,5 @@
-var SERVERNAME = "http://65.94.193.108";
-
+//var SERVERNAME = "http://65.94.193.108";
+var SERVERNAME = "http://10.66.28.191/";
 function uuid() {
     function randomDigit() {
         if (crypto && crypto.getRandomValues) {
@@ -148,7 +148,7 @@ function sqlAccountLogin(userName,password) {
         },
         error: function(xhr, textstatus, error) {
         	console.log(xhr.responseText);
-        	if(typeof textStatus !== 'undefined') {
+        	if(typeof textstatus !== 'undefined') {
 		      	var uuidLogin = xhr.responseText;
 		      	if (xhr.status == "456") {
 							//login succesful

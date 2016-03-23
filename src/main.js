@@ -11,8 +11,8 @@
 //6 - Player
 
 var _tileSize = 66;
-var renderEngine = "DOM"
-//renderEngine = "Canvas" //
+var renderEngine = "DOM";
+//renderEngine = "Canvas"; //
 var gameSeeds = 100000;
 
 //DEBUG
@@ -28,7 +28,7 @@ genGameSeed();
 
 //gameSeed = 4; //DEBUGING
 //gameSeed = 23086;
-var roomCenter = {x: _tileSize, y: _tileSize}
+var roomCenter = {x: _tileSize, y: _tileSize};
 
 //Mouse varibles
 var mouseFunction = "movePlayer";

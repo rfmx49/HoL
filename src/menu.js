@@ -10,6 +10,7 @@ Crafty.scene('Menu', function() {
 			//create player
 			//player
 			userPlayer = new playerObj;
+			genGameSeed();
 			Crafty.scene("Game");
 		});
 

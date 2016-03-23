@@ -18,6 +18,29 @@ Client:
 
 -Cahce games if server not availible.
 
+Sounds
+Doors opening
+- https://www.freesound.org/people/Slanesh/sounds/31768/
+- https://www.freesound.org/people/pagancow/sounds/15419/
+- https://www.freesound.org/people/gabisaraceni/sounds/96961/
+- https://www.freesound.org/search/?q=door%20open&f=grouping_pack:%226228_Door%20opening%22%20&s=%22score%20desc%22&g=1&advanced=&a_tag=&a_filename=&a_description=&a_packname=&a_soundid=&a_username=
+- https://www.freesound.org/people/simpsi/sounds/175670/
+- https://www.freesound.org/people/ryancacophony/sounds/201989/
+
+Door Slam
+- https://www.freesound.org/people/thebraindrinker/sounds/268757/
+- https://www.freesound.org/people/Adam_N/sounds/164664/
+- https://www.freesound.org/people/winsx87/sounds/152015/
+- https://www.freesound.org/people/theshaggyfreak/sounds/274933/
+- https://www.freesound.org/people/theshaggyfreak/sounds/274937/
+Door Close
+Ambiance
+Music
+Effects
+-Lights off
+-Heart beat
+-Scream
+
 
 Server:
 
@@ -31,4 +54,5 @@ Server:
 - Mark number of failed user creation attempts.
 -	Limit user creations capacha possilbe on external app?
 - Google Auth.
+
  

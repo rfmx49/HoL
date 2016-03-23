@@ -340,10 +340,10 @@ function popUpCreate(type, data) {
 		var notVisited = (rooms.length - 1) == currentRoom;
 
 		if (notVisited) {
-			$('#gamePopUp').html('<center><b>This room has NOT been visited before.</b></center>');
+			$('#gamePopUp').html('<center><b>This is the FIRST time this room has been visited.</b></center>');
 		}
 		else {
-			$('#gamePopUp').html('<center><b>This room HAS been visited before.</b></center>');
+			$('#gamePopUp').html('<center><b>This room HAS been visited previously.</b></center>');
 		}
 		
 	}

@@ -80,7 +80,7 @@ Crafty.c('PlayerCharacter', {
 	init: function() {
 		this.requires('2D, ' + renderEngine + ', Tween, playerSprite1_reel, SpriteAnimation');
 		this.origin("center");
-		this.reel('playerWalking', playerSpeed, 1, 0, 15);
+		this.reel('playerWalking', playerSpeed, 1, 0, 9);
 		this.reel('playerIdle', 10, 0, 0, 1);
 		this.bind("TweenEnd", function() {
 			reCenterPlayer();

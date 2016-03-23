@@ -6,7 +6,8 @@ Crafty.scene('Loading', function(){
 		.attr({ x: Crafty.viewport._width/2, y: Crafty.viewport._height/2, w: 200 });
 	Crafty.paths({audio: "res/audio/", images: "res/img/", sprites: "res/img/"});
 	var assetsObj = {
-		"images": ["hud/paper.png","hud/cork.png","hud/powerUpCount.png"],			 
+		"images": ["hud/paper.png","hud/cork.png","hud/powerUpCount.png"],
+		"audio": ["doors/door_open_1.ogg","doors/door_open_2.ogg","doors/door_open_3.ogg","doors/door_open_4.ogg","doors/door_open_5.ogg",],		 
 		"sprites": {
 			"hud/menuItems.png": {
 				"tile": 340,
@@ -166,9 +167,9 @@ Crafty.scene('Loading', function(){
 				"tileh": 50,
 				"map": { "highlightBlue": [0,0],},			 
 			},
-			"playerSprite1.png": {
-				"tile": 50,
-				"tileh": 50,
+			"playerSprite2.png": {
+				"tile": 128,
+				"tileh": 128,
 				"map": { "playerSprite1_reel": [0,0],},			 
 			},
 			"rooms/doors/doorSprite1.png": {
@@ -256,7 +257,7 @@ Crafty.scene('Loading', function(){
 
 
 		function(e) { //progress
-			Crafty(Crafty('craftyProgress')[0]).text("Loading ... " + Math.floor(e.percent) + "%").unselectable();
+			Crafty(Crafty('craftyProgress')[0]).text("Loading ... " + e.src + " --- " + Math.floor(e.percent) + "%").unselectable();
 		},
 
 		function(e) { //uh oh, error loading
