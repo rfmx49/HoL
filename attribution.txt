@@ -4,48 +4,48 @@ Title: porta_abrindo_2.wav
 Author: gabisaraceni - https://www.freesound.org/people/gabisaraceni/
 Source: https://www.freesound.org/people/gabisaraceni/sounds/96961/
 License: Creative Commons Sampling Plus 1.0 - http://creativecommons.org/licenses/sampling+/1.0/
-File: lib/audio/doors/door_open_1.ogg
+File: res/audio/doors/door_open_1.ogg
 Notes: Converted from .wav to .ogg
 
 Title: porta_abrindo_1.wav
 Author: gabisaraceni - https://www.freesound.org/people/gabisaraceni/
 Source: https://www.freesound.org/people/gabisaraceni/sounds/96960/
 License: Creative Commons Sampling Plus 1.0 - http://creativecommons.org/licenses/sampling+/1.0/
-File: lib/audio/doors/door_open_2.ogg
+File: res/audio/doors/door_open_2.ogg
 Notes: Converted from .wav to .ogg
 
 Title: porta_abrindo_3.wav
 Author: gabisaraceni - https://www.freesound.org/people/gabisaraceni/
 Source: https://www.freesound.org/people/gabisaraceni/sounds/96962/
 License: Creative Commons Sampling Plus 1.0 - http://creativecommons.org/licenses/sampling+/1.0/
-File: lib/audio/doors/door_open_3.ogg
+File: res/audio/doors/door_open_3.ogg
 Notes: Converted from .wav to .ogg
 
 Title: porta_abrindo_4.wav
 Author: gabisaraceni - https://www.freesound.org/people/gabisaraceni/
 Source: https://www.freesound.org/people/gabisaraceni/sounds/96963/
 License: Creative Commons Sampling Plus 1.0 - http://creativecommons.org/licenses/sampling+/1.0/
-File: lib/audio/doors/door_open_4.ogg
+File: res/audio/doors/door_open_4.ogg
 Notes: Converted from .wav to .ogg
 
 Title: porta_abrindo_5.wav
 Author: gabisaraceni - https://www.freesound.org/people/gabisaraceni/
 Source: https://www.freesound.org/people/gabisaraceni/sounds/96964/
 License: Creative Commons Sampling Plus 1.0 - http://creativecommons.org/licenses/sampling+/1.0/
-File: lib/audio/doors/door_open_5.ogg
+File: res/audio/doors/door_open_5.ogg
 Notes: Converted from .wav to .ogg
 
 Title: Porte open close.wav
 Author: Slanesh - https://www.freesound.org/people/Slanesh/
 Source: https://www.freesound.org/people/Slanesh/sounds/31768/
 License: License: Attribution 3.0 Unported (CC BY 3.0) - http://creativecommons.org/licenses/by/3.0/
-File: lib/audio/doors/door_open_6.ogg
+File: res/audio/doors/door_open_6.ogg
 Notes: Cut using Audacity & Converted from .wav to .ogg
 
 Title: woman_walking_on_stage.wav
 Author: harleto - https://www.freesound.org/people/harleto/
 Source: https://www.freesound.org/people/Slanesh/sounds/204468/
 License: CC0 1.0 Universal (CC0 1.0) Public Domain Dedication
-File: lib/audio/player/walking.ogg
+File: res/audio/player/walking.ogg
 Notes: Cut/sped up using Audacity & Converted from .wav to .ogg
 

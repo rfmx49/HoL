@@ -10,7 +10,7 @@ function createHud() {
 	//Footer
 	$( "#statusWindowFooter" ).width(Crafty.viewport.width);
 	$( "#statusWindowFooter" ).height(_tileSize); //Will expand
-	$( "#statusWindowFooter" ).html("<div id='statusFooterExpand'><center><img src='res/img/hud/expand.png' style:'width: " + _tileSize + "px,height: " + _tileSize + "px;' id='footExpand'></center></div>");
+	$( "#statusWindowFooter" ).html("<div id='statusFooterExpand'><center><img src='res/img/ui/expand.png' style:'width: " + _tileSize + "px,height: " + _tileSize + "px;' id='footExpand'></center></div>");
 	$( "#statusWindowFooter" ).css('visibility', 'visible');
 
 	//postion at bottom
@@ -138,7 +138,7 @@ function footerChange(expand) {
 			var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 			var checkSeed = days[d.getDay()] + ' ' + d.getDay() + '/' + d.getMonth() + '/' + d.getFullYear();
 			if (textSeed == checkSeed) {textSeed = 'Daily';}
-			$( "#statusWindowFooter" ).html('<div id="statusFooterExpand"><center><img src="res/img/hud/dropDown.png" style:"width: ' + _tileSize + 'px,height: ' + _tileSize + 'px;" id="footDrop"></center><table class="statusWindowFooterTable containsTextFooter" ><tr><td rowspan=2><center><img src="res/img/hud/doorOff.png" style:"width: 10px,height: 10px;"  id="hintShowDoor"><img src="res/img/hud/checkListOff.png" style:"width: 10px,height: 10px;" id="hintShowRoom"></center></td><td><b>Rank: </b>' + userPlayer.score.rank + '</td><td rowspan=2 align="center"><img src="res/img/hud/home.png" style:"width: 10px,height: 10px;" id="footEndGame"><br /><b>END</b></td></tr><tr><td><b>Next in: </b>' + getRank(userPlayer.score.visible).difference + ' rooms.</td></tr></table><center></div>')
+			$( "#statusWindowFooter" ).html('<div id="statusFooterExpand"><center><img src="res/img/ui/dropDown.png" style:"width: ' + _tileSize + 'px,height: ' + _tileSize + 'px;" id="footDrop"></center><table class="statusWindowFooterTable containsTextFooter" ><tr><td rowspan=2><center><img src="res/img/ui/doorOff.png" style:"width: 10px,height: 10px;"  id="hintShowDoor"><img src="res/img/ui/checkListOff.png" style:"width: 10px,height: 10px;" id="hintShowRoom"></center></td><td><b>Rank: </b>' + userPlayer.score.rank + '</td><td rowspan=2 align="center"><img src="res/img/ui/home.png" style:"width: 10px,height: 10px;" id="footEndGame"><br /><b>END</b></td></tr><tr><td><b>Next in: </b>' + getRank(userPlayer.score.visible).difference + ' rooms.</td></tr></table><center></div>')
 			$('#footEndGame').height(_tileSize*2.5);
 			$('#hintShowDoor').height(_tileSize*2);
 			$('#hintShowRoom').height(_tileSize*2);
@@ -153,7 +153,7 @@ function footerChange(expand) {
 			$( "#statusWindowFooter" ).height(_tileSize);
 			var newTop = Crafty.viewport.height - $( "#statusWindowFooter" ).height();
 			$( "#statusWindowFooter" ).css('top', newTop + 'px');
-			$( "#statusWindowFooter" ).html("<div id='statusFooterExpand'><center><img src='res/img/hud/expand.png' style:'width: " + _tileSize + "px,height: " + _tileSize + "px;' id='footExpand'></center></div>")
+			$( "#statusWindowFooter" ).html("<div id='statusFooterExpand'><center><img src='res/img/ui/expand.png' style:'width: " + _tileSize + "px,height: " + _tileSize + "px;' id='footExpand'></center></div>")
 	}
 }
 
@@ -487,14 +487,14 @@ function updateRoomHints(amount) {
 	}
 
 	if (amount == 0) {
-		//$('#hintShowRoom').attr('src', "res/img/hud/checkListOff.png");
+		//$('#hintShowRoom').attr('src', "res/img/ui/checkListOff.png");
 		return;
 	}
 	else {
-		$('#hintShowRoom').attr('src', "res/img/hud/checkList.png");
+		$('#hintShowRoom').attr('src', "res/img/ui/checkList.png");
 	}
 
-	$('#hintShowRoom').after('<img src="res/img/hud/powerUpCount.png" id="roomHintCountImg" style="height: ' + _tileSize/2 + 'px;position:absolute;">')
+	$('#hintShowRoom').after('<img src="res/img/ui/powerUpCount.png" id="roomHintCountImg" style="height: ' + _tileSize/2 + 'px;position:absolute;">')
 	var offset = $('#hintShowRoom').offset();
 	$('#roomHintCountImg').offset({top:offset.top,left:offset.left});
 	//put quantity in middle
@@ -518,14 +518,14 @@ function updateDoorHints(amount) {
 		$('#doorHintQty').remove();
 	}
 	if (amount == 0) {
-		//$('#hintShowDoor').attr('src', "res/img/hud/doorOff.png");
+		//$('#hintShowDoor').attr('src', "res/img/ui/doorOff.png");
 		return;
 	}
 	else {
-		$('#hintShowDoor').attr('src', "res/img/hud/door.png");
+		$('#hintShowDoor').attr('src', "res/img/ui/door.png");
 	}
 
-	$('#hintShowDoor').after('<img src="res/img/hud/powerUpCount.png" id="doorHintCountImg" style="height: ' + _tileSize/2 + 'px;position:absolute;">')
+	$('#hintShowDoor').after('<img src="res/img/ui/powerUpCount.png" id="doorHintCountImg" style="height: ' + _tileSize/2 + 'px;position:absolute;">')
 	var offset = $('#hintShowDoor').offset();
 	$('#doorHintCountImg').offset({top:offset.top,left:offset.left});
 	//put quantity in middle

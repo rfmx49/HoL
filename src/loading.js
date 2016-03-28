@@ -6,10 +6,10 @@ Crafty.scene('Loading', function(){
 		.attr({ x: Crafty.viewport._width/2, y: Crafty.viewport._height/2, w: 200 });
 	Crafty.paths({audio: "res/audio/", images: "res/img/", sprites: "res/img/"});
 	var assetsObj = {
-		"images": ["hud/paper.png","hud/cork.png","hud/powerUpCount.png"],
+		"images": ["ui/paper.png","ui/cork.png","ui/powerUpCount.png"],
 		"audio": ["doors/door_open_1.ogg","doors/door_open_2.ogg","doors/door_open_3.ogg","doors/door_open_4.ogg","doors/door_open_5.ogg","doors/door_open_6.ogg","player/walking.ogg"],		 
 		"sprites": {
-			"hud/menuItems.png": {
+			"ui/menuItems.png": {
 				"tile": 340,
 				"tileh": 80,
 				"map": { "menu_newGame": [0,0],
@@ -202,47 +202,47 @@ Crafty.scene('Loading', function(){
 				"tileh": 100,
 				"map": { "doorSprite6_reel": [0,0],},			 
 			},
-			"hud/loading.png": {
+			"ui/loading.png": {
 				"tile": 100,
 				"tileh": 100,
 				"map": { "loading_reel": [0,0],},			 
 			},
-			"hud/home.png": {
+			"ui/home.png": {
 				"tile": 256,
 				"tileh": 232,
 				"map": { "ui_home": [0,0],},			 
 			},
-			"hud/door.png": {
+			"ui/door.png": {
 				"tile": 200,
 				"tileh": 200,
 				"map": { "ui_door": [0,0],},			 
 			},
-			"hud/checklist.png": {
+			"ui/checklist.png": {
 				"tile": 200,
 				"tileh": 200,
 				"map": { "ui_checklist": [0,0],},			 
 			},
-			"hud/doorOff.png": {
+			"ui/doorOff.png": {
 				"tile": 200,
 				"tileh": 200,
 				"map": { "ui_door": [0,0],},			 
 			},
-			"hud/checklistOff.png": {
+			"ui/checklistOff.png": {
 				"tile": 200,
 				"tileh": 200,
 				"map": { "ui_checklist": [0,0],},			 
 			},
-			"hud/expand.png": {
+			"ui/expand.png": {
 				"tile": 74,
 				"tileh": 36,
 				"map": { "ui_expand": [0,0],},			 
 			},
-			"hud/dropDown.png": {
+			"ui/dropDown.png": {
 				"tile": 74,
 				"tileh": 36,
 				"map": { "ui_dropDown": [0,0],},			 
 			},
-			"hud/enterSeed.png": {
+			"ui/enterSeed.png": {
 			"tile": 340,
 				"tileh": 160,
 				"map": { "menu_enterSeed": [0,0],},			 
