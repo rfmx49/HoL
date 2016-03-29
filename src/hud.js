@@ -1,7 +1,6 @@
 function createHud() {
 	//Ui is divided into maxWidth = 9 + 2/maxHeight = 11+4; or 11/15 gird.
 	//Each grid section is one _tileSize.
-
 	//Header
 	$( "#statusWindow" ).width(Crafty.viewport.width);
 	$( "#statusWindow" ).height(Crafty.viewport.height/15);

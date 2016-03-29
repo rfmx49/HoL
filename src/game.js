@@ -29,8 +29,6 @@ Crafty.scene('Game', function() {
 	//generate first room
 	generateRoom();
 	createHud();
-	//Draw Furniture
-	//unless room 1
 
 	//Check/create localStorage player Save Data
 	if ((typeof (localStorage.playerSaveData) == "undefined")) {
@@ -59,6 +57,10 @@ Crafty.scene('Game', function() {
 	DEBUGreplay = [];
 
 	hintRandom = new Math.seedrandom(gameSeed);
+	console.log("Done everything");
+	setTimeout(function() {
+		initScore();
+	}, 250);
 });
 
 function gameNewRoom() {
@@ -93,7 +95,12 @@ function debugGoBack() {
 function returnedHome() {
 	//Display proper Score	
 	userPlayer.score.visible = userPlayer.score.actual;
-	userPlayer.score.fluff = Math.floor(roomRandom() * 7) + 4;
+	if (userPlayer.score.visible > 10) {
+		userPlayer.score.fluff = Math.floor(roomRandom() * 7) + 4;
+	}
+	else {
+		userPlayer.score.fluff = 0;
+	}
 	userPlayer.score.fluffCount = 0;
 
 	displayScore(userPlayer.score.visible);

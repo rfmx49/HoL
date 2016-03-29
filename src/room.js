@@ -279,7 +279,7 @@ function locateOriginDoor() {
 								//Door is a match to an already created door.
 								console.log("Revisting room no need for new origin door.");
 								originDoorReq = false;	
-								buildRoom(); // buildRoom as it is valid						
+								buildRoom(); // buildRoom as it is valid					
 								positionPlayer(originDoors[i].x,originDoors[i].y);					
 							}
 						}

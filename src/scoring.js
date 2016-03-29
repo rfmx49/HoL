@@ -2,9 +2,14 @@ function computeScore() {
 	//player has just entered a room.
 	userPlayer.score.visible ++;
 	userPlayer.score.fluffCount ++;
-	if (userPlayer.score.fluffCount == userPlayer.score.fluff) {
+	if (userPlayer.score.fluffCount >= userPlayer.score.fluff) {
 		userPlayer.score.visible = userPlayer.score.actual;
-		userPlayer.score.fluff = Math.floor(roomRandom() * 7) + 4;
+		if (userPlayer.score.visible > 10) {
+			userPlayer.score.fluff = Math.floor(roomRandom() * 7) + 4;
+		}
+		else {
+			userPlayer.score.fluff = 0;
+		}
 		userPlayer.score.fluffCount = 0;
 
 		//upateLevel
@@ -13,11 +18,18 @@ function computeScore() {
 		
 		
 	}
-	displayScore(userPlayer.score.visible);	
+	else {
+		//show feedback in progress bar
+	}
+	getRank(userPlayer.score.visible).nextLvlRooms
+	displayScore((userPlayer.score.visible/getRank(userPlayer.score.visible).nextLvlRooms)*100);	
 }
 
 function displayScore(score) {
-	$( "#ui-game-score" ).html(score);
+	//$( "#ui-game-score" ).html(score);
+	if (Crafty('scoreProgress').length != 0) {
+		Crafty('scoreProgress').updateBarProgress(score);
+	}
 }
 
 function displayRank() {
@@ -91,6 +103,19 @@ function saveHighScores() {
 	var score = [];
 	score.push({seed: gameSeed, score: userPlayer.score.actual,rank: getRank(userPlayer.score.actual).currentLevel, date: "date"});
 	score.sort(function(a,b){return b.score-a.score});
+}
+
+function initScore() {
+	Crafty.e('2D, ' + renderEngine + ', ProgressBar, scoreProgress')
+		.attr({ x: 0+(_tileSize*0.25), y : 0+(_tileSize*0.5), w: _tileSize*4, h: _tileSize*0.66667, z: 100 })
+		// progressBar(Number maxValue, Boolean flipDirection, String emptyColor, String filledColor)
+		.progressBar(100, false, "transparent", "#adb3fc");
+	//Crafty('scoreProgress').updateBarProgress(50);
+	Crafty.e('2D, ' + renderEngine + ', score_progress, scoreBorder')
+		.attr({ x: 0+(_tileSize*0.25), y : 0+(_tileSize*0.5), w: _tileSize*4, h: _tileSize*0.66667, z: 101 });
+
+	Crafty(Crafty("scoreProgress")[0]).attach(Crafty("scoreBorder"));
+	
 }
 
 

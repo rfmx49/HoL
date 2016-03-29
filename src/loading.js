@@ -247,6 +247,11 @@ Crafty.scene('Loading', function(){
 				"tileh": 160,
 				"map": { "menu_enterSeed": [0,0],},			 
 			},
+			"ui/progressBar.png": {
+			"tile": 400,
+				"tileh": 60,
+				"map": { "score_progress": [0,0],},			 
+			},
 		},
 	};
 

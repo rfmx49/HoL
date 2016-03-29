@@ -1,7 +1,5 @@
 /*STATUS BAR AT TOP*/
 #statusWindow {
-	/*background-color:#999999;
-	background-image: url('../res/img/hud/scoresheet.png');*/
 	background-size: 100%;
 	vertical-align:center;
 	height:52px;
@@ -14,7 +12,6 @@
 #statusWindowFooter {
 	visibility: hidden;
 	background-color:#999999;
-	/*background-image: url('../res/img/hud/scoresheet.png');*/
 	background-size: 100%;
 	vertical-align:center;
 	height:52px;
@@ -31,7 +28,7 @@
 #gamePopUp {
 	visibility: hidden;
 	position: absolute;
-	background-image: url('../res/img/hud/cork.png');
+	background-image: url('../res/img/ui/cork.png');
 	/*background-color:#999999;*/
 	border: solid 2px #000000;
 	background-size: 100%;
@@ -52,7 +49,7 @@
 #gamePopUpStatus {
 	visibility: hidden;
 	position: absolute;
-	background-image: url('../res/img/hud/cork.png');
+	background-image: url('../res/img/ui/cork.png');
 	/*background-color:#999999;*/
 	border: solid 2px #000000;
 	background-size: 100%;
@@ -86,14 +83,14 @@
 #popUpEndBtnImg {
 	height: 100%;
 	width:100%;
-	background:url(../res/img/hud/btn_end.png) no-repeat;
+	background:url(../res/img/ui/btn_end.png) no-repeat;
 	background-size: contain;
 }
 
 #popUpConBtnImg {
 	height: 100%;
 	width:100%;
-	background:url(../res/img/hud/btn_cont.png) no-repeat;
+	background:url(../res/img/ui/btn_cont.png) no-repeat;
 	background-size: contain;
 }
 
