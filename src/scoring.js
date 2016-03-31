@@ -16,13 +16,16 @@ function computeScore() {
 		//ui-game-rank
 		displayRank();
 		
-		
+		var progressScore = getRank(userPlayer.score.actual);
+		var progressPercent = (100/(progressScore.nextLvlRooms - progressScore.pastLvlRooms)) * (userPlayer.score.visible - progressScore.pastLvlRooms);
 	}
 	else {
+		var progressScore = getRank(userPlayer.score.visible);
+		var progressPercent = (200/(progressScore.nextLvlRooms - progressScore.pastLvlRooms)) * (userPlayer.score.visible - progressScore.pastLvlRooms);
 		//show feedback in progress bar
 	}
-	getRank(userPlayer.score.visible).nextLvlRooms
-	displayScore((userPlayer.score.visible/getRank(userPlayer.score.visible).nextLvlRooms)*100);	
+	
+	displayScore(progressPercent);	
 }
 
 function displayScore(score) {
@@ -66,16 +69,16 @@ function getRank(rooms) {
 	//genereate degrees list
 	//rooms = max
 	var nextLvl = {};
-	if (rooms == 1) {
-		nextLvl = {currentLevel: 1, nextLvlRooms: 3, difference: 3 - rooms}
+	if (rooms <= 2) {
+		nextLvl = {currentLevel: 1, nextLvlRooms: 3, difference: 3 - rooms, pastLvlRooms: 0}
 		return nextLvl;
 	}
-	else if (rooms == 3) {
-		nextLvl = {currentLevel: 2, nextLvlRooms: 5, difference: 5 - rooms }
+	else if (rooms <= 4) {
+		nextLvl = {currentLevel: 2, nextLvlRooms: 5, difference: 5 - rooms, pastLvlRooms: 3}
 		return nextLvl;
 	}
 	else if (rooms == 0) {
-		nextLvl = {currentLevel: 0, nextLvlRooms: 1, difference: 1 }
+		nextLvl = {currentLevel: 0, nextLvlRooms: 1, difference: 1, pastLvlRooms: 0}
 		return nextLvl;
 	}
 	var degree = []
@@ -84,16 +87,18 @@ function getRank(rooms) {
 	var max = false;
 	var weight;
 	var level = 3;
+	var pastLvlRooms = 5;
 	while (max == false) {
 		weight = 0.1*Math.pow(0.924,(level-3));
 		degree[level]=degree[level-1]+((degree[level-1]-degree[level-2])*(1+weight));
 		console.log("Checking Level: " + level + " rooms this level: " + degree[level] + " our rooms: " + rooms + " Weight: " + weight);
 		if (Math.round(degree[level]) > rooms) {
 			console.log('level is ' + level);
-			nextLvl = {currentLevel: level-1, nextLvlRooms: Math.round(degree[level]), difference: Math.round(degree[level]) - rooms}
+			nextLvl = {currentLevel: level-1, nextLvlRooms: Math.round(degree[level]), difference: Math.round(degree[level]) - rooms, pastLvlRooms: pastLvlRooms}
 			return nextLvl;
 			max = true;
 		}
+		pastLvlRooms = Math.round(degree[level]);
 		level++
 	}
 }
