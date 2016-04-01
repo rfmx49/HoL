@@ -37,7 +37,8 @@ function displayScore(score) {
 
 function displayRank() {
 	var rank = getRank(userPlayer.score.actual);
-	$( "#ui-game-rank" ).html(rank.currentLevel);
+	//$( "#ui-game-rank" ).html(rank.currentLevel);
+	drawRank(rank.currentLevel);
 
 	//check if rank has changed.
 	if (userPlayer.score.rank != rank.currentLevel) {
@@ -93,7 +94,7 @@ function getRank(rooms) {
 		degree[level]=degree[level-1]+((degree[level-1]-degree[level-2])*(1+weight));
 		console.log("Checking Level: " + level + " rooms this level: " + degree[level] + " our rooms: " + rooms + " Weight: " + weight);
 		if (Math.round(degree[level]) > rooms) {
-			console.log('level is ' + level);
+			console.log('level is ' + (level - 1));
 			nextLvl = {currentLevel: level-1, nextLvlRooms: Math.round(degree[level]), difference: Math.round(degree[level]) - rooms, pastLvlRooms: pastLvlRooms}
 			return nextLvl;
 			max = true;
@@ -120,7 +121,33 @@ function initScore() {
 		.attr({ x: 0+(_tileSize*0.25), y : 0+(_tileSize*0.5), w: _tileSize*4, h: _tileSize*0.66667, z: 101 });
 
 	Crafty(Crafty("scoreProgress")[0]).attach(Crafty("scoreBorder"));
-	
+	positionHud();
+	drawRank(1);
+}
+
+function positionHud() {
+	var offset = $("#" + Crafty('scoreProgress').getDomId()).offset();
+	Crafty('scoreProgress').y = (Crafty('scoreProgress').y - offset.top);
+	Crafty('scoreProgress').x = (Crafty('scoreProgress').x - offset.left) + (_tileSize/2);
+}
+
+function drawRank(rank) {
+	if (Crafty("rankBody").length != 0) { Crafty("rankBody").destroy(); }
+	var rankColours = ["#E9E74A","#EE5E9F","#FFDD2A","#F59DB9","#F9A55B","#D0E17D","#36A9CE","#EF5AA1","#AE86BC","#FFDF25","#56C4E8","#D0E068","#CD9EC0","#ED839D","#FFE476","#CDDD73","#F35F6D","#FAA457","#35BEB7","#D189B9","#99C7BC","#89B18C","#738FA7","#8A8FA3","#82ACB8","#F9D6AC","#E9B561","#E89132","#DA7527","#DEAC2F","#BAB7A9","#BFB4AF","#CDC4C1","#CFB69E","#D0AD87"];
+	var drawPostion = {x: Crafty('scoreProgress')._x+(_tileSize*.5), y: Crafty('scoreProgress')._y-(Crafty('scoreProgress')._y*0), w: (_tileSize*.75), h: (_tileSize*.75)};
+	tempRank = rank;
+	tempRank = String(tempRank);
+	tempRank=parseInt(tempRank.substring(tempRank.length-2,tempRank.length));
+	var rankColour = rankColours[Math.round(tempRank/2.5)];
+	//Sticky note body
+	Crafty.e('2D, DOM, Color, rankBody').attr({x: (drawPostion.x), y: drawPostion.y, w: drawPostion.w, h: drawPostion.h, z: 110}).color(rankColour);
+	//Sticky note sticky pad
+	Crafty.e('2D, DOM, Color, rankGlue').attr({x: (drawPostion.x), y: drawPostion.y, w: drawPostion.w, h: drawPostion.h, z: 111}).color("#000000",.1);
+	Crafty.e('2D, DOM, Text, rankNumber').attr({x: (drawPostion.x)+(drawPostion.w*.5), y: drawPostion.y+(drawPostion.h*.5), w: drawPostion.w, h: drawPostion.h, z: 112}).text(rank)
+
+	Crafty(Crafty("rankBody")[0]).attach(Crafty("rankGlue"));
+	Crafty(Crafty("rankBody")[0]).attach(Crafty("rankNumber"));
+ 
 }
 
 

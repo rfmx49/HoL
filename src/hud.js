@@ -2,9 +2,9 @@ function createHud() {
 	//Ui is divided into maxWidth = 9 + 2/maxHeight = 11+4; or 11/15 gird.
 	//Each grid section is one _tileSize.
 	//Header
-	$( "#statusWindow" ).width(Crafty.viewport.width);
-	$( "#statusWindow" ).height(Crafty.viewport.height/15);
-	$( "#statusWindow" ).html("<div id='#statusWindow' class='containsText'><table style='width:100%' class='containsText'><tr style='width:100%'><td class='ui-scores'><div id='ui-score'>COUNT: <span id='ui-game-score'></span></div></td><td class='ui-Ranks'><div id='ui-Rank'>RANK: <span id='ui-game-rank'>0</span></div></td></tr><tr style='width:100%'><td class='ui-roomname' colspan='2'><span id='ui-game-roomname'></span></td></tr></table></div>")
+	//$( "#statusWindow" ).width(Crafty.viewport.width);
+	//$( "#statusWindow" ).height(Crafty.viewport.height/15);
+	//$( "#statusWindow" ).html("<div id='#statusWindow' class='containsText'><table style='width:100%' class='containsText'><tr style='width:100%'><td class='ui-scores'><div id='ui-score'>COUNT: <span id='ui-game-score'></span></div></td><td class='ui-Ranks'><div id='ui-Rank'>RANK: <span id='ui-game-rank'>0</span></div></td></tr><tr style='width:100%'><td class='ui-roomname' colspan='2'><span id='ui-game-roomname'></span></td></tr></table></div>")
 
 	//Footer
 	$( "#statusWindowFooter" ).width(Crafty.viewport.width);
