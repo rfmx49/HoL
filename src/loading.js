@@ -212,24 +212,29 @@ Crafty.scene('Loading', function(){
 				"tileh": 232,
 				"map": { "ui_home": [0,0],},			 
 			},
+			"ui/homeUi.png": {
+				"tile": 300,
+				"tileh": 300,
+				"map": { "ui_home": [0,0],},			 
+			},
 			"ui/door.png": {
-				"tile": 200,
-				"tileh": 200,
+				"tile": 300,
+				"tileh": 300,
 				"map": { "ui_door": [0,0],},			 
 			},
 			"ui/checklist.png": {
-				"tile": 200,
-				"tileh": 200,
+				"tile": 300,
+				"tileh": 300,
 				"map": { "ui_checklist": [0,0],},			 
 			},
 			"ui/doorOff.png": {
-				"tile": 200,
-				"tileh": 200,
+				"tile": 300,
+				"tileh": 300,
 				"map": { "ui_door": [0,0],},			 
 			},
 			"ui/checklistOff.png": {
-				"tile": 200,
-				"tileh": 200,
+				"tile": 300,
+				"tileh": 300,
 				"map": { "ui_checklist": [0,0],},			 
 			},
 			"ui/expand.png": {

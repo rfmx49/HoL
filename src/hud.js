@@ -9,7 +9,7 @@ function createHud() {
 	//Footer
 	$( "#statusWindowFooter" ).width(Crafty.viewport.width);
 	$( "#statusWindowFooter" ).height(_tileSize); //Will expand
-	$( "#statusWindowFooter" ).html("<div id='statusFooterExpand'><center><img src='res/img/ui/expand.png' style:'width: " + _tileSize + "px,height: " + _tileSize + "px;' id='footExpand'></center></div>");
+	footerChange();
 	$( "#statusWindowFooter" ).css('visibility', 'visible');
 
 	//postion at bottom
@@ -84,21 +84,6 @@ function loadingLoop() {
 }
 
 function footClickHandlers() {
-	$( "#statusWindowFooter" ).on('mouseup', '#statusFooterExpand' ,function() {
-		//Expand the footer
-		console.log("clicked");
-		//check if footer is expanded.
-		
-		if ($( "#statusWindowFooter" ).height() <= _tileSize) {
-			//Footer is Down
-			footerChange(true);
-		}
-		else {
-			footerChange(false);
-		}
-		return false;
-	});
-
 	$( "#statusWindowFooter" ).on('mouseup', ' #statusFooterExpand #footEndGame' ,function() {
 		//Expand the footer
 		console.log("clicked");		
@@ -126,34 +111,24 @@ function footClickHandlers() {
 	});
 }
 
-function footerChange(expand) {
-	if (expand) {
-		$( "#statusWindowFooter" ).height(_tileSize*5);
-		//Footer is Down
-			var newTop = Crafty.viewport.height - $( "#statusWindowFooter" ).height();
-			$( "#statusWindowFooter" ).css('top', newTop + 'px');
-			var textSeed = gameSeed;
-			var d = new Date();
-			var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-			var checkSeed = days[d.getDay()] + ' ' + d.getDay() + '/' + d.getMonth() + '/' + d.getFullYear();
-			if (textSeed == checkSeed) {textSeed = 'Daily';}
-			$( "#statusWindowFooter" ).html('<div id="statusFooterExpand"><center><img src="res/img/ui/dropDown.png" style:"width: ' + _tileSize + 'px,height: ' + _tileSize + 'px;" id="footDrop"></center><table class="statusWindowFooterTable containsTextFooter" ><tr><td rowspan=2><center><img src="res/img/ui/doorOff.png" style:"width: 10px,height: 10px;"  id="hintShowDoor"><img src="res/img/ui/checkListOff.png" style:"width: 10px,height: 10px;" id="hintShowRoom"></center></td><td><b>Rank: </b>' + userPlayer.score.rank + '</td><td rowspan=2 align="center"><img src="res/img/ui/home.png" style:"width: 10px,height: 10px;" id="footEndGame"><br /><b>END</b></td></tr><tr><td><b>Next in: </b>' + getRank(userPlayer.score.visible).difference + ' rooms.</td></tr></table><center></div>')
-			$('#footEndGame').height(_tileSize*2.5);
-			$('#hintShowDoor').height(_tileSize*2);
-			$('#hintShowRoom').height(_tileSize*2);
-			setTimeout(function() {
-				updateDoorHints(userPlayer.hints.door);
-				updateRoomHints(userPlayer.hints.room);
-			}, 150);
-			
-	}
-	else {
-		//Footer is up
-			$( "#statusWindowFooter" ).height(_tileSize);
-			var newTop = Crafty.viewport.height - $( "#statusWindowFooter" ).height();
-			$( "#statusWindowFooter" ).css('top', newTop + 'px');
-			$( "#statusWindowFooter" ).html("<div id='statusFooterExpand'><center><img src='res/img/ui/expand.png' style:'width: " + _tileSize + "px,height: " + _tileSize + "px;' id='footExpand'></center></div>")
-	}
+function footerChange() {
+	$( "#statusWindowFooter" ).height(_tileSize*2.5);
+	//Footer is Down
+		//var newTop = Crafty.viewport.height - $( "#statusWindowFooter" ).height();
+		//$( "#statusWindowFooter" ).css('top', newTop + 'px');
+		var textSeed = gameSeed;
+		var d = new Date();
+		var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+		var checkSeed = days[d.getDay()] + ' ' + d.getDay() + '/' + d.getMonth() + '/' + d.getFullYear();
+		if (textSeed == checkSeed) {textSeed = 'Daily';}
+		$( "#statusWindowFooter" ).html('<div id="statusFooterExpand"><table class="statusWindowFooterTable containsTextFooter" ><tr><td rowspan=2><center><img src="res/img/ui/doorOff.png" style:"width: 10px,height: 10px;"  id="hintShowDoor"><img src="res/img/ui/checkListOff.png" style:"width: 10px,height: 10px;" id="hintShowRoom"></center></td><td><b>Rank: </b>' + userPlayer.score.rank + '</td><td rowspan=2 align="center"><img src="res/img/ui/homeUi.png" style:"width: 10px,height: 10px;" id="footEndGame"><br /><b>END</b></td></tr><tr><td><b>Next in: </b>' + getRank(userPlayer.score.visible).difference + ' rooms.</td></tr></table><center></div>')
+		$('#footEndGame').height(_tileSize*2);
+		$('#hintShowDoor').height(_tileSize*2);
+		$('#hintShowRoom').height(_tileSize*2);
+		setTimeout(function() {
+			updateDoorHints(userPlayer.hints.door);
+			updateRoomHints(userPlayer.hints.room);
+		}, 150);
 }
 
 function popUpClickHandlers() {

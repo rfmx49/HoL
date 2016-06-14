@@ -11,7 +11,7 @@
 
 #statusWindowFooter {
 	visibility: hidden;
-	background-color:#999999;
+	background:rgba(0,0,0,.01);
 	background-size: 100%;
 	vertical-align:center;
 	height:52px;

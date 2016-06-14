@@ -70,7 +70,7 @@ function gameNewRoom() {
 		return;
 	}
 	if (currentRoom != 0) {
-		footerChange(false);
+		//footerChange(false);
 		pathFindFireRoute();
 		//easyStarFireRoute();
 		getFreeFloorSpace();
