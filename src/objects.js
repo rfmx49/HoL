@@ -16,6 +16,7 @@ function playerObj() {
 	this.score.fluffCount = 0;
 	this.score.potentialLost = 0;
 	this.score.rank = 0;
+	this.score.percent = 0;
 	this.hints = {};
 	this.hints.room = 1;
 	this.hints.door = 1;

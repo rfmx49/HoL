@@ -4,7 +4,7 @@ function computeScore() {
 	userPlayer.score.fluffCount ++;
 	if (userPlayer.score.fluffCount >= userPlayer.score.fluff) {
 		userPlayer.score.visible = userPlayer.score.actual;
-		if (userPlayer.score.visible > 10) {
+		if (userPlayer.score.visible > 12) {
 			userPlayer.score.fluff = Math.floor(roomRandom() * 7) + 4;
 		}
 		else {
@@ -17,15 +17,16 @@ function computeScore() {
 		displayRank();
 		
 		var progressScore = getRank(userPlayer.score.actual);
-		var progressPercent = (100/(progressScore.nextLvlRooms - progressScore.pastLvlRooms)) * (userPlayer.score.visible - progressScore.pastLvlRooms);
+		userPlayer.score.percent = (100/(progressScore.nextLvlRooms - progressScore.pastLvlRooms)) * (userPlayer.score.actual - progressScore.pastLvlRooms);
 	}
 	else {
-		var progressScore = getRank(userPlayer.score.visible);
-		var progressPercent = (200/(progressScore.nextLvlRooms - progressScore.pastLvlRooms)) * (userPlayer.score.visible - progressScore.pastLvlRooms);
+		userPlayer.score.percent = userPlayer.score.percent + ((100-userPlayer.score.percent)/userPlayer.score.fluff)
 		//show feedback in progress bar
 	}
+	setTimeout(function() {
+		displayScore(userPlayer.score.percent);	
+	}, 250);
 	
-	displayScore(progressPercent);	
 }
 
 function displayScore(score) {
@@ -139,12 +140,15 @@ function drawRank(rank) {
 	tempRank = String(tempRank);
 	tempRank=parseInt(tempRank.substring(tempRank.length-2,tempRank.length));
 	var rankColour = rankColours[Math.round(tempRank/2.5)];
+	//Sticky note border
+	Crafty.e('2D, DOM, Color, rankBorder').attr({x: (drawPostion.x-2), y: drawPostion.y-2, w: drawPostion.w+4, h: drawPostion.h+4, z: 109}).color("#000000");
 	//Sticky note body
 	Crafty.e('2D, DOM, Color, rankBody').attr({x: (drawPostion.x), y: drawPostion.y, w: drawPostion.w, h: drawPostion.h, z: 110}).color(rankColour);
 	//Sticky note sticky pad
 	Crafty.e('2D, DOM, Color, rankGlue').attr({x: (drawPostion.x), y: drawPostion.y, w: drawPostion.w, h: drawPostion.h, z: 111}).color("#000000",.1);
-	Crafty.e('2D, DOM, Text, rankNumber').attr({x: (drawPostion.x)+(drawPostion.w*.5), y: drawPostion.y+(drawPostion.h*.5), w: drawPostion.w, h: drawPostion.h, z: 112}).text(rank)
-
+	Crafty.e('2D, DOM, Text, rankNumber').attr({x: (drawPostion.x)+(drawPostion.w*.0425), y: drawPostion.y+(drawPostion.h*.15), w: drawPostion.w, h: drawPostion.h, z: 112}).text(rank)
+	Crafty('rankNumber').textFont({weight: 'bold', family: '1942_report1942_report', size: _tileSize*.6 + 'px'})
+	Crafty(Crafty("rankBody")[0]).attach(Crafty("rankBorder"));
 	Crafty(Crafty("rankBody")[0]).attach(Crafty("rankGlue"));
 	Crafty(Crafty("rankBody")[0]).attach(Crafty("rankNumber"));
  
