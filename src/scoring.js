@@ -114,22 +114,16 @@ function saveHighScores() {
 
 function initScore() {
 	Crafty.e('2D, ' + renderEngine + ', ProgressBar, scoreProgress')
-		.attr({ x: 0+(_tileSize*0.25), y : 0+(_tileSize*0.5), w: _tileSize*4, h: _tileSize*0.66667, z: 100 })
+		.attr({ x: Crafty('headerPlaceholder')._x, y: Crafty('headerPlaceholder')._y, w: _tileSize*4, h: _tileSize*0.66667, z: 100 })
 		// progressBar(Number maxValue, Boolean flipDirection, String emptyColor, String filledColor)
 		.progressBar(100, false, "transparent", "#adb3fc");
 	//Crafty('scoreProgress').updateBarProgress(50);
 	Crafty.e('2D, ' + renderEngine + ', score_progress, scoreBorder')
-		.attr({ x: 0+(_tileSize*0.25), y : 0+(_tileSize*0.5), w: _tileSize*4, h: _tileSize*0.66667, z: 101 });
+		.attr({ x: Crafty('headerPlaceholder')._x, y: Crafty('headerPlaceholder')._y, w: _tileSize*4, h: _tileSize*0.66667, z: 101 });
 
 	Crafty(Crafty("scoreProgress")[0]).attach(Crafty("scoreBorder"));
-	positionHud();
+	//Draw initial rank
 	drawRank(1);
-}
-
-function positionHud() {
-	var offset = $("#" + Crafty('scoreProgress').getDomId()).offset();
-	Crafty('scoreProgress').y = (Crafty('scoreProgress').y - offset.top);
-	Crafty('scoreProgress').x = (Crafty('scoreProgress').x - offset.left) + (_tileSize/2);
 }
 
 function drawRank(rank) {

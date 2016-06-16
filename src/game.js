@@ -28,7 +28,6 @@ Crafty.scene('Game', function() {
 
 	//generate first room
 	generateRoom();
-	createHud();
 
 	//Check/create localStorage player Save Data
 	if ((typeof (localStorage.playerSaveData) == "undefined")) {
@@ -58,9 +57,9 @@ Crafty.scene('Game', function() {
 
 	hintRandom = new Math.seedrandom(gameSeed);
 	console.log("Done everything");
-	setTimeout(function() {
-		initScore();
-	}, 250);
+
+	//create UI
+	initUi();
 });
 
 function gameNewRoom() {
@@ -114,7 +113,7 @@ function returnedHome() {
 	var doors = getAllDoors();
 	if (rooms.length != 1) {
 		userPlayer.score.potentialLost = userPlayer.score.actual;
-		footerChange(true);
+		changeHomeButton(true);
 	}
 	
 	for (var n = 0; n < doors.length; n++) {

@@ -87,7 +87,6 @@ $(document).ready(function() {
 	verifySeed();
 
 	//clickHandlers
-	footClickHandlers();
 	popUpClickHandlers();
 	accountsClickHandlers();
 	

@@ -1,32 +1,96 @@
-function createHud() {
+function initUi() {
 	//Ui is divided into maxWidth = 9 + 2/maxHeight = 11+4; or 11/15 gird.
 	//Each grid section is one _tileSize.
 	//Header
+	//at this point the room has been generated so need to add a place holder for the header/Footer
 	//$( "#statusWindow" ).width(Crafty.viewport.width);
 	//$( "#statusWindow" ).height(Crafty.viewport.height/15);
 	//$( "#statusWindow" ).html("<div id='#statusWindow' class='containsText'><table style='width:100%' class='containsText'><tr style='width:100%'><td class='ui-scores'><div id='ui-score'>COUNT: <span id='ui-game-score'></span></div></td><td class='ui-Ranks'><div id='ui-Rank'>RANK: <span id='ui-game-rank'>0</span></div></td></tr><tr style='width:100%'><td class='ui-roomname' colspan='2'><span id='ui-game-roomname'></span></td></tr></table></div>")
+	//header place holder
+	Crafty.e("headerPlaceholder, 2D, " + renderEngine + ", Color")
+		.attr({x:((roomCenter.x*_tileSize)+(_tileSize/2)), y: ((roomCenter.y*_tileSize)+(_tileSize/2)), w: _tileSize, h: _tileSize, alpha: 0})
+		.color("#FFFFFF");
 
-	//Footer
+	//footer place holder
+	Crafty.e("footerPlaceholder, 2D, " + renderEngine + ", Color")
+		.attr({x: ((roomCenter.x*_tileSize)+(_tileSize/2)), y: ((roomCenter.y*_tileSize)+(_tileSize/2)), w: _tileSize, h: _tileSize, alpha: 0})
+		.color("#DDDDDD");
+
+	Crafty.e("footerPlaceholderR, 2D, " + renderEngine + ", Color")
+		.attr({x: ((roomCenter.x*_tileSize)+(_tileSize/2)), y: ((roomCenter.y*_tileSize)+(_tileSize/2)), w: _tileSize, h: _tileSize, alpha: 0})
+		.color("#CCCCCC");
+
+	setTimeout(function() {
+		positionUi();
+	}, 500);
+	
+
+
+	/*//Footer
 	$( "#statusWindowFooter" ).width(Crafty.viewport.width);
 	$( "#statusWindowFooter" ).height(_tileSize); //Will expand
-	footerChange();
+	//footerChange();
 	$( "#statusWindowFooter" ).css('visibility', 'visible');
 
 	//postion at bottom
 	//$( "#statusWindowFooter" ).position().top //for later
 	var newTop = Crafty.viewport.height - $( "#statusWindowFooter" ).height();
-	$( "#statusWindowFooter" ).css('top', newTop + 'px');
+	$( "#statusWindowFooter" ).css('top', newTop + 'px');*/
+}
+
+function positionUi() {
+	//positionHeader
+	var offset = $("#" + Crafty('headerPlaceholder').getDomId()).offset();
+	Crafty('headerPlaceholder').y = (Crafty('headerPlaceholder').y - offset.top + (_tileSize/2));
+	Crafty('headerPlaceholder').x = (Crafty('headerPlaceholder').x - offset.left) + (_tileSize/2);
+	//postionFooter
+	offset = $("#" + Crafty('footerPlaceholder').getDomId()).offset();
+	Crafty('footerPlaceholder').y = (Crafty('footerPlaceholder').y + (Crafty.viewport.height - offset.top) - _tileSize*1.5);
+	Crafty('footerPlaceholder').x = Crafty('headerPlaceholder')._x;
+	//postionFooterRight
+	offset = $("#" + Crafty('footerPlaceholderR').getDomId()).offset();
+	Crafty('footerPlaceholderR').y = Crafty('footerPlaceholder').y;
+	Crafty('footerPlaceholderR').x = (Crafty.viewport.width - _tileSize*2);// + offset.left)
+
+	setTimeout(function() {
+		initFooter();		
+		initScore();
+	}, 250);
+
+}
+
+function initFooter() {
+	//Door Hint Button
+	Crafty.e('btnHintDoors, 2D, ' + renderEngine + ', Mouse, Touch, ui_door_off')
+		.attr({x: Crafty('footerPlaceholder')._x, y: Crafty('footerPlaceholder')._y, w: _tileSize * 1.5, h: _tileSize * 1.5})
+		.bind("MouseUp", function(MouseEvent) { 
+			hintShowDoors();
+		});
+	//Room Hint Button
+	Crafty.e('btnHintRoom, 2D, ' + renderEngine + ', Mouse, Touch, ui_room_off')
+		.attr({x: Crafty('footerPlaceholder')._x + (1.5*_tileSize), y: Crafty('footerPlaceholder')._y, w: _tileSize * 1.5, h: _tileSize * 1.5})
+		.bind("MouseUp", function(MouseEvent) { 
+			hintShowRoom();
+		});
+
+	//end button
+	Crafty.e('btnHome, 2D, ' + renderEngine + ', Mouse, Touch, ui_home_highlight')
+		.attr({x: Crafty('footerPlaceholderR')._x, y: Crafty('footerPlaceholderR')._y, w: _tileSize * 1.5, h: _tileSize * 1.5})
+		.bind("MouseUp", function(MouseEvent) { 
+			popUpCreate("endGame");
+		});
 }
 
 function destroyHud() {
-	//destory Header
+	alert("destroyHud() hud.js no longer valid");
+	/*//destory Header
 	$( "#statusWindow" ).html("");
 	$( "#statusWindow" ).width(0);
 	$( "#statusWindow" ).height(0);
 	//destory footer
 	$( "#statusWindowFooter" ).html("");
 	$( "#statusWindowFooter" ).width(0);
-	$( "#statusWindowFooter" ).height(0);
+	$( "#statusWindowFooter" ).height(0);*/
 }
 
 function fadeInView (toggle, fadeTime, delay, restartTime, alpha) {
@@ -83,52 +147,38 @@ function loadingLoop() {
 	Crafty('loadingAnimate').loadingForward();
 }
 
-function footClickHandlers() {
-	$( "#statusWindowFooter" ).on('mouseup', ' #statusFooterExpand #footEndGame' ,function() {
-		//Expand the footer
-		console.log("clicked");		
-		//footerChange(false);
-
-		popUpCreate("endGame");
-		
-	});
-
-	$( "#statusWindowFooter" ).on('mouseup', ' #statusFooterExpand #hintShowDoor' ,function() {
-		//Expand the footer
-		console.log("hint Cliked show Door");		
-		//footerChange(false);
-
-		hintShowDoors();
-		
-	});
-
-	$( "#statusWindowFooter" ).on('mouseup', ' #statusFooterExpand #hintShowRoom' ,function() {
-		//Expand the footer
-		console.log("hint Cliked show room");		
-		//footerChange(false);
-		
-		hintShowRoom();
-	});
+function changeHomeButton(state) {
+	if (state) {
+		Crafty("btnHome").sprite(7,0)
+	}
+	else {
+		Crafty("btnHome").sprite(7,0)
+	}
 }
 
-function footerChange() {
+function footerChange(state) {
+
+	//move to crafty
+	
+
+
 	$( "#statusWindowFooter" ).height(_tileSize*2.5);
 	//Footer is Down
-		//var newTop = Crafty.viewport.height - $( "#statusWindowFooter" ).height();
-		//$( "#statusWindowFooter" ).css('top', newTop + 'px');
-		var textSeed = gameSeed;
-		var d = new Date();
-		var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-		var checkSeed = days[d.getDay()] + ' ' + d.getDay() + '/' + d.getMonth() + '/' + d.getFullYear();
-		if (textSeed == checkSeed) {textSeed = 'Daily';}
-		$( "#statusWindowFooter" ).html('<div id="statusFooterExpand"><table class="statusWindowFooterTable containsTextFooter" ><tr><td rowspan=2><center><img src="res/img/ui/doorOff.png" style:"width: 10px,height: 10px;"  id="hintShowDoor"><img src="res/img/ui/checkListOff.png" style:"width: 10px,height: 10px;" id="hintShowRoom"></center></td><td><b>Rank: </b>' + userPlayer.score.rank + '</td><td rowspan=2 align="center"><img src="res/img/ui/homeUi.png" style:"width: 10px,height: 10px;" id="footEndGame"><br /><b>END</b></td></tr><tr><td><b>Next in: </b>' + getRank(userPlayer.score.visible).difference + ' rooms.</td></tr></table><center></div>')
-		$('#footEndGame').height(_tileSize*2);
-		$('#hintShowDoor').height(_tileSize*2);
-		$('#hintShowRoom').height(_tileSize*2);
-		setTimeout(function() {
-			updateDoorHints(userPlayer.hints.door);
-			updateRoomHints(userPlayer.hints.room);
-		}, 150);
+	//var newTop = Crafty.viewport.height - $( "#statusWindowFooter" ).height();
+	//$( "#statusWindowFooter" ).css('top', newTop + 'px');
+	var textSeed = gameSeed;
+	var d = new Date();
+	var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+	var checkSeed = days[d.getDay()] + ' ' + d.getDay() + '/' + d.getMonth() + '/' + d.getFullYear();
+	if (textSeed == checkSeed) {textSeed = 'Daily';}
+	$( "#statusWindowFooter" ).html('<div id="statusFooterExpand"><table class="statusWindowFooterTable containsTextFooter" ><tr><td rowspan=2><center><img src="res/img/ui/doorOff.png" style:"width: 10px,height: 10px;"  id="hintShowDoor"><img src="res/img/ui/checkListOff.png" style:"width: 10px,height: 10px;" id="hintShowRoom"></center></td><td><b>Rank: </b>' + userPlayer.score.rank + '</td><td rowspan=2 align="center"><img src="res/img/ui/homeUi.png" style:"width: 10px,height: 10px;" id="footEndGame"><br /><b>END</b></td></tr><tr><td><b>Next in: </b>' + getRank(userPlayer.score.visible).difference + ' rooms.</td></tr></table><center></div>')
+	$('#footEndGame').height(_tileSize*2);
+	$('#hintShowDoor').height(_tileSize*2);
+	$('#hintShowRoom').height(_tileSize*2);
+	setTimeout(function() {
+		updateDoorHints(userPlayer.hints.door);
+		updateRoomHints(userPlayer.hints.room);
+	}, 150);
 }
 
 function popUpClickHandlers() {
