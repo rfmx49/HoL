@@ -219,36 +219,6 @@ Crafty.scene('Loading', function(){
 					 "ui_home": [6,0],
 					 "ui_home_highlight": [7,0]},
 			},
-			"ui/door.png": {
-				"tile": 300,
-				"tileh": 300,
-				"map": { "ui_door": [0,0],},			 
-			},
-			"ui/checklist.png": {
-				"tile": 300,
-				"tileh": 300,
-				"map": { "ui_checklist": [0,0],},			 
-			},
-			"ui/doorOff.png": {
-				"tile": 300,
-				"tileh": 300,
-				"map": { "ui_door": [0,0],},			 
-			},
-			"ui/checklistOff.png": {
-				"tile": 300,
-				"tileh": 300,
-				"map": { "ui_checklist": [0,0],},			 
-			},
-			"ui/expand.png": {
-				"tile": 74,
-				"tileh": 36,
-				"map": { "ui_expand": [0,0],},			 
-			},
-			"ui/dropDown.png": {
-				"tile": 74,
-				"tileh": 36,
-				"map": { "ui_dropDown": [0,0],},			 
-			},
 			"ui/enterSeed.png": {
 			"tile": 340,
 				"tileh": 160,

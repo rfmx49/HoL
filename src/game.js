@@ -1,11 +1,24 @@
 //Main crafty Game scene
 Crafty.scene('Game', function() {
-
+	fadeView({alpha: {start: 0, end:1},toggle: {active: true, delay: 250, restartTime: 500},fadeTime: 100})
 	centerPoint = Crafty.e('centerPoint, 2D,' + renderEngine + ', Color')
-		.attr({x: ((maxWidth+2)*_tileSize)/2, y: ((maxHeight+4)*_tileSize)/2, w: 1, h: 1, alpha: 0, z: -1})
+		.attr({x: ((maxWidth+2)*_tileSize)/2, y: ((maxHeight+4)*_tileSize)/2, w: 9, h: 9, alpha: 1, z: 999999})
 		.color('#FF0000');
 
+
 	Crafty.viewport.centerOn(centerPoint, 0);
+
+	//fixes centering of screen
+	/*setTimeout(function() {
+		continueLoading()
+	}, 250);*/
+	Crafty.one("CameraAnimationDone", function() {
+		continueLoading();
+	});
+	
+});
+
+function continueLoading() {
 	hideAccounts();
 
 	//createHud(centerPoint);
@@ -16,7 +29,7 @@ Crafty.scene('Game', function() {
 			//frame done
 		});*/
   //Load Sounds
-  loadSounds();
+	loadSounds();
 	//clearAll room varibles
 	rooms = [];
 	currentRoom = null;
@@ -25,6 +38,9 @@ Crafty.scene('Game', function() {
 	firstRun = true;
 	lastPos = new Position(0,0,0);
 	playerRoomPos = null;
+
+	//create UI
+	initUi();	
 
 	//generate first room
 	generateRoom();
@@ -58,9 +74,8 @@ Crafty.scene('Game', function() {
 	hintRandom = new Math.seedrandom(gameSeed);
 	console.log("Done everything");
 
-	//create UI
-	initUi();
-});
+	
+}
 
 function gameNewRoom() {
 	//When entering a new room or an old room.
@@ -248,6 +263,7 @@ function awardHint() {
 		console.log("Door hint awarded")
 		//show hint added animation
 	}
+	footerChange();
 }
 
 function hintShowRoom() {

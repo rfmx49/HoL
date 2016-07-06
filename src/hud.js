@@ -55,6 +55,7 @@ function positionUi() {
 	setTimeout(function() {
 		initFooter();		
 		initScore();
+		footerChange();	
 	}, 250);
 
 }
@@ -65,12 +66,14 @@ function initFooter() {
 		.attr({x: Crafty('footerPlaceholder')._x, y: Crafty('footerPlaceholder')._y, w: _tileSize * 1.5, h: _tileSize * 1.5})
 		.bind("MouseUp", function(MouseEvent) { 
 			hintShowDoors();
+			footerChange();
 		});
 	//Room Hint Button
 	Crafty.e('btnHintRoom, 2D, ' + renderEngine + ', Mouse, Touch, ui_room_off')
 		.attr({x: Crafty('footerPlaceholder')._x + (1.5*_tileSize), y: Crafty('footerPlaceholder')._y, w: _tileSize * 1.5, h: _tileSize * 1.5})
 		.bind("MouseUp", function(MouseEvent) { 
 			hintShowRoom();
+			footerChange();
 		});
 
 	//end button
@@ -130,6 +133,7 @@ function fadeView(options) {
 		.bind("TweenEnd", function(){ 
 			//console.log("tween complete");
 			var restartTime = options.toggle.restartTime;
+			var delay = options.toggle.delay;
 			var restartEnd = options.alpha.start;
 			var restartStart = options.alpha.end;
 			if (options.toggle.active) {
@@ -156,25 +160,9 @@ function changeHomeButton(state) {
 	}
 }
 
-function footerChange(state) {
+function footerChange() {
 
 	//move to crafty
-	
-
-
-	$( "#statusWindowFooter" ).height(_tileSize*2.5);
-	//Footer is Down
-	//var newTop = Crafty.viewport.height - $( "#statusWindowFooter" ).height();
-	//$( "#statusWindowFooter" ).css('top', newTop + 'px');
-	var textSeed = gameSeed;
-	var d = new Date();
-	var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-	var checkSeed = days[d.getDay()] + ' ' + d.getDay() + '/' + d.getMonth() + '/' + d.getFullYear();
-	if (textSeed == checkSeed) {textSeed = 'Daily';}
-	$( "#statusWindowFooter" ).html('<div id="statusFooterExpand"><table class="statusWindowFooterTable containsTextFooter" ><tr><td rowspan=2><center><img src="res/img/ui/doorOff.png" style:"width: 10px,height: 10px;"  id="hintShowDoor"><img src="res/img/ui/checkListOff.png" style:"width: 10px,height: 10px;" id="hintShowRoom"></center></td><td><b>Rank: </b>' + userPlayer.score.rank + '</td><td rowspan=2 align="center"><img src="res/img/ui/homeUi.png" style:"width: 10px,height: 10px;" id="footEndGame"><br /><b>END</b></td></tr><tr><td><b>Next in: </b>' + getRank(userPlayer.score.visible).difference + ' rooms.</td></tr></table><center></div>')
-	$('#footEndGame').height(_tileSize*2);
-	$('#hintShowDoor').height(_tileSize*2);
-	$('#hintShowRoom').height(_tileSize*2);
 	setTimeout(function() {
 		updateDoorHints(userPlayer.hints.door);
 		updateRoomHints(userPlayer.hints.room);
@@ -505,19 +493,18 @@ function mobileFontSize() {
 
 //display hints
 function updateRoomHints(amount) {
-	if ($('#roomHintCountImg').length == 0) {
-		$('#roomHintCountImg').remove();
-		$('#roomHintQty').remove();
+	//check if there are hints and change image
+	if (Crafty("btnHintRoomAmt").length != 0) {
+		Crafty("btnHintRoomAmt").destroy();
 	}
-
 	if (amount == 0) {
-		//$('#hintShowRoom').attr('src', "res/img/ui/checkListOff.png");
-		return;
+		Crafty("btnHintRoom").sprite(5,0);
 	}
 	else {
-		$('#hintShowRoom').attr('src', "res/img/ui/checkList.png");
+		Crafty("btnHintRoom").sprite(4,0);
+		Crafty.e('btnHintRoomAmt, 2D,' + renderEngine + ', Text').attr({x: Crafty("btnHintRoom")._x + (Crafty("btnHintRoom")._w*.75), y: Crafty("btnHintRoom")._y + (Crafty("btnHintRoom")._h*.25) - (_tileSize/4), w: _tileSize/4, h: _tileSize/4,}).text(amount).textColor('#FFFFFF').textFont({ wight: 'bold', family: 'Mono',size: (_tileSize/4) + 'px'});
 	}
-
+/*
 	$('#hintShowRoom').after('<img src="res/img/ui/powerUpCount.png" id="roomHintCountImg" style="height: ' + _tileSize/2 + 'px;position:absolute;">')
 	var offset = $('#hintShowRoom').offset();
 	$('#roomHintCountImg').offset({top:offset.top,left:offset.left});
@@ -532,23 +519,25 @@ function updateRoomHints(amount) {
 	}
 	$('#roomHintQty').css({'color': 'white', 'font-weight': 'bold', 'font-family':'"Lucida Console", "Courier New", monospace','font-size': (_tileSize*fontSize) + 'px'});
 	offset = $('#roomHintCountImg').offset();
-	$('#roomHintQty').offset({top:offset.top+($('#roomHintCountImg').height()*0.25),left:offset.left+($('#roomHintCountImg').width()*0.25)});
+	$('#roomHintQty').offset({top:offset.top+($('#roomHintCountImg').height()*0.25),left:offset.left+($('#roomHintCountImg').width()*0.25)});*/
 	
 }
 
 function updateDoorHints(amount) {
-	if ($('#doorHintCountImg').length == 0) {
-		$('#doorHintCountImg').remove();
-		$('#doorHintQty').remove();
+	//check if there are hints and change image
+	if (Crafty("btnHintDoorsAmt").length != 0) {
+		Crafty("btnHintDoorsAmt").destroy();
 	}
 	if (amount == 0) {
-		//$('#hintShowDoor').attr('src', "res/img/ui/doorOff.png");
+		Crafty("btnHintDoors").sprite(3,0);
 		return;
 	}
 	else {
-		$('#hintShowDoor').attr('src', "res/img/ui/door.png");
+		Crafty("btnHintDoors").sprite(2,0);
+		Crafty.e('btnHintDoorsAmt, 2D,' + renderEngine + ', Text').attr({x: Crafty("btnHintDoors")._x + (Crafty("btnHintDoors")._w*.75), y: Crafty("btnHintDoors")._y + (Crafty("btnHintDoors")._h*.25) - (_tileSize/4), w: _tileSize/4, h: _tileSize/4,}).text(amount).textColor('#FFFFFF').textFont({ wight: 'bold', family: 'Mono',size: (_tileSize/4) + 'px'});
 	}
 
+/*
 	$('#hintShowDoor').after('<img src="res/img/ui/powerUpCount.png" id="doorHintCountImg" style="height: ' + _tileSize/2 + 'px;position:absolute;">')
 	var offset = $('#hintShowDoor').offset();
 	$('#doorHintCountImg').offset({top:offset.top,left:offset.left});
@@ -563,7 +552,7 @@ function updateDoorHints(amount) {
 	}
 	$('#doorHintQty').css({'color': 'white', 'font-weight': 'bold', 'font-family':'"Lucida Console", "Courier New", monospace','font-size': (_tileSize*fontSize) + 'px'});
 	offset = $('#doorHintCountImg').offset();
-	$('#doorHintQty').offset({top:offset.top+($('#doorHintCountImg').height()*0.25),left:offset.left+($('#doorHintCountImg').width()*0.25)});
+	$('#doorHintQty').offset({top:offset.top+($('#doorHintCountImg').height()*0.25),left:offset.left+($('#doorHintCountImg').width()*0.25)}); */
 }
 
 function getLogin() {
