@@ -203,7 +203,7 @@ function pathFindFireRoute() {
 function easyStarPathFind(id, x, y, queue) {
 	var currentPos = {x: (Crafty(id)._x),y:(Crafty(id)._y),rotation:(Crafty(id)._rotation),type:"f"};
 	tileFound = getFloorTile(currentPos.x,currentPos.y);
-	console.log(tileFound);
+	//console.log(tileFound);
 	if (tileFound === false) {
 		//console.log("cannot get players tile");
 		return;
@@ -242,7 +242,7 @@ function easyStarPathFind(id, x, y, queue) {
 		    console.log("Path was not found.");
 		} 
 		else {
-		    console.log("Path was found. The first Point is " + path[0].x + " " + path[0].y);
+		    //console.log("Path was found. The first Point is " + path[0].x + " " + path[0].y);
 		    for (var pathNode = 1; pathNode < path.length; pathNode++) {
 				//get direction of travel by comparing previous point to the current point.
 				//pathNode[current] is less than pathNode[previous]

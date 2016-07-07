@@ -104,8 +104,6 @@ if ((cornerWidth-col) > (-1)) {
 	 						}
 						}
 					}
-
-
 				}
 				else {
 					//console.log("make room with divider wall");
@@ -362,7 +360,6 @@ function locateOriginDoor() {
 			originDoorReq == false;
 			return false;
 		}
-		
 	}
 	else {
 		buildRoom(); // buildRoom as it is valid and is the first room

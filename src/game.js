@@ -1,9 +1,13 @@
 //Main crafty Game scene
 Crafty.scene('Game', function() {
 	fadeView({alpha: {start: 0, end:1},toggle: {active: true, delay: 250, restartTime: 500},fadeTime: 100})
+	/*centerPoint = Crafty.e('centerPoint, 2D,' + renderEngine + ', Color')
+		.attr({x: ((maxWidth+2)*_tileSize)/2, y: ((maxHeight+4)*_tileSize)/2, w: 9, h: 9, alpha: 1, z: 999999})
+		.color('#FF0000');*/
 	centerPoint = Crafty.e('centerPoint, 2D,' + renderEngine + ', Color')
-		.attr({x: ((maxWidth+2)*_tileSize)/2-2, y: ((maxHeight+4)*_tileSize)/2, w: 2, h: 2, alpha: 0, z: 999999})
+		.attr({x: Math.round($('#cr-stage').width()/2), y: Math.round($('#cr-stage').height()/2), w: 9, h: 9, alpha: 1, z: 999999})
 		.color('#FF0000');
+	//$('#' + centerPoint.getDomId()).offset();
 
 
 	Crafty.viewport.centerOn(centerPoint, 0);
@@ -185,7 +189,7 @@ function playerEnterRoom() {
 	var newPos = getInFront("player");
 	//play animation
 	changeDoor(playerRoomPos.y,playerRoomPos.x, "opened", true);
-	console.log("playerDirection = " + newPos.direction + " newX = " + newPos.x + " newY = " + newPos.y);
+	//console.log("playerDirection = " + newPos.direction + " newX = " + newPos.x + " newY = " + newPos.y);
 	Crafty('Tile' + newPos.y + '_' + newPos.x).clickEvent();
 	setTimeout(function() {
 		changeDoor(playerRoomPos.y,playerRoomPos.x, "close", true);
@@ -196,9 +200,9 @@ function playerEnterRoom() {
 
 function reCenterPlayer() {
 	//centerX
-	playerEntity.x = ((Math.round(playerEntity._x/_tileSize))*_tileSize)
+	//playerEntity.x = ((Math.round(playerEntity._x/_tileSize))*_tileSize)
 	//centerY
-	playerEntity.y = ((Math.round(playerEntity._y/_tileSize))*_tileSize)
+	//playerEntity.y = ((Math.round(playerEntity._y/_tileSize))*_tileSize)
 }
 
 //Get the tile infornt of an object

@@ -3,10 +3,7 @@ function initUi() {
 	//Each grid section is one _tileSize.
 	//Header
 	//at this point the room has been generated so need to add a place holder for the header/Footer
-	//$( "#statusWindow" ).width(Crafty.viewport.width);
-	//$( "#statusWindow" ).height(Crafty.viewport.height/15);
-	//$( "#statusWindow" ).html("<div id='#statusWindow' class='containsText'><table style='width:100%' class='containsText'><tr style='width:100%'><td class='ui-scores'><div id='ui-score'>COUNT: <span id='ui-game-score'></span></div></td><td class='ui-Ranks'><div id='ui-Rank'>RANK: <span id='ui-game-rank'>0</span></div></td></tr><tr style='width:100%'><td class='ui-roomname' colspan='2'><span id='ui-game-roomname'></span></td></tr></table></div>")
-	//header place holder
+	
 	Crafty.e("headerPlaceholder, 2D, " + renderEngine + ", Color")
 		.attr({x:((roomCenter.x*_tileSize)+(_tileSize/2)), y: ((roomCenter.y*_tileSize)+(_tileSize/2)), w: _tileSize, h: _tileSize, alpha: 0})
 		.color("#FFFFFF");
@@ -23,19 +20,6 @@ function initUi() {
 	setTimeout(function() {
 		positionUi();
 	}, 500);
-	
-
-
-	/*//Footer
-	$( "#statusWindowFooter" ).width(Crafty.viewport.width);
-	$( "#statusWindowFooter" ).height(_tileSize); //Will expand
-	//footerChange();
-	$( "#statusWindowFooter" ).css('visibility', 'visible');
-
-	//postion at bottom
-	//$( "#statusWindowFooter" ).position().top //for later
-	var newTop = Crafty.viewport.height - $( "#statusWindowFooter" ).height();
-	$( "#statusWindowFooter" ).css('top', newTop + 'px');*/
 }
 
 function positionUi() {
