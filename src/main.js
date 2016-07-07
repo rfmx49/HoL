@@ -39,6 +39,7 @@ var holdDelay = 300;
 var holdActive = false;
 
 //player
+var _tutorial = false;
 var firstRun = true;
 var userPlayer; // = new playerObj;
 //var userPlayerSaved; // Local storage player data

@@ -207,6 +207,11 @@ Crafty.scene('Loading', function(){
 				"tileh": 100,
 				"map": { "loading_reel": [0,0],},			 
 			},
+			"ui/tutorialMark.png": {
+				"tile": 300,
+				"tileh": 300,
+				"map": { "tutorialMark": [0,0],},			 
+			},
 			"ui/buttonsSprite.png": {
 				"tile": 300,
 				"tileh": 300,

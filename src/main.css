@@ -1,4 +1,9 @@
 /*STATUS BAR AT TOP*/
+@font-face {
+  font-family: 'WarenhausTypenhebelStandard';
+  src: url('../res/fonts/Warenhaus/Warenhaus-Standard.otf');
+}
+
 #statusWindow {
 	background-size: 100%;
 	vertical-align:center;
@@ -6,7 +11,7 @@
 	padding:3px;
 	position: absolute;
 	z-index: 100;
-	font-family: '1942_report1942_report', Arial, sans-serif;	
+	font-family: 'WarenhausTypenhebelStandard', Arial, sans-serif;	
 }
 
 #statusWindowFooter {
@@ -130,12 +135,12 @@
 }
 
 .containsText {
-	font-family: '1942_report1942_report', Arial, sans-serif;	
+	font-family: 'WarenhausTypenhebelStandard', Arial, sans-serif;	
 	font-size:1em;
 }
 
 .containsTextFooter {
-	font-family: '1942_report1942_report', Arial, sans-serif;	
+	font-family: 'WarenhausTypenhebelStandard', Arial, sans-serif;	
 	font-size:.75em;
 }
 

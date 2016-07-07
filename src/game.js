@@ -2,7 +2,7 @@
 Crafty.scene('Game', function() {
 	fadeView({alpha: {start: 0, end:1},toggle: {active: true, delay: 250, restartTime: 500},fadeTime: 100})
 	centerPoint = Crafty.e('centerPoint, 2D,' + renderEngine + ', Color')
-		.attr({x: ((maxWidth+2)*_tileSize)/2, y: ((maxHeight+4)*_tileSize)/2, w: 9, h: 9, alpha: 1, z: 999999})
+		.attr({x: ((maxWidth+2)*_tileSize)/2-2, y: ((maxHeight+4)*_tileSize)/2, w: 2, h: 2, alpha: 0, z: 999999})
 		.color('#FF0000');
 
 
@@ -73,8 +73,7 @@ function continueLoading() {
 
 	hintRandom = new Math.seedrandom(gameSeed);
 	console.log("Done everything");
-
-	
+	if (_tutorial) { tutWelcome(); }	
 }
 
 function gameNewRoom() {
@@ -91,6 +90,7 @@ function gameNewRoom() {
 		//debugHideFreeFloorSpace();
 		placeFurniture();
 		computeScore();
+		changeHomeButton();
 	}
 	else {
 		returnedHome();		
@@ -129,6 +129,9 @@ function returnedHome() {
 	if (rooms.length != 1) {
 		userPlayer.score.potentialLost = userPlayer.score.actual;
 		changeHomeButton(true);
+		if (_tutorial != 6) {
+			popUpCreate("endGame");
+		}
 	}
 	
 	for (var n = 0; n < doors.length; n++) {
@@ -140,6 +143,9 @@ function returnedHome() {
 		Crafty(Crafty('FloorGround')[0]).attach(Crafty('TileHOME' + doors[n].y + '_' + doors[n].x));
 		
 	}
+
+	//Popup end game screen.
+	
 
 	/*Crafty.e('TileHOME, 2d, ' + renderEngine + ', ui_home')
 			.attr({w: Crafty.viewport.width/1.5 , h: Crafty.viewport.height/1.5, z: 1});
@@ -183,6 +189,7 @@ function playerEnterRoom() {
 	Crafty('Tile' + newPos.y + '_' + newPos.x).clickEvent();
 	setTimeout(function() {
 		changeDoor(playerRoomPos.y,playerRoomPos.x, "close", true);
+		tutorial_check();
 		//debugDrawFireRoute();
 	}, 250, playerRoomPos);
 };

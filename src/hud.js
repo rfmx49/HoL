@@ -84,18 +84,6 @@ function initFooter() {
 		});
 }
 
-function destroyHud() {
-	alert("destroyHud() hud.js no longer valid");
-	/*//destory Header
-	$( "#statusWindow" ).html("");
-	$( "#statusWindow" ).width(0);
-	$( "#statusWindow" ).height(0);
-	//destory footer
-	$( "#statusWindowFooter" ).html("");
-	$( "#statusWindowFooter" ).width(0);
-	$( "#statusWindowFooter" ).height(0);*/
-}
-
 function fadeInView (toggle, fadeTime, delay, restartTime, alpha) {
 	console.log("DO NOT USE");
 }
@@ -156,7 +144,7 @@ function changeHomeButton(state) {
 		Crafty("btnHome").sprite(7,0)
 	}
 	else {
-		Crafty("btnHome").sprite(7,0)
+		Crafty("btnHome").sprite(6,0)
 	}
 }
 
@@ -203,7 +191,6 @@ function popUpClickHandlers() {
 
 		//Save PlayerData
 		localStorage.playerSaveData = JSON.stringify(userPlayerSaved);
-		destroyHud();
 		//back to menu
 		Crafty.scene("Menu");
 		
@@ -474,6 +461,30 @@ function popUpCreate(type, data) {
 		$('#gamePopUp').css('left', ((Crafty.viewport.width/2)-($('#gamePopUp').width()/2))+'px');
 		
 	}
+	else if (type == 'tutorial_1') {
+		//load tutorial.js
+		tutorial_1();		
+	}
+	else if (type == 'tutorial_2') {
+		//load tutorial.js
+		tutorial_2();		
+	}
+	else if (type == 'tutorial_3') {
+		//load tutorial.js
+		tutorial_3();		
+	}
+	else if (type == 'tutorial_4') {
+		//load tutorial.js
+		tutorial_4();		
+	}
+	else if (type == 'tutorial_5') {
+		//load tutorial.js
+		tutorial_5();		
+	}
+	else if (type == 'tutorial_6') {
+		//load tutorial.js
+		tutorial_6();		
+	}
 	mobileFontSize();
 	
 }
@@ -502,7 +513,8 @@ function updateRoomHints(amount) {
 	}
 	else {
 		Crafty("btnHintRoom").sprite(4,0);
-		Crafty.e('btnHintRoomAmt, 2D,' + renderEngine + ', Text').attr({x: Crafty("btnHintRoom")._x + (Crafty("btnHintRoom")._w*.75), y: Crafty("btnHintRoom")._y + (Crafty("btnHintRoom")._h*.25) - (_tileSize/4), w: _tileSize/4, h: _tileSize/4,}).text(amount).textColor('#FFFFFF').textFont({ wight: 'bold', family: 'Mono',size: (_tileSize/4) + 'px'});
+		Crafty.e('btnHintRoomAmt, 2D,' + renderEngine + ', Text').attr({x: Crafty("btnHintRoom")._x + (Crafty("btnHintRoom")._w*.75), y: Crafty("btnHintRoom")._y + (Crafty("btnHintRoom")._h*.25) - (_tileSize/4), w: _tileSize/4, h: _tileSize/4,}).text(amount).textColor('#FFFFFF').textFont({ wight: 'bold', family: 'Mono',size: (_tileSize/4) + 'px'}).unselectable();
+		Crafty("btnHintRoom").attach(Crafty("btnHintRoomAmt"));
 	}
 /*
 	$('#hintShowRoom').after('<img src="res/img/ui/powerUpCount.png" id="roomHintCountImg" style="height: ' + _tileSize/2 + 'px;position:absolute;">')
@@ -534,7 +546,8 @@ function updateDoorHints(amount) {
 	}
 	else {
 		Crafty("btnHintDoors").sprite(2,0);
-		Crafty.e('btnHintDoorsAmt, 2D,' + renderEngine + ', Text').attr({x: Crafty("btnHintDoors")._x + (Crafty("btnHintDoors")._w*.75), y: Crafty("btnHintDoors")._y + (Crafty("btnHintDoors")._h*.25) - (_tileSize/4), w: _tileSize/4, h: _tileSize/4,}).text(amount).textColor('#FFFFFF').textFont({ wight: 'bold', family: 'Mono',size: (_tileSize/4) + 'px'});
+		Crafty.e('btnHintDoorsAmt, 2D,' + renderEngine + ', Text').attr({x: Crafty("btnHintDoors")._x + (Crafty("btnHintDoors")._w*.75), y: Crafty("btnHintDoors")._y + (Crafty("btnHintDoors")._h*.25) - (_tileSize/4), w: _tileSize/4, h: _tileSize/4,}).text(amount).textColor('#FFFFFF').textFont({ wight: 'bold', family: 'Mono',size: (_tileSize/4) + 'px'}).unselectable();
+		Crafty("btnHintDoors").attach(Crafty("btnHintDoorsAmt"));
 	}
 
 /*
