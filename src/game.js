@@ -5,7 +5,7 @@ Crafty.scene('Game', function() {
 		.attr({x: ((maxWidth+2)*_tileSize)/2, y: ((maxHeight+4)*_tileSize)/2, w: 9, h: 9, alpha: 1, z: 999999})
 		.color('#FF0000');*/
 	centerPoint = Crafty.e('centerPoint, 2D,' + renderEngine + ', Color')
-		.attr({x: Math.round($('#cr-stage').width()/2), y: Math.round($('#cr-stage').height()/2), w: 9, h: 9, alpha: 1, z: 999999})
+		.attr({x: Math.round($('#cr-stage').width()/2), y: Math.round($('#cr-stage').height()/2), w: 1, h: 1, alpha: 0, z: 999999})
 		.color('#FF0000');
 	//$('#' + centerPoint.getDomId()).offset();
 
