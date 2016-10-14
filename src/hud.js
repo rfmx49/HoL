@@ -285,14 +285,14 @@ function popUpCreate(type, data) {
 		if (currentRoom == 0) {
 			var isHome = true;
 			var lostClass = null;
-			var textLost = ['Home','Safe','At Base','Known']
+			var textLost = ['Home','Safe','At Base','Known','Found']
 			textLost = textLost[Math.floor(Math.random() * textLost.length)]
 			var leavingMessage = "End game now to save your achivements. Or continue to try increase them but be <strong>WARNED</strong> if you get lost your achivements are lost with you!"
 		}
 		else {
 			var isHome = false;
 			var lostClass = "endGamePopUpTableColoured"
-			var textLost = ['LOST','AWOL','Missing','Lost','Unknown','Not Home','Adrift','Disoriented','Vanished','Wandering','Irrecoverable','Irretrievable','Wherabouts Unknown','Missing Presumed Dead','MIA']
+			var textLost = ['LOST','AWOL','Missing','Lost','Unknown','Not Home','Adrift','Disoriented','Vanished','Wandering','Irrecoverable','Irretrievable','Wherabouts Unknown','Missing Presumed Dead','MIA','???']
 			textLost = textLost[Math.floor(Math.random() * textLost.length)]
 			var leavingMessage = "Lost? Cannot find your way? To many dead end corridors? Nothing looks farmilliar? Give up now!<br /><br /> <strong>CAUTION</strong> all achivements from this exploration will be lost."
 		}
