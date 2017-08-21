@@ -61,6 +61,7 @@ var originDoors = []; //Origin doors are doors that are availbie depending on th
 var currentRoom; //The current room number in rooms[]
 var lastRoom; //The last Room number in rooms[]
 var lastDoor; //The position of the last door used
+var passingThroughDoor = false;
 
 //Randmon Seeds
 var roomRandom; //Random Seeds for generation

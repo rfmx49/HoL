@@ -131,100 +131,104 @@ Crafty.c('PlayerCharacter', {
 			this.tween({x: newPos.x, y: newPos.y, rotation: newPos.rotation}, playerSpeed);
 		}
 		else if (newPos.type == "d") {
-			this.tween({rotation: newPos.rotation}, playerSpeed/2);
-			this.nodePath = [];
-			////console.log("at door open door and then generate new room based on that door info");
-			//get door info first from floor map
-			////console.log(newPos.x + " " + newPos.y);
-			var door = floorMap[newPos.ytile][newPos.xtile].substring(2,0)
-			var doorStyle = floorMap[newPos.ytile][newPos.xtile].substring(3,2)
-			//create door animation at this point.
-			//get the door offset.
-			var doorOffset = Crafty('Tile' + (newPos.ytile) + '_' + (newPos.xtile)).offset;
-			////console.log('our door offset x: ' + doorOffset.x);
-			changeDoor(newPos.ytile,newPos.xtile, "open");
-			//TODO only if this is player not any player character.
-			//move player too door
-			//wait for door to open a bit
-			//Generate doors random destination if not set  already though.
-			//debug info to go back to prevoius room
-			userPlayer.last = {};
-			userPlayer.last.pos = new Position(userPlayer.pos.x,userPlayer.pos.y,0);
-			userPlayer.last.door = new Position(newPos.xtile,newPos.ytile,0);
-			doorRandom = new Math.seedrandom(gameSeed + " . " + userPlayer.pos.x + "." + userPlayer.pos.y + "." + userPlayer.pos.z + "." + newPos.ytile + "." + newPos.xtile);
-			var newDoor = {x:0,y:0};
-			//check if door already exists
-			var existingDoor = checkDoor(currentRoom,newPos.xtile,newPos.ytile);
-			////console.log("EXISTING DOOR STATUS == " + existingDoor + " " + (existingDoor == false) + (typeof existingDoor =="boolean"));
-			if (existingDoor === false) {
-				//New door
-				//console.log("Create new door");
-				//check what type of door we are going through.
-				switch (door) {
-					case "da":
-						newDoor.y = Math.round((doorRandom() * sparseness) + 1);
-						newDoor.x = Math.round(((doorRandom() * sparseness) + 1)-(sparseness/2));
-						break;
-					case "db":
-						newDoor.y = Math.round((doorRandom() * sparseness) + 1) - sparseness;
-						newDoor.x = Math.round(((doorRandom() * sparseness) + 1)-(sparseness/2));
-						break;
-					case "dl":
-						newDoor.x = Math.round((doorRandom() * sparseness) + 1);
-						newDoor.y = Math.round(((doorRandom() * sparseness) + 1)-(sparseness/2));
-						break;
-					case "dr":
-						newDoor.x = Math.round((doorRandom() * sparseness) + 1) - sparseness;
-						newDoor.y = Math.round(((doorRandom() * sparseness) + 1)-(sparseness/2));
-						break;
+			if (passingThroughDoor === false) {
+				passingThroughDoor = true;
+				this.tween({rotation: newPos.rotation}, playerSpeed/2);
+				this.nodePath = [];
+				////console.log("at door open door and then generate new room based on that door info");
+				//get door info first from floor map
+				////console.log(newPos.x + " " + newPos.y);
+				var door = floorMap[newPos.ytile][newPos.xtile].substring(2,0)
+				var doorStyle = floorMap[newPos.ytile][newPos.xtile].substring(3,2)
+				//create door animation at this point.
+				//get the door offset.
+				var doorOffset = Crafty('Tile' + (newPos.ytile) + '_' + (newPos.xtile)).offset;
+				////console.log('our door offset x: ' + doorOffset.x);
+				changeDoor(newPos.ytile,newPos.xtile, "open");
+				//check for double click
+				//TODO only if this is player not any player character.
+				//move player too door
+				//wait for door to open a bit
+				//Generate doors random destination if not set  already though.
+				//debug info to go back to prevoius room
+				userPlayer.last = {};
+				userPlayer.last.pos = new Position(userPlayer.pos.x,userPlayer.pos.y,0);
+				userPlayer.last.door = new Position(newPos.xtile,newPos.ytile,0);
+				doorRandom = new Math.seedrandom(gameSeed + " . " + userPlayer.pos.x + "." + userPlayer.pos.y + "." + userPlayer.pos.z + "." + newPos.ytile + "." + newPos.xtile);
+				var newDoor = {x:0,y:0};
+				//check if door already exists
+				var existingDoor = checkDoor(currentRoom,newPos.xtile,newPos.ytile);
+				////console.log("EXISTING DOOR STATUS == " + existingDoor + " " + (existingDoor == false) + (typeof existingDoor =="boolean"));
+				if (existingDoor === false) {
+					//New door
+					//console.log("Create new door");
+					//check what type of door we are going through.
+					switch (door) {
+						case "da":
+							newDoor.y = Math.round((doorRandom() * sparseness) + 1);
+							newDoor.x = Math.round(((doorRandom() * sparseness) + 1)-(sparseness/2));
+							break;
+						case "db":
+							newDoor.y = Math.round((doorRandom() * sparseness) + 1) - sparseness;
+							newDoor.x = Math.round(((doorRandom() * sparseness) + 1)-(sparseness/2));
+							break;
+						case "dl":
+							newDoor.x = Math.round((doorRandom() * sparseness) + 1);
+							newDoor.y = Math.round(((doorRandom() * sparseness) + 1)-(sparseness/2));
+							break;
+						case "dr":
+							newDoor.x = Math.round((doorRandom() * sparseness) + 1) - sparseness;
+							newDoor.y = Math.round(((doorRandom() * sparseness) + 1)-(sparseness/2));
+							break;
+					}
+					//create new room with doorRandom information.
+					existingDoor = rooms[currentRoom].doors.push(new Door(newDoor.x,newDoor.y,0,newPos.xtile,newPos.ytile,doorStyle));
+					existingDoor = existingDoor - 1;
 				}
-				//create new room with doorRandom information.
-				existingDoor = rooms[currentRoom].doors.push(new Door(newDoor.x,newDoor.y,0,newPos.xtile,newPos.ytile,doorStyle));
-				existingDoor = existingDoor - 1;
-			}
-			else {
-				//returning through this door.
-				newDoor.x = rooms[currentRoom].doors[existingDoor].toPos.x;
-				newDoor.y = rooms[currentRoom].doors[existingDoor].toPos.y;
-			}
+				else {
+					//returning through this door.
+					newDoor.x = rooms[currentRoom].doors[existingDoor].toPos.x;
+					newDoor.y = rooms[currentRoom].doors[existingDoor].toPos.y;
+				}
 			
 			
-			var playerID = this[0];
-			setTimeout(function() {
-				Crafty(playerID).playerWalking();
-				Crafty(playerID).tween({x: newPos.x, y: newPos.y, rotation: newPos.rotation, alpha: 0, z: 1}, playerSpeed);
-				console.log("Rotation Value " + newPos.rotation);
-				//fix Rotation
-				switch (newPos.rotation) {
-					case 360:
-						newPos.rotation = 0;
-						break;
-					case -90:
-						newPos.rotation = 270;
-						break;
-					case -180:
-						newPos.rotation = 0;
-						break;
-					case 450:
-						newPos.rotation = 90;
-						break;
-				}
-				Crafty(playerID).rotation = newPos.rotation;
-				userPlayer.rotation = newPos.rotation;
-				//fadeOutView(false, 300, 200);
-				fadeView({alpha:{start:0,end:1},fadeTime:300,delay:200})
+				var playerID = this[0];
 				setTimeout(function() {
-					loadingLoop();
-					//destroy and make a new room
-					Crafty(Crafty('FloorGround')[0]).destroy();
-					//remember previous postions and door to refrence back to.
-					lastPos = userPlayer.pos;
-					lastDoor = existingDoor;
-					userPlayer.pos = {x: newDoor.x, y: newDoor.y, z: 0};
-					gameNewRoom();
-				}, 250);
-			}, 200, newPos, playerID);			
-		}			
+					Crafty(playerID).playerWalking();
+					Crafty(playerID).tween({x: newPos.x, y: newPos.y, rotation: newPos.rotation, alpha: 0, z: 1}, playerSpeed);
+					console.log("Rotation Value " + newPos.rotation);
+					//fix Rotation
+					switch (newPos.rotation) {
+						case 360:
+							newPos.rotation = 0;
+							break;
+						case -90:
+							newPos.rotation = 270;
+							break;
+						case -180:
+							newPos.rotation = 0;
+							break;
+						case 450:
+							newPos.rotation = 90;
+							break;
+					}
+					Crafty(playerID).rotation = newPos.rotation;
+					userPlayer.rotation = newPos.rotation;
+					//fadeOutView(false, 300, 200);
+					fadeView({alpha:{start:0,end:1},fadeTime:300,delay:200})
+					setTimeout(function() {
+						loadingLoop();
+						//destroy and make a new room
+						Crafty(Crafty('FloorGround')[0]).destroy();
+						//remember previous postions and door to refrence back to.
+						lastPos = userPlayer.pos;
+						lastDoor = existingDoor;
+						userPlayer.pos = {x: newDoor.x, y: newDoor.y, z: 0};
+						gameNewRoom();
+					}, 250);
+				}, 200, newPos, playerID);			
+			}
+		}		
 	},
 	playerWalking: function() {
 		this.animate('playerWalking', 1);
@@ -251,8 +255,11 @@ Crafty.c('floorMap', {
 	style: "",
 	init: function() {
 		this.requires('2D, ' + renderEngine + ', Mouse');
-		this.bind("MouseUp", function(MouseEvent) { 
+		this.bind("Click", function(MouseEvent) { 
 			this.clickEvent();
+		});
+		this.bind("DoubleClick", function(MouseEvent) { 
+			//do nothing
 		});
 		this.bind("MouseOver", function(MouseEvent) { 
 			this.mouseOverEvent();
@@ -267,12 +274,11 @@ Crafty.c('floorMap', {
 		var timeOut = 50;
 		if (mouseFunction == "movePlayer") {
 			//check if plaery is already in motion
-			if (playerEntity.isPlaying()) { timeOut = 100; }
 			playerEntity.cancelMove();
-			var reRun = {x: this.xTile,y:this.yTile}			
+			var reRun = {x: this.xTile,y:this.yTile}
+			mouseFunction == "findingPath"			
 			setTimeout(function(){
 				//console.log("done waiting now moving to " + reRun.x + " " + reRun.y);
-				mouseFunction == "findingPath"
 				//increase movementQueue
 				playerEntity.movementQueue = playerEntity.movementQueue + 1;
 				easyStarPathFind(playerEntity[0], reRun.x, reRun.y, playerEntity.movementQueue);							
