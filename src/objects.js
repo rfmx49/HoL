@@ -254,7 +254,7 @@ Crafty.c('floorMap', {
 	xTile: 0,
 	style: "",
 	init: function() {
-		this.requires('2D, ' + renderEngine + ', Mouse');
+		this.requires('2D, ' + renderEngine + ', Mouse, Touch');
 		this.bind("MouseUp", function(MouseEvent) { 
 			this.clickEvent();
 		});

@@ -171,3 +171,6 @@ function beginCrafty() {
 	}, 300);
 	
 };
+
+//intersting seeds
+// "22/7/2017" Go top door, top door, right door, right door again.. in room with three doors and a blue sofa. Go to top right door then keep going to door starting across. will loop back to room with blue sofa.

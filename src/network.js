@@ -1,5 +1,4 @@
-//var SERVERNAME = "http://65.94.193.108";
-var SERVERNAME = "http://10.66.28.191/";
+var SERVERNAME = "http://roomjume.tk";
 function uuid() {
     function randomDigit() {
         if (crypto && crypto.getRandomValues) {

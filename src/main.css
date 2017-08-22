@@ -25,6 +25,10 @@
 	z-index: 100;
 	
 }
+body {
+	margin: 0px;
+	background-color:"black"
+}
 
 #bodyContain {
 	position: absolute;
