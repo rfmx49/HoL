@@ -255,7 +255,7 @@ Crafty.c('floorMap', {
 	style: "",
 	init: function() {
 		this.requires('2D, ' + renderEngine + ', Mouse');
-		this.bind("Click", function(MouseEvent) { 
+		this.bind("MouseUp", function(MouseEvent) { 
 			this.clickEvent();
 		});
 		this.bind("DoubleClick", function(MouseEvent) { 
@@ -274,6 +274,7 @@ Crafty.c('floorMap', {
 		var timeOut = 50;
 		if (mouseFunction == "movePlayer") {
 			//check if plaery is already in motion
+			if (playerEntity.isPlaying()) { timeOut = 150; }
 			playerEntity.cancelMove();
 			var reRun = {x: this.xTile,y:this.yTile}
 			mouseFunction == "findingPath"			
