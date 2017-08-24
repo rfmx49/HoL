@@ -373,4 +373,3 @@ Crafty.c('loadingAnimate', {
 		//this.loadingForward();
 	}
 });
-

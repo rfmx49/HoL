@@ -7,6 +7,8 @@ door_open_3 : [audioDir + "doors/door_open_3.ogg"],
 door_open_4 : [audioDir + "doors/door_open_4.ogg"],
 door_open_5 : [audioDir + "doors/door_open_5.ogg"],
 door_open_6 : [audioDir + "doors/door_open_6.ogg"],
+menu_select : [audioDir + "menu/menu_select.ogg"],
+award_hint : [audioDir + "menu/award_hint.ogg"],
 walking : [audioDir + "player/walking.ogg"]});
 }
 

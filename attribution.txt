@@ -94,6 +94,12 @@ Title: Menu Selection.wav
 Author: morganpurkis - https://freesound.org/people/morganpurkis/
 Source: https://freesound.org/people/morganpurkis/sounds/376614/
 License: CC0 1.0 Universal (CC0 1.0) Public Domain Dedication
-File: res/audio/menu/menu-select.ogg
+File: res/audio/menu/menu_select.ogg
 Notes: Converted from .wav to .ogg
 
+Title: Success
+Author: fisch12345 - http://freesound.org/people/fisch12345/
+Source: http://freesound.org/people/fisch12345/sounds/325112/
+License: CC0 1.0 Universal (CC0 1.0) Public Domain Dedication
+File: res/audio/menu/award_hint.ogg
+Notes: Converted from .wav to .ogg

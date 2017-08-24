@@ -73,6 +73,7 @@ function awardHint() {
 	if (decider) {
 		userPlayer.hints.room++;
 		console.log("Room hint awarded")
+		playSound("award_hint");
 		Crafty('btnHintRoomAmt').destroy();
 		//show hint added animation
 		Crafty('btnHintRoom').tween({w: _tileSize*3.5, h: _tileSize*3.5, y: Crafty('btnHintRoom')._y-(_tileSize*3.5/2)}, 200);
@@ -86,6 +87,7 @@ function awardHint() {
 	else {
 		userPlayer.hints.door++;
 		console.log("Door hint awarded")
+		playSound("award_hint");
 		Crafty('btnHintDoorsAmt').destroy();
 		//show hint added animation
 		Crafty('btnHintDoors').tween({w: _tileSize*3.5, h: _tileSize*3.5, y: Crafty('btnHintDoors')._y-(_tileSize*3.5/2)}, 200);

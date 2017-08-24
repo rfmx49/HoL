@@ -9,6 +9,7 @@ Crafty.scene('Menu', function() {
 		.bind('MouseUp', function(MouseEvent){
 			//create player
 			//player
+			playSound("menu_select");
 			_tutorial = false;
 			userPlayer = new playerObj;
 			genGameSeed();
@@ -18,6 +19,7 @@ Crafty.scene('Menu', function() {
 	var conGameBtn = Crafty.e('btnContinue, 2D, ' + renderEngine + ', Mouse, Touch, menu_continueGame')
 		.attr({x: 0 , y: newGameBtn._y + newGameBtn._h + 20, w: _tileSize * 6, h: _tileSize * 1})
 		.bind('MouseUp', function(MouseEvent){
+			playSound("menu_select");
 			_tutorial = false;
 			gameSeed = localStorage.lastSeed;
 			userPlayer = new playerObj;
@@ -25,87 +27,85 @@ Crafty.scene('Menu', function() {
 		});
 
 	var statGameChallangeBtn = Crafty.e('btnChallange, 2D, ' + renderEngine + ', Mouse, Touch, menu_challange')
-	.attr({x: 0 , y: conGameBtn._y + conGameBtn._h + 20, w: _tileSize * 6, h: _tileSize * 1})
-	.bind('MouseUp', function(MouseEvent){
-		//Move continue button up delete newgame button.
-		//get new game button y
-		_tutorial = false;
-		var newY = newGameBtn._y - newGameBtn._h; 
-		Crafty('btnNewGame').destroy();
+		.attr({x: 0 , y: conGameBtn._y + conGameBtn._h + 20, w: _tileSize * 6, h: _tileSize * 1})
+		.bind('MouseUp', function(MouseEvent){
+			//Move continue button up delete newgame button.
+			//get new game button y
+			playSound("menu_select");
+			_tutorial = false;
+			var newY = newGameBtn._y - newGameBtn._h; 
+			Crafty('btnNewGame').destroy();
 
-		//create Seed container
-		var menuSeedEntity = Crafty.e('menuSeed, 2D, ' + renderEngine + ', menu_enterSeed')
-			.attr({x: 0 , y: newY, w: _tileSize * 6, h: _tileSize * 2});
+			//create Seed container
+			var menuSeedEntity = Crafty.e('menuSeed, 2D, ' + renderEngine + ', menu_enterSeed')
+				.attr({x: 0 , y: newY, w: _tileSize * 6, h: _tileSize * 2});
 
-		//postion textbox
-		newY = menuSeedEntity._y + (menuSeedEntity._h*.50)
-		var newX = menuSeedEntity._x + (menuSeedEntity._w*.165);
+			//postion textbox
+			newY = menuSeedEntity._y + (menuSeedEntity._h*.50)
+			var newX = menuSeedEntity._x + (menuSeedEntity._w*.165);
 		
-		Crafty.e('menuSeedText, 2D, ' + renderEngine)
-			.attr({x: newX , y: newY , w: _tileSize * 6, h: _tileSize * 2});
+			Crafty.e('menuSeedText, 2D, ' + renderEngine)
+				.attr({x: newX , y: newY , w: _tileSize * 6, h: _tileSize * 2});
 
-		$('#' + Crafty('menuSeedText')._element.id).append('<input id="inputSeed" class="containsText inputText" type="text" />');
-		$('#inputSeed').width(menuSeedEntity._w*.66);
-		$('#inputSeed').height(_tileSize/2);
-		$('#inputSeed').val('DailyChallange')
+			$('#' + Crafty('menuSeedText')._element.id).append('<input id="inputSeed" class="containsText inputText" type="text" />');
+			$('#inputSeed').width(menuSeedEntity._w*.66);
+			$('#inputSeed').height(_tileSize/2);
+			$('#inputSeed').val('DailyChallange')
 
 		
-		//$( "#seedTextBox" ).css('visibility', 'visible');
+			//$( "#seedTextBox" ).css('visibility', 'visible');
 		
 
-		//change continue button to start button
-		newY = statGameBtn._y;
-		Crafty('btnStats').destroy();
+			//change continue button to start button
+			newY = statGameBtn._y;
+			Crafty('btnStats').destroy();
 
-		Crafty.e('btnStart, 2D, ' + renderEngine + ', Mouse, Touch, menu_back')
-			.attr({x: 0 , y: conGameBtn._y + conGameBtn._h + 20, w: _tileSize * 6, h: _tileSize * 1})
-			.bind('MouseUp', function(MouseEvent){
-				//DELETE TEXT BOX TOO
-				Crafty.scene("Menu");
-			});
+			Crafty.e('btnStart, 2D, ' + renderEngine + ', Mouse, Touch, menu_back')
+				.attr({x: 0 , y: conGameBtn._y + conGameBtn._h + 20, w: _tileSize * 6, h: _tileSize * 1})
+				.bind('MouseUp', function(MouseEvent){
+					//DELETE TEXT BOX TOO
+					playSound("menu_select");
+					Crafty.scene("Menu");
+				});
 
-		//change stat button to back button
+			//change stat button to back button
 
-		Crafty.e('btnStart, 2D, ' + renderEngine + ', Mouse, Touch, menu_start')
-			.attr({x: 0 , y: conGameBtn._y, w: _tileSize * 6, h: _tileSize * 1})
-			.bind('MouseUp', function(MouseEvent){
-				//DELETE TEXT BOX TOO
-				//get new seed
-				var newSeed = $('#inputSeed').val();
-				if ((newSeed == "") || (newSeed == "DailyChallange")) {
-					dailyChallange = true;
-					var d = new Date();
-					//var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-					//gameSeed = days[d.getDay()] + ' ' + d.getDay() + '/' + d.getMonth() + '/' + d.getFullYear();
-					gameSeed = d.getDate() + '/' + d.getMonth() + '/' + d.getFullYear();
-				}
-				else {
-					gameSeed = $('#inputSeed').val();
-					dailyChallange = false;
-				}
-				userPlayer = new playerObj;
-				Crafty.scene("Game");
-			});
-		
-		//create player
-		//player
-		//userPlayer = new playerObj;
-		//Crafty.scene("Game");
+			Crafty.e('btnStart, 2D, ' + renderEngine + ', Mouse, Touch, menu_start')
+				.attr({x: 0 , y: conGameBtn._y, w: _tileSize * 6, h: _tileSize * 1})
+				.bind('MouseUp', function(MouseEvent){
+					//DELETE TEXT BOX TOO
+					//get new seed
+					playSound("menu_select");
+					var newSeed = $('#inputSeed').val();
+					if ((newSeed == "") || (newSeed == "DailyChallange")) {
+						dailyChallange = true;
+						var d = new Date();
+						//var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+						//gameSeed = days[d.getDay()] + ' ' + d.getDay() + '/' + d.getMonth() + '/' + d.getFullYear();
+						gameSeed = d.getDate() + '/' + d.getMonth() + '/' + d.getFullYear();
+					}
+					else {
+						gameSeed = $('#inputSeed').val();
+						dailyChallange = false;
+					}
+					userPlayer = new playerObj;
+					Crafty.scene("Game");
+				});
 	});
 
-
 	var statGameBtn = Crafty.e('btnStats, 2D, ' + renderEngine + ', Mouse, Touch, menu_helpInfo')
-	.attr({x: 0 , y: statGameChallangeBtn._y + statGameChallangeBtn._h + 20, w: _tileSize * 6, h: _tileSize * 1})
-	.bind('MouseUp', function(MouseEvent){
-		//create player
-		//player
-		//optionsMenu();
-		_tutorial = true;
-		//potential tut seeds 11245
-		gameSeed = 11245;
-		userPlayer = new playerObj;
-		Crafty.scene("Game");
-		
+		.attr({x: 0 , y: statGameChallangeBtn._y + statGameChallangeBtn._h + 20, w: _tileSize * 6, h: _tileSize * 1})
+		.bind('MouseUp', function(MouseEvent){
+			//create player
+			//player
+			//optionsMenu();
+			playSound("menu_select");
+			_tutorial = true;
+			//potential tut seeds 11245
+			playSound("menu_select");
+			gameSeed = 11245;
+			userPlayer = new playerObj;
+			Crafty.scene("Game");		
 	});
 
 	Crafty.viewport.centerOn(Crafty("btnContinue")[0],0)
