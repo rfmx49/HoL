@@ -64,41 +64,41 @@ function generateRoom() {
 								 case 1:
 								 	//top right
 								 	if ((cornerHeight-row) > (-1)) {
-//corner is on this row but also this coloumn?
-if ((col+cornerWidth) > floorWidth) {
-	//yes this tile is part of the corner chunk.
-	floorMap[row][col] = null;
-}
+										//corner is on this row but also this coloumn?
+										if ((col+cornerWidth) > floorWidth) {
+											//yes this tile is part of the corner chunk.
+											floorMap[row][col] = null;
+										}
 									}
 								    break;
 								 case 2:
 								 	//bot right
 								 	if ((row+cornerHeight) > floorHeight) {
-//corner is on this row but also this coloumn?
-if ((col+cornerWidth) > floorWidth) {
-	//yes this tile is part of the corner chunk.
-	floorMap[row][col] = null;
-}
+										//corner is on this row but also this coloumn?
+										if ((col+cornerWidth) > floorWidth) {
+											//yes this tile is part of the corner chunk.
+											floorMap[row][col] = null;
+										}
 									}
 								    break;
 								 case 3:
 								 	//bot left
 								 	if ((row+cornerHeight) > floorHeight) {
-//corner is on this row but also this coloumn?
-if ((cornerWidth-col) > (-1)) {
-	//yes this tile is part of the corner chunk.
-	floorMap[row][col] = null;
-}
+										//corner is on this row but also this coloumn?
+										if ((cornerWidth-col) > (-1)) {
+											//yes this tile is part of the corner chunk.
+											floorMap[row][col] = null;
+										}
 									}
 								    break;
 								 case 4:
 								 	//top left
 								 	if ((cornerHeight-row) > (-1)) {
-//corner is on this row but also this coloumn?
-if ((cornerWidth-col) > (-1)) {
-	//yes this tile is part of the corner chunk.
-	floorMap[row][col] = null;
-}
+										//corner is on this row but also this coloumn?
+										if ((cornerWidth-col) > (-1)) {
+											//yes this tile is part of the corner chunk.
+											floorMap[row][col] = null;
+										}
 									}
 								    break;
 	 						}

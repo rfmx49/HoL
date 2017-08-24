@@ -67,6 +67,38 @@ function displayRank() {
 	userPlayer.score.rank = rank.currentLevel;	
 }
 
+function awardHint() {
+	var decider = Math.floor(roomRandom() * 2);
+	console.log(Function.caller)
+	if (decider) {
+		userPlayer.hints.room++;
+		console.log("Room hint awarded")
+		Crafty('btnHintRoomAmt').destroy();
+		//show hint added animation
+		Crafty('btnHintRoom').tween({w: _tileSize*3.5, h: _tileSize*3.5, y: Crafty('btnHintRoom')._y-(_tileSize*3.5/2)}, 200);
+		setTimeout(function() {
+			Crafty('btnHintRoom').tween({w: _tileSize*1.5, h: _tileSize*1.5, y: Crafty('btnHintRoom')._y+(_tileSize*3.5/2)}, 400);
+			setTimeout(function() {
+				updateRoomHints(userPlayer.hints.room);
+			}, 450);
+		}, 350);
+	}
+	else {
+		userPlayer.hints.door++;
+		console.log("Door hint awarded")
+		Crafty('btnHintDoorsAmt').destroy();
+		//show hint added animation
+		Crafty('btnHintDoors').tween({w: _tileSize*3.5, h: _tileSize*3.5, y: Crafty('btnHintDoors')._y-(_tileSize*3.5/2)}, 200);
+		setTimeout(function() {
+			Crafty('btnHintDoors').tween({w: _tileSize*1.5, h: _tileSize*1.5, y: Crafty('btnHintDoors')._y+(_tileSize*3.5/2)}, 400);
+			setTimeout(function() {
+				updateDoorHints(userPlayer.hints.room);
+			}, 450);
+		}, 350);
+		
+	}
+}
+
 function getRank(rooms) {
 	//genereate degrees list
 	//rooms = max
@@ -114,12 +146,12 @@ function saveHighScores() {
 
 function initScore() {
 	Crafty.e('2D, ' + renderEngine + ', ProgressBar, scoreProgress')
-		.attr({ x: Crafty('headerPlaceholder')._x, y: Crafty('headerPlaceholder')._y, w: _tileSize*4, h: _tileSize*0.66667, z: 100 })
+		.attr({ x: Crafty('headerPlaceholder')._x, y: Crafty('headerPlaceholder')._y, w: _tileSize*6, h: _tileSize*0.75, z: 100 })
 		// progressBar(Number maxValue, Boolean flipDirection, String emptyColor, String filledColor)
-		.progressBar(100, false, "transparent", "#adb3fc");
+		.progressBar(100, false, "transparent", "343fbc");
 	//Crafty('scoreProgress').updateBarProgress(50);
 	Crafty.e('2D, ' + renderEngine + ', score_progress, scoreBorder')
-		.attr({ x: Crafty('headerPlaceholder')._x, y: Crafty('headerPlaceholder')._y, w: _tileSize*4, h: _tileSize*0.66667, z: 101 });
+		.attr({ x: Crafty('headerPlaceholder')._x, y: Crafty('headerPlaceholder')._y, w: _tileSize*6, h: _tileSize*0.75, z: 101 });
 
 	Crafty(Crafty("scoreProgress")[0]).attach(Crafty("scoreBorder"));
 	//Draw initial rank
@@ -145,9 +177,4 @@ function drawRank(rank) {
 	Crafty(Crafty("rankBody")[0]).attach(Crafty("rankBorder"));
 	Crafty(Crafty("rankBody")[0]).attach(Crafty("rankGlue"));
 	Crafty(Crafty("rankBody")[0]).attach(Crafty("rankNumber"));
- 
 }
-
-
-
-
