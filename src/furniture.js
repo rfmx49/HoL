@@ -31,7 +31,7 @@ function getFreeFloorSpace() {
 function placeFurniture() {
 	var roomVariants = 1;
 	var placementFound = false;
-	var furnitureVariants = 6; //4/5 fourth will be just blank.
+	var furnitureVariants = 7; //4/5/7 fourth will be just blank.
 	var furniture1x1Variants = 10;
 	var furniture1x2Variants = 6;
 	var furniture2x2Variants = 7;
