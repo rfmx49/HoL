@@ -17,6 +17,7 @@ function playerObj() {
 	this.score.potentialLost = 0;
 	this.score.rank = 0;
 	this.score.percent = 0;
+	this.turns = 0;
 	this.hints = {};
 	this.hints.room = 1;
 	this.hints.door = 1;
@@ -145,6 +146,11 @@ Crafty.c('PlayerCharacter', {
 				var doorOffset = Crafty('Tile' + (newPos.ytile) + '_' + (newPos.xtile)).offset;
 				////console.log('our door offset x: ' + doorOffset.x);
 				changeDoor(newPos.ytile,newPos.xtile, "open");
+				//increase player turns
+				userPlayer.turns++;
+				setTimeout(function() {
+					theDarkness();
+				}, 250);
 				//check for double click
 				//TODO only if this is player not any player character.
 				//move player too door

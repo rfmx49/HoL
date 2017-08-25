@@ -17,6 +17,9 @@ function initUi() {
 		.attr({x: ((roomCenter.x*_tileSize)+(_tileSize/2)), y: ((roomCenter.y*_tileSize)+(_tileSize/2)), w: _tileSize, h: _tileSize, alpha: 0})
 		.color("#CCCCCC");
 
+	//the darkness
+	theDarknessInit();
+
 	setTimeout(function() {
 		positionUi();
 	}, 500);
@@ -47,14 +50,14 @@ function positionUi() {
 function initFooter() {
 	//Door Hint Button
 	Crafty.e('btnHintDoors, 2D, ' + renderEngine + ', Mouse, Touch, ui_door_off, Tween')
-		.attr({x: Crafty('footerPlaceholder')._x, y: Crafty('footerPlaceholder')._y, w: _tileSize * 1.5, h: _tileSize * 1.5})
+		.attr({x: Crafty('footerPlaceholder')._x, y: Crafty('footerPlaceholder')._y, w: _tileSize * 1.5, h: _tileSize * 1.5, z: 1500})
 		.bind("MouseUp", function(MouseEvent) { 
 			hintShowDoors();
 			footerChange();
 		});
 	//Room Hint Button
 	Crafty.e('btnHintRoom, 2D, ' + renderEngine + ', Mouse, Touch, ui_room_off, Tween')
-		.attr({x: Crafty('footerPlaceholder')._x + (1.5*_tileSize), y: Crafty('footerPlaceholder')._y, w: _tileSize * 1.5, h: _tileSize * 1.5})
+		.attr({x: Crafty('footerPlaceholder')._x + (1.5*_tileSize), y: Crafty('footerPlaceholder')._y, w: _tileSize * 1.5, h: _tileSize * 1.5, z: 1500})
 		.bind("MouseUp", function(MouseEvent) { 
 			hintShowRoom();
 			footerChange();
@@ -62,7 +65,7 @@ function initFooter() {
 
 	//end button
 	Crafty.e('btnHome, 2D, ' + renderEngine + ', Mouse, Touch, ui_home_highlight')
-		.attr({x: Crafty('footerPlaceholderR')._x, y: Crafty('footerPlaceholderR')._y, w: _tileSize * 1.5, h: _tileSize * 1.5})
+		.attr({x: Crafty('footerPlaceholderR')._x, y: Crafty('footerPlaceholderR')._y, w: _tileSize * 1.5, h: _tileSize * 1.5, z: 1500})
 		.bind("MouseUp", function(MouseEvent) { 
 			popUpCreate("endGame");
 		});
@@ -99,7 +102,7 @@ function fadeView(options) {
 	else if (typeof options.alpha.start === 'undefined' && options.alpha.end == 1) { options.alpha.start = 0; }
 	
 	Crafty.e('fade, 2D,' + renderEngine + ', Color, Tween')
-		.attr({x: -10-Crafty.viewport.x, y: -10-Crafty.viewport.y, w: 10+Crafty.viewport.width, h: 10+Crafty.viewport.height, alpha: options.alpha.start,z: 1000})
+		.attr({x: -10-Crafty.viewport.x, y: -10-Crafty.viewport.y, w: 10+Crafty.viewport.width, h: 10+Crafty.viewport.height, alpha: options.alpha.start,z: 2000})
 		.color('#000000')
 		.tween({ alpha: options.alpha.end}, options.fadeTime)
 		.bind("TweenEnd", function(){ 
@@ -108,6 +111,7 @@ function fadeView(options) {
 			var delay = options.toggle.delay;
 			var restartEnd = options.alpha.start;
 			var restartStart = options.alpha.end;
+			theDarkness();
 			if (options.toggle.active) {
 				setTimeout(function() {					
 					fadeView({alpha: {start: restartStart, end: restartEnd}, fadeTime: restartTime});
@@ -118,7 +122,7 @@ function fadeView(options) {
 
 function loadingLoop() {
 	//fadeOutView(false,1000);
-	var loadingIcon = Crafty.e('loadingAnimate, loading_reel').attr({x: centerPoint._x-(_tileSize*1.5), y: centerPoint._y-_tileSize, w: 2*_tileSize, h: 2*_tileSize, alpha: 1});
+	var loadingIcon = Crafty.e('loadingAnimate, loading_reel').attr({x: centerPoint._x-(_tileSize*1.5), y: centerPoint._y-_tileSize, w: 2*_tileSize, h: 2*_tileSize, alpha: 1, z: 2500});
 	Crafty('fade').attach(loadingIcon);
 	Crafty('loadingAnimate').loadingForward();
 }
@@ -155,6 +159,7 @@ function popUpClickHandlers() {
 		//Send Score to Google.
 		//if (dailyChallange) { postToGoogleDaily(); }
 		popUpDestroy();
+		Crafty('darkness').destroy();
 		//Save userdata
 		var userPlayerSaved = JSON.parse(localStorage.playerSaveData);
 		//check if we are home
@@ -498,7 +503,7 @@ function updateRoomHints(amount) {
 	}
 	else {
 		Crafty("btnHintRoom").sprite(4,0);
-		Crafty.e('btnHintRoomAmt, 2D,' + renderEngine + ', Text, Tween').attr({x: Crafty("btnHintRoom")._x + (Crafty("btnHintRoom")._w*.75), y: Crafty("btnHintRoom")._y + (Crafty("btnHintRoom")._h*.25) - (_tileSize/4), w: _tileSize/4, h: _tileSize/4,}).text(amount).textColor('#FFFFFF').textFont({ wight: 'bold', family: 'Mono',size: (_tileSize/4) + 'px'}).unselectable();
+		Crafty.e('btnHintRoomAmt, 2D,' + renderEngine + ', Text, Tween').attr({x: Crafty("btnHintRoom")._x + (Crafty("btnHintRoom")._w*.75), y: Crafty("btnHintRoom")._y + (Crafty("btnHintRoom")._h*.25) - (_tileSize/4), w: _tileSize/4, h: _tileSize/4, z: 2501}).text(amount).textColor('#FFFFFF').textFont({ wight: 'bold', family: 'Mono',size: (_tileSize/4) + 'px'}).unselectable();
 		Crafty("btnHintRoom").attach(Crafty("btnHintRoomAmt"));
 	}
 }
@@ -514,7 +519,7 @@ function updateDoorHints(amount) {
 	}
 	else {
 		Crafty("btnHintDoors").sprite(2,0);
-		Crafty.e('btnHintDoorsAmt, 2D,' + renderEngine + ', Text, Tween').attr({x: Crafty("btnHintDoors")._x + (Crafty("btnHintDoors")._w*.75), y: Crafty("btnHintDoors")._y + (Crafty("btnHintDoors")._h*.25) - (_tileSize/4), w: _tileSize/4, h: _tileSize/4,}).text(amount).textColor('#FFFFFF').textFont({ wight: 'bold', family: 'Mono',size: (_tileSize/4) + 'px'}).unselectable();
+		Crafty.e('btnHintDoorsAmt, 2D,' + renderEngine + ', Text, Tween').attr({x: Crafty("btnHintDoors")._x + (Crafty("btnHintDoors")._w*.75), y: Crafty("btnHintDoors")._y + (Crafty("btnHintDoors")._h*.25) - (_tileSize/4), w: _tileSize/4, h: _tileSize/4, z: 2501}).text(amount).textColor('#FFFFFF').textFont({ wight: 'bold', family: 'Mono',size: (_tileSize/4) + 'px'}).unselectable();
 		Crafty("btnHintDoors").attach(Crafty("btnHintDoorsAmt"));
 	}
 }

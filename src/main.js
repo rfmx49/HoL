@@ -172,5 +172,12 @@ function beginCrafty() {
 	
 };
 
+/*function pythagorean(sideA, sideB){
+  return Math.sqrt(Math.pow(sideA, 2) + Math.pow(sideB, 2));
+}*/
+
 //intersting seeds
-// "22/7/2017" Go top door, top door, right door, right door again.. in room with three doors and a blue sofa. Go to top right door then keep going to door starting across. will loop back to room with blue sofa.
+// "22/7/2017" Go top door, top door, right door, right door again.. in room with three doors and a blue sofa. Go to top right door then keep going to door starting across. will loop back to room with blue sofa
+
+//bad seeds
+// 2818, 

@@ -94,7 +94,7 @@ function awardHint() {
 		setTimeout(function() {
 			Crafty('btnHintDoors').tween({w: _tileSize*1.5, h: _tileSize*1.5, y: Crafty('btnHintDoors')._y+(_tileSize*3.5/2)}, 400);
 			setTimeout(function() {
-				updateDoorHints(userPlayer.hints.room);
+				updateDoorHints(userPlayer.hints.door);
 			}, 450);
 		}, 350);
 		
@@ -127,7 +127,7 @@ function getRank(rooms) {
 	while (max == false) {
 		weight = 0.1*Math.pow(0.924,(level-3));
 		degree[level]=degree[level-1]+((degree[level-1]-degree[level-2])*(1+weight));
-		console.log("Checking Level: " + level + " rooms this level: " + degree[level] + " our rooms: " + rooms + " Weight: " + weight);
+		//console.log("Checking Level: " + level + " rooms this level: " + degree[level] + " our rooms: " + rooms + " Weight: " + weight);
 		if (Math.round(degree[level]) > rooms) {
 			console.log('level is ' + (level - 1));
 			nextLvl = {currentLevel: level-1, nextLvlRooms: Math.round(degree[level]), difference: Math.round(degree[level]) - rooms, pastLvlRooms: pastLvlRooms}
@@ -148,12 +148,12 @@ function saveHighScores() {
 
 function initScore() {
 	Crafty.e('2D, ' + renderEngine + ', ProgressBar, scoreProgress')
-		.attr({ x: Crafty('headerPlaceholder')._x, y: Crafty('headerPlaceholder')._y, w: _tileSize*6, h: _tileSize*0.75, z: 100 })
+		.attr({ x: Crafty('headerPlaceholder')._x, y: Crafty('headerPlaceholder')._y, w: _tileSize*6, h: _tileSize*0.75, z: 2500})
 		// progressBar(Number maxValue, Boolean flipDirection, String emptyColor, String filledColor)
 		.progressBar(100, false, "transparent", "343fbc");
 	//Crafty('scoreProgress').updateBarProgress(50);
 	Crafty.e('2D, ' + renderEngine + ', score_progress, scoreBorder')
-		.attr({ x: Crafty('headerPlaceholder')._x, y: Crafty('headerPlaceholder')._y, w: _tileSize*6, h: _tileSize*0.75, z: 101 });
+		.attr({ x: Crafty('headerPlaceholder')._x, y: Crafty('headerPlaceholder')._y, w: _tileSize*6, h: _tileSize*0.75, z: 2501});
 
 	Crafty(Crafty("scoreProgress")[0]).attach(Crafty("scoreBorder"));
 	//Draw initial rank
@@ -163,18 +163,18 @@ function initScore() {
 function drawRank(rank) {
 	if (Crafty("rankBody").length != 0) { Crafty("rankBody").destroy(); }
 	var rankColours = ["#E9E74A","#EE5E9F","#FFDD2A","#F59DB9","#F9A55B","#D0E17D","#36A9CE","#EF5AA1","#AE86BC","#FFDF25","#56C4E8","#D0E068","#CD9EC0","#ED839D","#FFE476","#CDDD73","#F35F6D","#FAA457","#35BEB7","#D189B9","#99C7BC","#89B18C","#738FA7","#8A8FA3","#82ACB8","#F9D6AC","#E9B561","#E89132","#DA7527","#DEAC2F","#BAB7A9","#BFB4AF","#CDC4C1","#CFB69E","#D0AD87"];
-	var drawPostion = {x: Crafty('scoreProgress')._x+(_tileSize*.5), y: Crafty('scoreProgress')._y-(Crafty('scoreProgress')._y*0), w: (_tileSize*.75), h: (_tileSize*.75)};
+	var drawPostion = {x: Crafty('scoreProgress')._x+(_tileSize*.5), y: Crafty('scoreProgress')._y-(Crafty('scoreProgress')._y*0), w: (_tileSize*.75), h: (_tileSize*.75), z: 2502};
 	tempRank = rank;
 	tempRank = String(tempRank);
 	tempRank=parseInt(tempRank.substring(tempRank.length-2,tempRank.length));
 	var rankColour = rankColours[Math.round(tempRank/2.5)];
 	//Sticky note border
-	Crafty.e('2D, DOM, Color, rankBorder').attr({x: (drawPostion.x-2), y: drawPostion.y-2, w: drawPostion.w+4, h: drawPostion.h+4, z: 109}).color("#000000");
+	Crafty.e('2D, DOM, Color, rankBorder').attr({x: (drawPostion.x-2), y: drawPostion.y-2, w: drawPostion.w+4, h: drawPostion.h+4, z: 2503}).color("#000000");
 	//Sticky note body
-	Crafty.e('2D, DOM, Color, rankBody').attr({x: (drawPostion.x), y: drawPostion.y, w: drawPostion.w, h: drawPostion.h, z: 110}).color(rankColour);
+	Crafty.e('2D, DOM, Color, rankBody').attr({x: (drawPostion.x), y: drawPostion.y, w: drawPostion.w, h: drawPostion.h, z: 2504}).color(rankColour);
 	//Sticky note sticky pad
-	Crafty.e('2D, DOM, Color, rankGlue').attr({x: (drawPostion.x), y: drawPostion.y, w: drawPostion.w, h: drawPostion.h, z: 111}).color("#000000",.1);
-	Crafty.e('2D, DOM, Text, rankNumber').attr({x: (drawPostion.x)+(drawPostion.w*.0425), y: drawPostion.y+(drawPostion.h*.15), w: drawPostion.w, h: drawPostion.h, z: 112}).text(rank)
+	Crafty.e('2D, DOM, Color, rankGlue').attr({x: (drawPostion.x), y: drawPostion.y, w: drawPostion.w, h: drawPostion.h, z: 2505}).color("#000000",.1);
+	Crafty.e('2D, DOM, Text, rankNumber').attr({x: (drawPostion.x)+(drawPostion.w*.0425), y: drawPostion.y+(drawPostion.h*.15), w: drawPostion.w, h: drawPostion.h, z: 2506}).text(rank)
 	Crafty('rankNumber').textFont({weight: 'bold', family: '1942_report1942_report', size: _tileSize*.6 + 'px'})
 	Crafty(Crafty("rankBody")[0]).attach(Crafty("rankBorder"));
 	Crafty(Crafty("rankBody")[0]).attach(Crafty("rankGlue"));
