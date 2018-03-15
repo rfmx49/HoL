@@ -69,7 +69,7 @@ function displayRank() {
 
 function awardHint() {
 	var decider = Math.floor(roomRandom() * 2);
-	console.log(Function.caller)
+	//console.log(Function.caller)
 	if (decider) {
 		userPlayer.hints.room++;
 		console.log("Room hint awarded")

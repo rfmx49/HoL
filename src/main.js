@@ -161,7 +161,7 @@ function beginCrafty() {
 			//_tileSize = Math.floor(_tileSize*1.15);
 			//Crafty.viewport.init(12*_tileSize,gameClientHeight);
 		}
-		Crafty.background('#FFFFC0 url(res/img/ui/paper.png) center center');
+		Crafty.background('#FFFFC0 url(res/img/ui/background.png) center center');
 		//start game or loading scene
 		//Crafty.timer.FPS(30);
 		//Crafty.viewport.clampToEntities = false;

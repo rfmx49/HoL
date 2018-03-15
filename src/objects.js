@@ -60,8 +60,6 @@ function Room(x,y,z) {
 	this.stairs = [];
 }
 
-
-
 //Door Constructor
 function Door(toX,toY,toZ,roomX,roomY,styles) {
 	this.toPos = new Position(toX,toY,toZ);

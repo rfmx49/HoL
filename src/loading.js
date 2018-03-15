@@ -6,7 +6,7 @@ Crafty.scene('Loading', function(){
 		.attr({ x: Crafty.viewport._width/2, y: Crafty.viewport._height/2, w: 200 });
 	Crafty.paths({audio: "res/audio/", images: "res/img/", sprites: "res/img/"});
 	var assetsObj = {
-		"images": ["ui/paper.png","ui/cork.png","ui/powerUpCount.png"],
+		"images": ["ui/background.png","ui/cork.png","ui/powerUpCount.png"],
 		"audio": ["doors/door_open_1.ogg","doors/door_open_2.ogg","doors/door_open_3.ogg","doors/door_open_4.ogg","doors/door_open_5.ogg","doors/door_open_6.ogg","player/walking.ogg","menu/menu_select.ogg","menu/award_hint.ogg"],		 
 		"sprites": {
 			"ui/menuItems.png": {
@@ -26,6 +26,7 @@ Crafty.scene('Loading', function(){
 				"map": { "wall_corner_out": [0,4],
 					 "wall_corner_in": [1,4],
 					 "wall_straight": [3,4],
+					 "door_frame": [4,4],
 					 "floor_1": [1,1],
 					 "floor_2": [1,2],
 					 "floor_3": [2,1],

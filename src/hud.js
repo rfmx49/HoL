@@ -111,7 +111,6 @@ function fadeView(options) {
 			var delay = options.toggle.delay;
 			var restartEnd = options.alpha.start;
 			var restartStart = options.alpha.end;
-			theDarkness();
 			if (options.toggle.active) {
 				setTimeout(function() {					
 					fadeView({alpha: {start: restartStart, end: restartEnd}, fadeTime: restartTime});
@@ -232,9 +231,6 @@ function popUpClickHandlers() {
 	$( "#gamePopUpStatus" ).on('mouseup', '#statusConfirm' ,function() {
 		popUpStatusDestroy();
 	});
-
-	
-	
 }
 
 function popUpStatusDestroy() {

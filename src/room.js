@@ -559,12 +559,21 @@ function drawRoom() {
 					}
 					//Door creation
 					style = floorMap[row][col].substring(3,2);
+					//Add Door Frame
+					
+					
 					drawRoomQueue.push('Crafty.e("Tile' + row + '_' + col +', floorMap, doorSprite' + style + '_reel, wallDoorAnimate")\
 						.attr({y: ' + row*_tileSize + ', x: ' + col*_tileSize + ', w: ' + _tileSize + ', h: + ' + _tileSize + ' , xTile: ' + col + ', yTile: ' + row +'});\
 					Crafty(Crafty("FloorGround")[0]).attach(Crafty("Tile' + row + '_' + col + '"));\
 					Crafty("Tile' + row + '_' + col + '").origin("center");\
 					Crafty("Tile' + row + '_' + col + '").offset = {x: ' + offsetDoor.x + ', y:' + offsetDoor.y + '};\
 					Crafty("Tile' + row + '_' + col + '").rotation = ' + tileRotation + ';')
+
+					drawRoomQueue.push('Crafty.e("TileFrame' + row + '_' + col +', wallMap, door_frame")\
+							.attr({y:' + row*_tileSize + ', x:' + col*_tileSize + ', w:' + _tileSize + ', h:' + _tileSize + ', xTile:' + col + ', yTile:' + row + ' });\
+						Crafty(Crafty("FloorGround")[0]).attach(Crafty("TileFrame' + row + '_' + col +'"));\
+						Crafty("TileFrame' + row + '_' + col + '").origin("center");\
+						Crafty("TileFrame' + row + '_' + col + '").rotation = ' + tileRotation + ';');
 					
 					
 					//find origin door
@@ -654,6 +663,13 @@ function drawRoom() {
 						Crafty("Tile' + row + '_' + col + '").offset = {x:' + offsetDoor.x + ', y:' + offsetDoor.y + '};\
 						Crafty("Tile' + row + '_' + col + '").rotation = ' + tileRotation + ';');
 
+						//Door Frame 
+						drawRoomQueue.push('Crafty.e("TileFrame' + row + '_' + col +', wallMap, door_frame")\
+							.attr({y:' + row*_tileSize + ', x:' + col*_tileSize + ', w:' + _tileSize + ', h:' + _tileSize + ', xTile:' + col + ', yTile:' + row + ' });\
+						Crafty(Crafty("FloorGround")[0]).attach(Crafty("TileFrame' + row + '_' + col +'"));\
+						Crafty("TileFrame' + row + '_' + col + '").origin("center");\
+						Crafty("TileFrame' + row + '_' + col + '").rotation = ' + tileRotation + ';');
+
 						//find origin door
 						oppisiteRotation = tileRotation + 180
 						if (oppisiteRotation == 450) { oppisiteRotation = 90; }
@@ -699,6 +715,82 @@ function drawRoom() {
 		}
 	}
 }
+
+/*
+function getRoomMeasurements() {
+	//check if top row has any empty space
+	if ($.inArray("x",floorMap[1]) == -1) {
+		//Top has No empty Space
+		//draw top measure
+		drawRoomMeasurements(1, floorMap[1].length/2, floorMap[1].length)
+		//check if bottom row has any empty space
+		if ($.inArray("x",floorMap[floorMap.length-1]) == -1) {
+			//Top and bottom have no empty space (square or rectangle
+			//draw bottom and side measure
+			drawRoomMeasurements(2, floorMap[1].length/2, floorMap[1].length)
+			drawRoomMeasurements(3, floorMap.length/2, floorMap.length)
+			drawRoomMeasurements(4, floorMap.length/2, floorMap.length)
+		}
+		else {
+			//bottom has a gap
+		}
+	}
+	else {
+		//Top has a gap
+	}
+}
+
+function drawRoomMeasurements(wallID, middleBlock, wallSize) {
+	//which wall
+	switch (wallID) {
+		case 1:
+			//get middle block locaiton
+			if (Number.isInteger(middleBlock)) {
+				Crafty.e("2D, DOM, Text, " + wallID + "measure")
+					.attr({ x: (Crafty('Tile0_' + middleBlock).x)-10, y: (Crafty('Tile0_' + middleBlock).y)-15 })
+					.textColor('#f1f1d9') 
+					.textFont({ size: '8px', weight: 'italic' })
+					.text((wallSize * 3.14 + "Top"));
+			}
+			else {
+				//middle block is halved
+				Crafty.e("2D, DOM, Text, " + wallID + "measure")
+					.attr({ x: Crafty('Tile0_' + Math.floor(middleBlock)).x +(_tileSize *0.5), y: Crafty('Tile0_' + Math.floor(middleBlock)).y-15 })
+					.textColor('#f1f1d9') 
+					.textFont({ size: '8px', weight: 'italic' })
+					.text((wallSize * 3.14 + "Top"));
+			}
+			Crafty(Crafty("FloorGround")[0]).attach(Crafty(wallID + "measure"));
+			break;
+		case 2:
+			if (Number.isInteger(middleBlock)) {
+				Crafty.e("2D, DOM, Text, " + wallID + "measure")
+					.attr({ x: (Crafty('Tile' + (floorMap.length-1) + '_' + middleBlock).x +10), y: Crafty('Tile' + (floorMap.length-1) + '_' + Math.floor(middleBlock)).y+15 })
+					.textColor('#f1f1d9') 
+					.textFont({ size: '8px', weight: 'italic' })
+					.text((wallSize * 3.14 + "Bot"));
+			}
+			else {
+				//middle block is halved
+				Crafty.e("2D, DOM, Text, " + wallID + "measure")
+					.attr({ x: Crafty('Tile' + (floorMap.length-1) + '_' + Math.floor(middleBlock)).x +(_tileSize *0.5), y: Crafty('Tile' + (floorMap.length-1) + '_' + Math.floor(middleBlock)).y+15 })
+					.textColor('#f1f1d9') 
+					.textFont({ size: '8px', weight: 'italic' })
+					.text((wallSize * 3.14 + "Bot"));
+			}
+			Crafty(Crafty("FloorGround")[0]).attach(Crafty(wallID + "measure"));
+			break;
+		case 3:
+			break;
+		case 4:
+			break;
+		case 5:
+			break;
+		case 6:
+			break
+	}
+}
+*/
 
 function changeDoor(doorPosRow,doorPosCol, action) {
 	thisDoor = Crafty('Tile' + doorPosRow + '_' + doorPosCol)
