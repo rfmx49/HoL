@@ -86,7 +86,7 @@ function gameNewRoom() {
 		console.log('genroom has returned FALSE');
 		return;
 	}
-	if (currentRoom != 0) {
+	if (currentRoom != 'x0y0z0') {
 		//footerChange(false);
 		pathFindFireRoute();
 		//easyStarFireRoute();
@@ -130,7 +130,7 @@ function returnedHome() {
 	//Display Home Graphic.
 	//Display it at every door
 	var doors = getAllDoors();
-	if (rooms.length != 1) {
+	if (Object.keys(rooms).length != 1) {
 		userPlayer.score.potentialLost = userPlayer.score.actual;
 		changeHomeButton(true);
 		if (_tutorial != 6) {
@@ -164,7 +164,7 @@ function createPlayerEntHome() {
 };
 
 function createPlayerEnt() {
-	if (rooms.length == 1) { createPlayerEntHome(); }
+	if (Object.keys(rooms).length == 1) { createPlayerEntHome(); }
 	else { fadeView({alpha:{start:1,end:0},fadeTime:500}); }
 	 //first room exceptions.
 	var centerOffset = 0;

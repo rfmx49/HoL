@@ -58,8 +58,9 @@ function Room(x,y,z) {
 	this.map = "";
 	this.extras = [];
 	this.stairs = [];
+	this.visited = false;
 }
-
+ 
 //Door Constructor
 function Door(toX,toY,toZ,roomX,roomY,styles) {
 	this.toPos = new Position(toX,toY,toZ);

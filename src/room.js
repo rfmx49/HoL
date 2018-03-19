@@ -28,7 +28,9 @@ function generateRoom() {
 	if (existingRoom === false) {
 		userPlayer.score.actual ++;
 		roomRandom = new Math.seedrandom(gameSeed + " . " + userPlayer.pos.x + "." + userPlayer.pos.y + "." + userPlayer.pos.z);
-		currentRoom = rooms.push(new Room(userPlayer.pos.x, userPlayer.pos.y, userPlayer.pos.z)) - 1;
+		//push new room to room list
+		rooms['x' + userPlayer.pos.x + 'y' + userPlayer.pos.y + 'z' + userPlayer.pos.z] = new Room(userPlayer.pos.x, userPlayer.pos.y, userPlayer.pos.z)
+		currentRoom = 'x' + userPlayer.pos.x + 'y' + userPlayer.pos.y + 'z' + userPlayer.pos.z
 		var floorWidth = Math.floor(roomRandom() * (maxWidth-2)) + 1;
 		var floorHeight = Math.floor(roomRandom() * (maxHeight-2)) + 1;
 		var decider = Math.floor(roomRandom() * 2) + 1;
@@ -171,7 +173,6 @@ function generateRoom() {
 				}
 			}
 		}
-		
 		roomCenter.y = (Math.floor(floorMap.length/2));
 		roomCenter.x = (Math.floor(floorMap[0].length/2));
 		drawRoom();
@@ -188,7 +189,6 @@ function generateRoom() {
 	}
 	else {
 		if (doorsValid) {
-			
 			//create player on room
 			createPlayerEnt();
 			if (firstRun == false) {
@@ -196,8 +196,6 @@ function generateRoom() {
 			}
 		}
 		centerRoom();
-		
-	
 		return floorMap;
 	}
 }
@@ -216,7 +214,6 @@ function setDoor(tileX, tileY){
 	var createdDoor = rooms[currentRoom].doors.push(new Door(lastPos.x,lastPos.y,lastPos.z,tileX,tileY,rooms[lastRoom].doors[lastDoor].style));
 	//set door style to previous door and update floormap
 
-
 	var offsetDoor = Crafty('Tile' + tileY + '_' + tileX).offset;
 	var tileRotation = Crafty('Tile' + tileY + '_' + tileX).rotation;
 	Crafty('Tile' + tileY + '_' + tileX).destroy();
@@ -230,12 +227,6 @@ function setDoor(tileX, tileY){
 	Crafty('Tile' + tileY + '_' + tileX).origin("center");
 	Crafty('Tile' + tileY + '_' + tileX).offset = offsetDoor;
 	Crafty('Tile' + tileY + '_' + tileX).rotation = tileRotation;
-	/*drawRoomQueue.push('Crafty.e("Tile' + tileY + '_' + tileX +', floorMap, door_' + rooms[lastRoom].doors[lastDoor].style + '")\
-		.attr({y: ' + tileY*_tileSize + ', x: ' + tileX*_tileSize + ', w: ' + _tileSize + ', h: ' + _tileSize + ', xTile:' + tileX + ', yTile: ' + tileY + '});\
-	Crafty(Crafty("FloorGround")[0]).attach(Crafty("Tile' + tileY + '_' + tileX +'"));\
-	Crafty("Tile' + tileY + '_' + tileX + '").origin("center");\
-	Crafty("Tile' + tileY + '_' + tileX + '").offset = {x: ' + offsetDoor.x + ', y: ' + offsetDoor.y + '}\
-	Crafty("Tile' + tileY + '_' + tileX + '").rotation = ' + tileRotation + ';');*/
 	//get door colour floorMap[row][col].substring(3,2)
 	floorMap[tileY][tileX] = "d" + floorMap[tileY][tileX].substring(2,1) + rooms[lastRoom].doors[lastDoor].style;
 	rooms[lastRoom].maps = floorMap;	
@@ -258,7 +249,7 @@ function locateOriginDoor() {
 	var originDoorReq = true;
 	var newRoomReq = false;
 	originDoorSuccess = true;
-	if (rooms.length != 1) {
+	if (Object.keys(rooms).length != 1) {
 		var filterdDoors = [];
 		var existingDoor = false;
 		//check if we are returning through door.
@@ -811,7 +802,10 @@ function changeDoor(doorPosRow,doorPosCol, action) {
 function checkRoom(sX,sY,sZ) {
 	//console.log("searching.. z: " + sZ + " x: " + sX + " y: " + sY);
 	var roomFound=false;
-	for (var i = 0; i < rooms.length; i++) {
+	if (typeof rooms['x' + sX + 'y' + sY + 'z' + sZ] != 'undefined') {
+		roomFound = 'x' + sX + 'y' + sY + 'z' + sZ;
+	}
+	/*for (var i = 0; i < rooms.length; i++) {
 		if (rooms[i] != "") {
 			if (rooms[i].pos.z == sZ) {
 				////console.log('Room ' + i +' has same z:' + sZ);
@@ -827,7 +821,7 @@ function checkRoom(sX,sY,sZ) {
 				}
 			}
 		}
- 	}
+ 	}*/
  	if (roomFound == false) {
 		//console.log('Room not Found');
 	}
