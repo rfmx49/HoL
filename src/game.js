@@ -95,6 +95,7 @@ function gameNewRoom() {
 		placeFurniture();
 		computeScore();
 		changeHomeButton();
+		rooms[currentRoom].visited++;
 	}
 	else {
 		returnedHome();		

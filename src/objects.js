@@ -58,7 +58,7 @@ function Room(x,y,z) {
 	this.map = "";
 	this.extras = [];
 	this.stairs = [];
-	this.visited = false;
+	this.visited = 0;
 }
  
 //Door Constructor

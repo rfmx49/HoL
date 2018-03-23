@@ -36,7 +36,7 @@ function placeFurniture() {
 	var furniture1x2Variants = 6;
 	var furniture2x2Variants = 7;
 	var colourVariants = 5;	
-	var furnitureRandom = new Math.seedrandom(gameSeed + " . " + userPlayer.pos.x + "." + userPlayer.pos.y + "." + userPlayer.pos.z);
+	furnitureRandom = new Math.seedrandom(gameSeed + " . " + userPlayer.pos.x + "." + userPlayer.pos.y + "." + userPlayer.pos.z);
 	
 	
 	var roomType = Math.floor(furnitureRandom() * roomVariants) + 1;
@@ -425,6 +425,8 @@ function placeFurniture() {
 								Crafty.e('TileOpen' + row + '_' + col + ', furnitureMap , 1_' + roomColour + '_2x2_' + furnitureVariant)
 									.attr({y: Crafty('Tile' + row + '_' + col)._y, x: Crafty('Tile' + row + '_' + col)._x, w: _tileSize*2, h: _tileSize*2, xTile: col, yTile: row});
 								Crafty(Crafty('FloorGround')[0]).attach(Crafty('TileOpen' + row + '_' + col));
+								//add computer test
+								addComputer(row, col, 0, furnitureVariant);
 								//block off tiles
 								objectMap[row][col] = "T";
 								objectMap[row][col+1] = "T";
@@ -442,6 +444,8 @@ function placeFurniture() {
 								Crafty(Crafty('FloorGround')[0]).attach(Crafty('TileOpen' + row + '_' + col));
 								Crafty('TileOpen' + row + '_' + col).origin("center");
 								Crafty('TileOpen' + row + '_' + col).rotation = 180;
+								//add computer test
+								addComputer(row, col, 180, furnitureVariant);
 								objectMap[row][col] = "T";
 								objectMap[row][col-1] = "T";
 								floorMap[row][col-1] = "o";
@@ -458,6 +462,8 @@ function placeFurniture() {
 								Crafty(Crafty('FloorGround')[0]).attach(Crafty('TileOpen' + row + '_' + col));
 								Crafty('TileOpen' + row + '_' + col).origin('center');
 								Crafty('TileOpen' + row + '_' + col).rotation = 270;
+								//add computer test
+								addComputer(row, col, 270, furnitureVariant);
 								//block off tiles
 								objectMap[row][col] = "T";
 								objectMap[row-1][col] = "T";
@@ -475,6 +481,8 @@ function placeFurniture() {
 								Crafty(Crafty('FloorGround')[0]).attach(Crafty('TileOpen' + row + '_' + col));
 								Crafty('TileOpen' + row + '_' + col).origin('center');
 								Crafty('TileOpen' + row + '_' + col).rotation = 90;
+								//add computer test
+								addComputer(row, col, 90, furnitureVariant);
 								//block off tiles
 								objectMap[row][col] = "T";
 								objectMap[row-1][col-1] = "T";
@@ -513,4 +521,48 @@ function debugHideFreeFloorSpace() {
 	}	
 }
 
-//furiture main loop
+function addComputer(row, col, furnR, furnV) {
+	// do not put computer on id 7 which is an office table
+	if (furnV != 7) {
+		if ((Math.floor(furnitureRandom() * 2) + 1) == 1){
+			var rowMod = 0;
+			var colMod = 0;
+			var rotMod = 0;
+			switch (furnR) {
+				case 0:
+					if (furnV == 2) {
+						rotMod = rotMod + 90;
+						colMod++;
+					}
+					break;
+				case 90:
+					rowMod--;
+					if (furnV == 2) {
+						rotMod = rotMod + 90;
+						rowMod++;
+					}
+					break;
+				case 180:
+					rowMod++;
+					if (furnV == 2) {
+						rotMod = rotMod - 90;
+						colMod = colMod - 1;
+					}
+					break;
+				case 270:
+					//rowMod++;
+					if (furnV == 2) {
+						rotMod = rotMod + 180;
+						rowMod--;
+					}
+					break;
+			}	
+
+			Crafty.e('TileOpenComputer' + row + '_' + col + ', furnitureMap , furn_computer')
+				.attr({y: Crafty('Tile' + (row + rowMod) + '_' + (col + colMod))._y, x: Crafty('Tile' + (row + rowMod) + '_' + (col + colMod))._x, w: _tileSize*1, h: _tileSize*1, xTile: (col + colMod), yTile: (row + rowMod)});
+			Crafty(Crafty('FloorGround')[0]).attach(Crafty('TileOpenComputer' + row + '_' + col));
+			Crafty('TileOpenComputer' + row + '_' + col).origin('center');
+			Crafty('TileOpenComputer' + row + '_' + col).rotation = (furnR + rotMod);
+		}
+	}
+}

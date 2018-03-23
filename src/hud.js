@@ -162,7 +162,7 @@ function popUpClickHandlers() {
 		//Save userdata
 		var userPlayerSaved = JSON.parse(localStorage.playerSaveData);
 		//check if we are home
-		if (currentRoom == 0) {
+		if (currentRoom == "x0y0z0") {
 			sqlPostGame();
 			//Are home
 			userPlayerSaved.score = parseInt(userPlayerSaved.score) + userPlayer.score.actual;
@@ -284,7 +284,7 @@ function popUpCreate(type, data) {
 		$('#gamePopUp').css('left', (Crafty.viewport.width*.05)+'px');
 		$('#gamePopUp').height(Crafty.viewport.height*.8);
 		$('#gamePopUp').width(Crafty.viewport.width*.9);
-		if (currentRoom == 0) {
+		if (currentRoom == "x0y0z0") {
 			var isHome = true;
 			var lostClass = null;
 			var textLost = ['Home','Safe','At Base','Known','Found']
@@ -322,9 +322,9 @@ function popUpCreate(type, data) {
 		$('#gamePopUp').height(Crafty.viewport.height*.15);
 		$('#gamePopUp').width(Crafty.viewport.width*.9);
 
-		var notVisited = (rooms.length - 1) == currentRoom;
+		var visited = (rooms[currentRoom].visited);
 
-		if (notVisited) {
+		if (visited == 1) {
 			$('#gamePopUp').html('<center><b>This is the FIRST time this room has been visited.</b></center>');
 		}
 		else {

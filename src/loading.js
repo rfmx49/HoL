@@ -163,6 +163,11 @@ Crafty.scene('Loading', function(){
 					 "1_5_2x2_6": [5,4],
 					 "1_5_2x2_7": [6,4]},
 			},
+			"rooms/furniture/computer.png": {
+				"tile": 100,
+				"tileh": 100,
+				"map": { "furn_computer": [0,0]},
+			},
 			"highlight.png": {
 				"tile": 50,
 				"tileh": 50,
