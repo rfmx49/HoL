@@ -1,4 +1,4 @@
-var SERVERNAME = "http://roomjume.tk";
+var SERVERNAME = "http://192.168.137.131:3000";
 function uuid() {
     function randomDigit() {
         if (crypto && crypto.getRandomValues) {
@@ -17,8 +17,8 @@ function sqlNewGameAccount(userName,emailAddress,password) {
 	sessionStorage.roomJumeUser = userName;
 	var status;
 	$.ajax({
-        url: SERVERNAME + "/php/userSubmit.php",
-        data: {"username": userName, "email": emailAddress, "uuid": localStorage.playerUUID, "password": password},
+        url: SERVERNAME + "users/newuser",
+        data: {"name": userName, "email": emailAddress, "uuid": localStorage.playerUUID, "password": password},
         type: "POST",
         dataType: "xml",
         timeout:4000,
@@ -34,8 +34,8 @@ function sqlNewGameAccount(userName,emailAddress,password) {
 							if (errorCheck >= 0) {
 								popUpCreateStatus({message:"Invalid UUID, UUID will regenerate Try again."});
 								sessionStorage.removeItem('roomJumeUser');
-		            localStorage.playerUUID = uuid();
-		            return;
+								localStorage.playerUUID = uuid();
+								return;
 								//duplicate uuid
 							}
 							else {
@@ -137,8 +137,8 @@ function sqlNewGameAccount(userName,emailAddress,password) {
 function sqlAccountLogin(userName,password) {
 	sessionStorage.roomJumeUser = userName;
 	var request = $.ajax({
-        url: SERVERNAME + "/php/userLogin.php",
-        data: {"username": userName, "password": password},
+        url: SERVERNAME + "/users/userLogin",
+        data: {"email": userName, "password": password},
         type: "POST",
         dataType: "xml",
         timeout: 4000,

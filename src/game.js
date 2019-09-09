@@ -96,6 +96,10 @@ function gameNewRoom() {
 		computeScore();
 		changeHomeButton();
 		rooms[currentRoom].visited++;
+		//start music
+		if (!(Crafty.audio.isPlaying('music_creepy'))){
+			playMusic();
+		}
 	}
 	else {
 		returnedHome();		
@@ -138,6 +142,9 @@ function returnedHome() {
 			popUpCreate("endGame");
 		}
 	}
+
+	//stop Music
+	stopMusic();
 	
 	for (var n = 0; n < doors.length; n++) {
 		//get tile infront of door

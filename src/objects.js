@@ -327,7 +327,7 @@ Crafty.c('wallDoorAnimate', {
 		if (this.style == "") {
 			this.style = this._element.className.charAt(this._element.className.indexOf("doorSprite") + 10);
 		}
-		playSound("door_open_" + this.style,.75);
+		playSound("door_open_" + this.style,1,.25);
 		this.animate('doorOpening', 1);
 	},
 	openedDoor: function() {
@@ -337,7 +337,7 @@ Crafty.c('wallDoorAnimate', {
 		this.animate('doorClosing', 1);		
 	},
 	closedDoor: function() {
-		this.animate('doorClosed', -1);		
+		this.animate('doorClosed', -1);				
 	}	
 
 });

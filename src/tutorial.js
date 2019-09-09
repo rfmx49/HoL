@@ -15,7 +15,7 @@ function tutorial_1() {
 	$('#gamePopUp').height(Crafty.viewport.height*.65);
 	$('#gamePopUp').width(Crafty.viewport.width*.9);
 
-	$('#gamePopUp').html('<center><b>Welcome to Room Jume</b></center><div class="tutorialDiv"><p>Room Jume places you inside a maze of office rooms. Your objective is to visit as many offices as possible. The catch is you must return to your starting location.</p><p>Sounds easy enough right?</p><p>Well this office building is no ordianry office building, nor an ordianry maze.</p><br /><p><b>Step 1: </b> Explore your first room by clicking/tapping the door in this room.</p><br /><div class="popUpImgContain, tutorialImageCenter" id="popUpConBtnImg"></div></div>');
+	$('#gamePopUp').html('<center><b>Welcome to HoL</b></center><div class="tutorialDiv"><p>HoL places you inside a maze of office rooms. Your objective is to visit as many offices as possible. The catch is you must return to same room you began in.</p><p>Sounds easy enough right?</p><p>Well this office building is no ordianry office building, this is no ordianry maze.</p><br /><p><b>Step 1: </b> Explore your first room by clicking/tapping the door in this room.</p><br /><div class="popUpImgContain, tutorialImageCenter" id="popUpConBtnImg"></div></div>');
 
 	$('.tutorialDiv').css({'font-size': (_tileSize*.4) + 'px'});
 	$('#popUpConBtnImg').height(_tileSize);
@@ -61,7 +61,7 @@ function tutorial_2() {
 	$('#gamePopUp').height(Crafty.viewport.height*.55);
 	$('#gamePopUp').width(Crafty.viewport.width*.9);
 
-	$('#gamePopUp').html('<center><b>Easy - now lets get lost.</b></center><div class="tutorialDiv"><p>Your score is tracked in the top left of the screen. Fill up the bar by exploring new rooms to rank up. As you progress your score bar will update less frequently as you discover new rooms, this is to prevent monitoring the scorebar to see if the room you have just visted is added to your score or if it is a previously visited room.<br /><p><b>Step 2: </b> Explore another room.</p><br /><div class="popUpImgContain, tutorialImageCenter" id="popUpConBtnImg"></div></div>');
+	$('#gamePopUp').html('<center><b>Easy - now lets get lost.</b></center><div class="tutorialDiv"><p>Your score is tracked in the top left of the screen. Fill up the bar by exploring new rooms to rank up. Note that your scorebar is not always accurate and will update less frequently the more rooms you explore.<br /><p><b>Step 2: </b> Explore another room.</p><br /><div class="popUpImgContain, tutorialImageCenter" id="popUpConBtnImg"></div></div>');
 
 	$('.tutorialDiv').css({'font-size': (_tileSize*.4) + 'px'});
 	$('#popUpConBtnImg').height(_tileSize);
@@ -125,7 +125,7 @@ function tutorial_5() {
 	$('#gamePopUp').height(Crafty.viewport.height*.6);
 	$('#gamePopUp').width(Crafty.viewport.width*.9);
 
-	$('#gamePopUp').html('<center><b>Don\'t remember? Need help?</b></center><div class="tutorialDiv"><p>There are two types of hints in Room Jume.<ul><li><b>Reveal Doors</b> - <i>This hint will reval all doors in this room you have passed through.</i></li><li><b>Reveal Room</b> - <i>This hint tells you if you have prevoiusly visited this room before.</i></li></ul>Hints are awared by increasing your rank.</p><br /><p><b>Step 5: </b> Attempt to return back to the original starting location.</p><br /><div class="popUpImgContain, tutorialImageCenter" id="popUpConBtnImg"></div></div>');
+	$('#gamePopUp').html('<center><b>Don\'t remember? Need help?</b></center><div class="tutorialDiv"><p>There are two types of hints in HoL.<ul><li><b>Reveal Doors</b> - <i>This hint will reval all doors in this room you have passed through.</i></li><li><b>Reveal Room</b> - <i>This hint tells you if you have prevoiusly visited this room before.</i></li></ul>Hints are awared by increasing your rank.</p><p>At any time you can click the Home icon in the bottom right to see your current stats and also to give up if your are lost.<br /><p><b>Step 5: </b> Attempt to return back to the original starting location.</p><br /><div class="popUpImgContain, tutorialImageCenter" id="popUpConBtnImg"></div></div>');
 
 	$('.tutorialDiv').css({'font-size': (_tileSize*.4) + 'px'});
 	$('#popUpConBtnImg').height(_tileSize);
