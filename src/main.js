@@ -124,9 +124,7 @@ function beginCrafty() {
 	//get width and heigt of our game screen.
 	//var gameClientWidth = document.getElementById('gameviewDOM').clientWidth;
 	
-	setTimeout(function() {
-
-			
+	setTimeout(function() {			
 		var gameClientWidth = $(window).width();
 		var gameClientHeight = $(window).height();
 		//get new tile size
@@ -167,10 +165,25 @@ function beginCrafty() {
 		//Crafty.viewport.clampToEntities = false;
 		Crafty.scene('Loading');
 		
-		
+		//load cordova events cordova.js
+		document.addEventListener("deviceready", onDeviceReady, false);
+
+		//Attempt Login
+		if (typeof localStorage.username !== 'undefined') {
+			if (typeof localStorage.uuid !== 'undefined') {
+				sqlNewGameAccount(localStorage.username,localStorage.uuid,"false")
+			}
+		}	
+			
 	}, 300);
 	
 };
+
+function getOrdinal(n){
+	var s=["th","st","nd","rd"],
+	v=n%100
+	return n+(s[(v-20)%10]||s[v]||s[0]);
+}
 
 /*function pythagorean(sideA, sideB){
   return Math.sqrt(Math.pow(sideA, 2) + Math.pow(sideB, 2));

@@ -1,4 +1,3 @@
-var SERVERNAME = "http://192.168.137.131:3000";
 function uuid() {
     function randomDigit() {
         if (crypto && crypto.getRandomValues) {
@@ -13,53 +12,113 @@ function uuid() {
     return 'xxxxxxxx-xxxx-4xxx-8xxx-xxxxxxxxxxxx'.replace(/x/g, randomDigit);
 }
 
-function sqlNewGameAccount(userName,emailAddress,password) {
+function getLogin() {
+	var username = $('#inputLoginUsername').val();
+    var deviceUUID = $('#inputLoginUUID').val();
+	//disable fields
+	$('#inputLoginForm').find(':input:not(:disabled)').prop('disabled', true);
+
+	//simple sanitation Server takes care of reset if idiots will be idiots.
+
+	if (username == "") {
+		popUpCreateStatus({message:"User Name or Password Incorrect"});
+		return 1;
+	}
+	if (deviceUUID == "") {
+		if (typeof localStorage.uuid === 'undefined'){
+			deviceUUID = uuid();
+		}
+		else { 	deviceUUID = localStorage.uuid }
+	}
+
+	sqlNewGameAccount(username,deviceUUID,"true");
+
+}
+
+function getRegister() {
+	var username = $('#inputRegisterUsername').val();
+	var deviceUUID = $('#inputRegisterUUID').val();
+
+	//disable fields
+	$('#inputregistrationForm').find(':input:not(:disabled)').prop('disabled', true);
+
+	//simple sanitation Server takes care of reset if idiots will be idiots.
+
+	if (username == "") {
+		//generate random name
+		username = "LostSoul" + Math.floor(Math.random() * 1000)
+		
+		//popUpCreateStatus({message:"Please enter a username and password."});
+		//return 1;
+	}
+	if (deviceUUID == "") {
+		if (typeof localStorage.uuid === 'undefined'){
+			deviceUUID = uuid();
+		}
+		else { 	deviceUUID = localStorage.uuid }
+	}
+	sqlNewGameAccount(username,deviceUUID);	
+}
+
+function sqlNewGameAccount(userName,deviceUUID,force) {
+	if (typeof force === 'undefined'){ force = "false" }
 	sessionStorage.roomJumeUser = userName;
+	sessionStorage.uuid = deviceUUID;
 	var status;
 	$.ajax({
-        url: SERVERNAME + "users/newuser",
-        data: {"name": userName, "email": emailAddress, "uuid": localStorage.playerUUID, "password": password},
-        type: "POST",
-        dataType: "xml",
+        url: SERVERNAME,
+        data: {"userName": userName, "deviceUUID": deviceUUID, "force": force},
+        type: "GET",
+        dataType: "json",
         timeout:4000,
         success: function(response) {
-        	console.log(response);
+        	if (response.msgcode == "loginCreated") {
+		    	popUpCreateStatus({message:"Registration Succesful! You are the " + getOrdinal(response.row -1) + " user to register"});
+		        popUpDestroy();
+		    	console.log(response);
+		    	//save uuid to localStorage
+		    	localStorage.uuid = sessionStorage.uuid;
+		    	localStorage.username = userName;
+		    	sessionStorage.roomJumeUser = userName;
+	    	} else if (response.msgcode == "loginFound") {
+	    		popUpDestroy(); 
+				popUpCreate("userFound",{"username": response.userName});
+		    	console.log(response);
+		    	//save uuid to localStorage
+		    	localStorage.uuid = sessionStorage.uuid;
+		    	localStorage.username = response.userName;
+		    	sessionStorage.roomJumeUser = userName;
+	    	} else if (response.msgcode == "loginForced") {
+				popUpCreateStatus({message:"Registration Change Succesful! You are still the " + getOrdinal(response.row -1) + " user to register"});
+		        popUpDestroy();
+		    	console.log(response);
+		    	//save uuid to localStorage
+		    	localStorage.uuid = sessionStorage.uuid;
+		    	localStorage.username = userName;
+		    	sessionStorage.roomJumeUser = userName;
+	    	} else if (response.msgcode == "loginSuccess") {
+				popUpCreateStatus({message:"Logged in as " + response.userName});
+		        popUpDestroy();
+		    	console.log(response);
+		    	//save uuid to localStorage
+		    	localStorage.uuid = sessionStorage.uuid;
+		    	localStorage.username = userName;
+		    	sessionStorage.roomJumeUser = userName;
+	    	}
+	    	displayAccounts();
         },
         error: function(xhr, textstatus, error) {
         	if (typeof xhr.responseText !== 'undefined') {
 		      	console.log(xhr.responseText);
-		      	var errorCheck = xhr.responseText.search(/SQLSTATE\[23000\]: Integrity constraint violation: 1062 Duplicate entry /);
-		      	if (errorCheck >= 0) {
-							errorCheck = xhr.responseText.search(/' for key 'uuid'/);
-							if (errorCheck >= 0) {
-								popUpCreateStatus({message:"Invalid UUID, UUID will regenerate Try again."});
-								sessionStorage.removeItem('roomJumeUser');
-								localStorage.playerUUID = uuid();
-								return;
-								//duplicate uuid
-							}
-							else {
-								errorCheck = xhr.responseText.search(/' for key 'userName'/);
-								if (errorCheck >= 0) {
-									//duplicate userName
-									popUpCreateStatus({message:"This username has already been taken."});
-									sessionStorage.removeItem('roomJumeUser');
-									$('#inputregistrationForm').find(':input:disabled').prop('disabled', false);
-									return;
-								}
-								else {
-									//Unknown SQL error
-								}
-							}
-		      	}
-		      	console.log(errorCheck);
+		  
+		  		      	console.log(errorCheck);
         	}
         	else if(typeof textstatus !== 'undefined') {
-						if (textstatus == 'timeout') {
-							popUpCreateStatus({message:"Server Timeout. Try again later."});
-							sessionStorage.removeItem('roomJumeUser');
-							$('#inputregistrationForm').find(':input:disabled').prop('disabled', false);
-						}
+				if (textstatus == 'timeout') {
+					popUpCreateStatus({message:"Server Timeout. Try again later."});
+					sessionStorage.removeItem('roomJumeUser');
+					$('#inputregistrationForm').find(':input:disabled').prop('disabled', false);
+				}
         	}
         },
         statusCode: {
@@ -68,153 +127,12 @@ function sqlNewGameAccount(userName,emailAddress,password) {
                 console.log("return 0");
                 status = 0;
             },
-            420: function() {
-                //Success message
-                console.log("return 420 - INVALID USERNAME");
-                sessionStorage.removeItem('roomJumeUser');
-                popUpCreateStatus({message:"Invalid Username, try again."});
-                $('#inputregistrationForm').find(':input:disabled').prop('disabled', false);
-            },
-            421: function() {
-                //Success message
-                console.log("return 421 - INVALID EMAIL");
-                sessionStorage.removeItem('roomJumeUser');
-                popUpCreateStatus({message:"Invalid Email, try again."});
-                $('#inputregistrationForm').find(':input:disabled').prop('disabled', false);
-            },
-            422: function() {
-                //Success message
-                console.log("return 422 - INVALID UUID");
-                sessionStorage.removeItem('roomJumeUser');
-                popUpCreateStatus({message:"Invalid UUID, UUID will regenerate Try again."});
-                $('#inputregistrationForm').find(':input:disabled').prop('disabled', false);
-                localStorage.playerUUID = uuid();
-            },
-            423: function() {
-                //Success message
-                console.log("return 423 - DUPLICATE UUID");
-                sessionStorage.removeItem('roomJumeUser');
-                popUpCreateStatus({message:"Invalid UUID, UUID will regenerate Try again."});
-                $('#inputregistrationForm').find(':input:disabled').prop('disabled', false);
-                localStorage.playerUUID = uuid();
-            },
-            425: function() {
-                //Success message
-                console.log("return 425 - No Password Supplied");
-                sessionStorage.removeItem('roomJumeUser');
-                popUpCreateStatus({message:"No password supplied, Try again."});
-                $('#inputregistrationForm').find(':input:disabled').prop('disabled', false);
-                localStorage.playerUUID = uuid();
-            },
-            429: function() {
-								//Success message
-                console.log("return 429 - SQL ERROR");
-                sessionStorage.removeItem('roomJumeUser');
-                $('#inputregistrationForm').find(':input:disabled').prop('disabled', false);
-            },
-            500: function() {
-								//Success message
-                popUpCreateStatus({message:"Server Error. Try again later."});
-                sessionStorage.removeItem('roomJumeUser');
-                $('#inputregistrationForm').find(':input:disabled').prop('disabled', false);
-            },
-            504: function() {
-								//Success message
-                popUpCreateStatus({message:"Server Timeout. Try again later."});
-                sessionStorage.removeItem('roomJumeUser');
-                $('#inputregistrationForm').find(':input:disabled').prop('disabled', false);
-            },
             200: function() {
                 //Success Message
                 console.log("return 200");
-                popUpCreateStatus({message:"Registration Succesful!"});
-                popUpDestroy();
+            	//popUpDestroy();
             }
         }
-    });
-}
-
-function sqlAccountLogin(userName,password) {
-	sessionStorage.roomJumeUser = userName;
-	var request = $.ajax({
-        url: SERVERNAME + "/users/userLogin",
-        data: {"email": userName, "password": password},
-        type: "POST",
-        dataType: "xml",
-        timeout: 4000,
-        success: function(response) {
-        	console.log(response);
-        },
-        error: function(xhr, textstatus, error) {
-        	console.log(xhr.responseText);
-        	if(typeof textstatus !== 'undefined') {
-		      	var uuidLogin = xhr.responseText;
-		      	if (xhr.status == "456") {
-							//login succesful
-							localStorage.playerUUID = uuidLogin;
-							//go to home page show user login succes.
-							popUpDestroy();
-		      	}
-		      }
-        	else if(typeof textstatus !== 'undefined') {
-						if (textstatus == 'timeout') {
-							popUpCreateStatus({message:"Server Timeout. Try again later."});
-							sessionStorage.removeItem('roomJumeUser');
-							$('#inputLoginForm').find(':input:disabled').prop('disabled', false);
-						}
-        	}
-        },
-        statusCode: {
-            0: function() {
-                //Success message
-                console.log("return 0");
-            },
-            450: function() {
-                //Success message
-                console.log("return 450 - INVALID USERNAME");
-                popUpCreateStatus({message:"Invalid Username, try again"});
-                sessionStorage.removeItem('roomJumeUser');
-                $('#inputLoginForm').find(':input:disabled').prop('disabled', false);
-            },
-            451: function() {
-                //Success message
-                console.log("return 451 - NO PASSWORD");
-                popUpCreateStatus({message:"Invalid Password"});
-                sessionStorage.removeItem('roomJumeUser');
-                $('#inputLoginForm').find(':input:disabled').prop('disabled', false);
-            },
-            452: function() {
-                //Success message
-                console.log("return 452 - INVALID UUID");
-                popUpCreateStatus({message:"Invalid UUID"});
-                sessionStorage.removeItem('roomJumeUser');
-                $('#inputLoginForm').find(':input:disabled').prop('disabled', false);
-            },
-            456: function() {
-                //Success message
-                console.log("return 456 - LOGIN SUCCESS");
-                popUpCreateStatus({message:"Login Success"});
-                displayAccounts();
-               	popUpDestroy();
-            },
-            457: function() {
-                //Success message
-                console.log("return 457 - INCORRECT PASSWORD");
-                popUpCreateStatus({message:"Incorrect Password."});
-                sessionStorage.removeItem('roomJumeUser');
-                $('#inputLoginForm').find(':input:disabled').prop('disabled', false);
-            },
-            200: function() {
-                //Success Message
-                console.log("return 200");
-            }
-        }
-    });
-    request.done(function(msg) {
-    	console.log(msg);
-    });
-    request.success(function(msg) {
-    	console.log(msg);
     });
 }
 

@@ -110,7 +110,6 @@ Crafty.scene('Menu', function() {
 
 	Crafty.viewport.centerOn(Crafty("btnContinue")[0],0)
 	displayAccounts();
-	
 });
 
 function optionsMenu() {
@@ -126,7 +125,7 @@ function displayAccounts() {
 	$('#accountsContainer').css('left', (Crafty.viewport.width - $('#accountsContainer').width())+'px');
 	//checked if logged in
 	var logedin = false;
-	var html;
+	var html;	
 	if (typeof sessionStorage.roomJumeUser !== 'undefined') {
 		logedin = true;
 	}
@@ -135,7 +134,7 @@ function displayAccounts() {
 		html = '<div id="accountsDivs"><p>' + roomJumeUser + ' is logged in. <a id="accountsLogout" href="#">logout</a></p></div>';
 	}
 	else {
-		html = '<div id="accountsDivs"><a id="accountsLogin" href="#">Login</a> / <a id="accountsRegister" href="#">Register</a></div>';
+		html = '<a id="accountsRegister" href="#">Register/Login</a></div>';
 	}
 	$('#accountsContainer').html(html);
 	$('#accountsContainer').height($('#accountsDivs').height());
@@ -152,14 +151,12 @@ function hideAccounts() {
 function accountsClickHandlers() {
 	//END GAME POPUP
 
-	$( "#accountsContainer" ).on('mouseup', '#accountsLogin' ,function() {
-		console.log('clicked login');
-		popUpCreate('login');
-	});
-
 	$( "#accountsContainer" ).on('mouseup', '#accountsRegister' ,function() {
 		console.log('clicked register');
-		popUpCreate('register');
+		//check if username is created in localstorage
+		if (typeof localStorage.username !== 'undefined'){
+			popUpCreate('register',{"userName":localStorage.username});
+		} else { popUpCreate('register') }	
 	});
 
 	$( "#accountsContainer" ).on('mouseup', '#accountsLogout' ,function() {

@@ -202,11 +202,15 @@ function popUpClickHandlers() {
 		fadeView({alpha:{start:1,end:0},fadeTime:500})
 		//destroy the popup.
 		popUpDestroy();
-		popUpCreate('register')
+		popUpCreate('register');
 	});
 
-	$( "#gamePopUp" ).on('mouseup', '#inputLoginSubmit' ,function() {
-		console.log("clicked inputLoginSubmit");
+	$( "#gamePopUp" ).on('mouseup', '#inputLoginSubmitYes' ,function() {
+		console.log("clicked inputLoginSubmitYes");
+		popUpDestroy();
+	});
+	$( "#gamePopUp" ).on('mouseup', '#inputLoginSubmitNo' ,function() {
+		console.log("clicked inputLoginSubmitNo");
 		getLogin();
 	});
 
@@ -332,46 +336,47 @@ function popUpCreate(type, data) {
 		}
 		
 	}
-	else if (type == 'login') {
+	else if (type == 'userFound') {
 		$('#gamePopUp').css("visibility","visible");
-		$('#gamePopUp').height(Crafty.viewport.height*.20);
+		$('#gamePopUp').css('top', (Crafty.viewport.height*.25)+'px');
+		$('#gamePopUp').css('left', (Crafty.viewport.width*.05)+'px');
+		$('#gamePopUp').height(Crafty.viewport.height);
 		$('#gamePopUp').width(Crafty.viewport.width*.5);
 		if (typeof data === 'undefined') {
-				data = {username:"",password:""} 
+			data = {userName:"",deviceUUID:""} 
 		}
 		else {
-			if (typeof data.username === 'undefined') {
-				data.username = "" ;
+			if (typeof data.userName === 'undefined') {
+				data.userName = "" ;
 			}
-			if (typeof data.password === 'undefined') {
-				data.password = "" ;
+			if (typeof data.deviceUUID === 'undefined') {
+				data.deviceUUID = "" ;
 			}
 		}
 
 		var html = '<table id="inputLoginForm">\
 									<tr>\
 										<td colspan="2">\
-											<p class="containsText">Account Login</p>\
+											<p class="containsTextNormalSmall">This device has the following user name associated with it.</p>\
 										</td>\
 									</tr>\
 									<tr>\
+										<br />\
 										<td class="containsTextNormal">Username: </td>\
 										<td>\
 											<input id="inputLoginUsername" class="inputFormSQL" type="text" value="' + data.username + '"/>\
+											<input id="inputLoginUUID" class="inputFormSQL" type="hidden" value="' + data.deviceUUID + '"/>\
+										</td>\
+										<br />\
+									</tr>\
+									<tr>\
+										<td colspan="2">\
+											<p class="containsTextNormalSmall">Click Continue to keep using this name or Change to update your username.</p>\
 										</td>\
 									</tr>\
 									<tr>\
-										<td class="containsTextNormal">Password: </td>\
 										<td>\
-											<input id="inputLoginPassword" class="inputFormSQL" type="password" value="' + data.password + '"/>\
-										</td>\
-									</tr>\
-									<tr>\
-										<td>\
-											<p>Not registered? <a id="inputLoginRegisterForm" href="#">Register Here</a></p>\
-										</td>\
-										<td>\
-											<center><input id="inputLoginSubmit" type="button" class="containsTextNormal" value="Login" /></center>\
+											<center><input id="inputLoginSubmitYes" type="button" class="containsTextNormal" value="Continue" /><input id="inputLoginSubmitNo" type="button" class="containsTextNormal" value="Change" /></center>\
 										</td>\
 									</tr>\
 								</table>'
@@ -391,21 +396,18 @@ function popUpCreate(type, data) {
 		$('#gamePopUp').width(Crafty.viewport.width*.5);
 
 		if (typeof data === 'undefined') {
-			data = {username:"",password:"",email:""} 
+			data = {userName:"",deviceUUID:""} 
 		}
 		else {
-			if (typeof data.username === 'undefined') {
-				data.username = "" ;
+			if (typeof data.userName === 'undefined') {
+				data.userName = "" ;
 			}
-			if (typeof data.password === 'undefined') {
-				data.password = "" ;
-			}
-			if (typeof data.email === 'undefined') {
-				data.email = "" ;
+			if (typeof data.deviceUUID === 'undefined') {
+				data.deviceUUID = "" ;
 			}
 		}
 
-		var html = '<table id="inputregistrationForm">\
+		var html = '<form id="userRefistration"><table id="inputregistrationForm">\
 									<tr>\
 										<td colspan="2">\
 											<p class="containsText">Account Registration</p>\
@@ -414,19 +416,8 @@ function popUpCreate(type, data) {
 									<tr>\
 										<td class="containsTextNormal">Username: </td>\
 										<td>\
-											<input id="inputRegisterUsername" class="inputFormSQL" type="text" value="' + data.username + '"/>\
-										</td>\
-									</tr>\
-									<tr>\
-										<td class="containsTextNormal">Email: </td>\
-										<td>\
-											<input id="inputRegisterEmail" class="inputFormSQL" type="text" value="' + data.email + '"/>\
-										</td>\
-									</tr>\
-									<tr>\
-										<td class="containsTextNormal">Password: </td>\
-										<td>\
-											<input id="inputRegisterPassword" class="inputFormSQL" type="password" value="' + data.password + '"/>\
+											<input id="inputRegisterUsername" class="inputFormSQL" type="text" value="' + data.userName + '"/>\
+											<input id="inputRegisterUUID" class="inputFormSQL" type="hidden" value="' + data.deviceUUID + '"/>\
 										</td>\
 									</tr>\
 									<tr>\
@@ -437,7 +428,7 @@ function popUpCreate(type, data) {
 											<center><input id="inputRegisterSubmit" type="button" class="containsTextNormal" value="Register" /></center>\
 										</td>\
 									</tr>\
-								</table>'
+								</table></form>'
 		$('#gamePopUp').html(html);
 
 		//fix Dimensions
@@ -518,39 +509,4 @@ function updateDoorHints(amount) {
 		Crafty.e('btnHintDoorsAmt, 2D,' + renderEngine + ', Text, Tween').attr({x: Crafty("btnHintDoors")._x + (Crafty("btnHintDoors")._w*.75), y: Crafty("btnHintDoors")._y + (Crafty("btnHintDoors")._h*.25) - (_tileSize/4), w: _tileSize/4, h: _tileSize/4, z: 2501}).text(amount).textColor('#FFFFFF').textFont({ wight: 'bold', family: 'Mono',size: (_tileSize/4) + 'px'}).unselectable();
 		Crafty("btnHintDoors").attach(Crafty("btnHintDoorsAmt"));
 	}
-}
-
-function getLogin() {
-	var username = $('#inputLoginUsername').val();
-	var password = $('#inputLoginPassword').val();
-
-	//disable fields
-	$('#inputLoginForm').find(':input:not(:disabled)').prop('disabled', true);
-
-	//simple sanitation Server takes care of reset if idiots will be idiots.
-
-	if (username == "" || password == "") {
-		popUpCreateStatus({message:"User Name or Password Incorrect"});
-		return 1;
-	}
-
-	sqlAccountLogin(username,password);
-
-}
-
-function getRegister() {
-	var username = $('#inputRegisterUsername').val();
-	var password = $('#inputRegisterPassword').val();
-	var email = $('#inputRegisterEmail').val();
-
-	//disable fields
-	$('#inputregistrationForm').find(':input:not(:disabled)').prop('disabled', true);
-
-	//simple sanitation Server takes care of reset if idiots will be idiots.
-
-	if (username == "" || password == "") {
-		popUpCreateStatus({message:"Please enter a username and password."});
-		return 1;
-	}
-	sqlNewGameAccount(username,email,password);	
 }
