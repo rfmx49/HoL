@@ -36,7 +36,7 @@ function playerSaveObj() {
 	this.active = true;
 }
 
-//PlayerSave Constructor
+//GameSave Constructor
 function gameSaveObj(scores,seeds,dates) {
 	this.p = scores;
 	this.s = seeds;

@@ -187,11 +187,3 @@ function sqlPostGame() {
         }
     });
 }
-
-function createRegistrationForm() {
-	
-}
-
-function createLoginForm() {
-	
-}

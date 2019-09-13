@@ -165,7 +165,7 @@ function beginCrafty() {
 		//Crafty.viewport.clampToEntities = false;
 		Crafty.scene('Loading');
 		
-		//load cordova events cordova.js
+		//load cordova events in cordova.js
 		document.addEventListener("deviceready", onDeviceReady, false);
 
 		//Attempt Login

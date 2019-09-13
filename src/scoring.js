@@ -12,8 +12,7 @@ function computeScore() {
 		}
 		userPlayer.score.fluffCount = 0;
 
-		//upateLevel
-		//ui-game-rank
+		//upateLevel //ui-game-rank
 		displayRank();
 		
 		var progressScore = getRank(userPlayer.score.actual);
@@ -25,8 +24,7 @@ function computeScore() {
 	}
 	setTimeout(function() {
 		displayScore(userPlayer.score.percent);	
-	}, 250);
-	
+	}, 250);	
 }
 
 function displayScore(score) {
@@ -96,8 +94,7 @@ function awardHint() {
 			setTimeout(function() {
 				updateDoorHints(userPlayer.hints.door);
 			}, 450);
-		}, 350);
-		
+		}, 350);		
 	}
 }
 
