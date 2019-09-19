@@ -73,7 +73,7 @@ function sqlNewGameAccount(userName,deviceUUID,force) {
         timeout:4000,
         success: function(response) {
         	if (response.msgcode == "loginCreated") {
-		    	popUpCreateStatus({message:"Registration Succesful! You are the " + getOrdinal(response.row -1) + " user to register"});
+		    	popUpCreateStatus({message:"Registration Successful! You are the " + getOrdinal(response.row -1) + " user to register"});
 		        popUpDestroy();
 		    	console.log(response);
 		    	//save uuid to localStorage
@@ -89,7 +89,7 @@ function sqlNewGameAccount(userName,deviceUUID,force) {
 		    	localStorage.username = response.userName;
 		    	sessionStorage.roomJumeUser = userName;
 	    	} else if (response.msgcode == "loginForced") {
-				popUpCreateStatus({message:"Registration Change Succesful! You are still the " + getOrdinal(response.row -1) + " user to register"});
+				popUpCreateStatus({message:"Registration Change Successful! You are still the " + getOrdinal(response.row -1) + " user to register"});
 		        popUpDestroy();
 		    	console.log(response);
 		    	//save uuid to localStorage
@@ -104,7 +104,10 @@ function sqlNewGameAccount(userName,deviceUUID,force) {
 		    	localStorage.uuid = sessionStorage.uuid;
 		    	localStorage.username = userName;
 		    	sessionStorage.roomJumeUser = userName;
-	    	}
+	    	} else if (response.result == "error") {
+	    		popUpCreateStatus({message:"Server Timeout. Try again later."});
+		    	console.log(response);
+	    	} 
 	    	displayAccounts();
         },
         error: function(xhr, textstatus, error) {
@@ -136,49 +139,64 @@ function sqlNewGameAccount(userName,deviceUUID,force) {
     });
 }
 
-function sqlPostGame() {
-	//var d = new Date();
-	//var dateString = d.getUTCFullYear() + "/" + (d.getUTCMonth()+1) + "/" + d.getUTCDate();
-	//var timeString = d.getUTCHours() + ":" + (d.getUTCMinutes()+1) + ":" + d.getUTCSeconds();
-	var score = {
-		seed: gameSeed,
-		user: localStorage.playerUUID,
-		score: userPlayer.score.actual,
-		rank: getRank(userPlayer.score.actual).currentLevel};
+function sqlPostGame(score) {
+	//is this a cached game?
+	
+	if (score.daily == ""){
+		var dailyStr;
+		if (dailyChallange) { dailyStr = "true" } else { dailyStr = "false"}
+		score.daily = dailyStr;
+	}
 
+	//save game data incase of fail
+	var userPlayerSaved = JSON.parse(localStorage.playerSaveData);
+	userPlayerSaved.lastGame = score;
+	//Save PlayerData
+	localStorage.playerSaveData = JSON.stringify(userPlayerSaved);
+	
     $.ajax({
-        url: SERVERNAME + "/php/gameSubmit.php",
-        data: {"uuid": score.user, "seed": score.seed, "score": score.score, "rank": score.rank},
-        type: "POST",
-        dataType: "xml",
-        error: function(xhr, textstatus, error) {
-        	if(typeof textstatus !== 'undefined') {
-						if (textstatus == 'timeout') {
-							popUpCreateStatus({message:"Server Timeout. Game not uploaded."});
-						}
-        	}
-        },
+        url: SERVERNAME,
+        data: {"userName": score.userName, "deviceUUID": score.deviceUUID, "score": score.score, "rank": score.rank, "turns": score.turns, "seed": score.seed, "daily": score.daily},
+        type: "GET",
+        dataType: "json",
         timeout:4000,
+        success: function(response) {
+        	if (response.msgcode == "dailySaved") {
+		    	popUpCreateStatus({message:"Daily game Saved"});
+		        popUpDestroy();
+		    	console.log(response);
+		    	//check for cached games
+		    	checkCached(true);
+	    	} else if (response.result == "error") {	    		
+	    		popUpCreateStatus({message:"Server Timeout. Try again later."});
+	    		popUpDestroy();
+		    	console.log(response);
+		    	//store game in usersave
+		    	checkCached(false);
+	    	} else if (response.msgcode == "scoreSaved") {
+		    	popUpCreateStatus({message:"Daily game Saved"});
+		        popUpDestroy();
+		    	console.log(response);
+		    	//check for cached games
+		    	checkCached(true);
+	    	} else {
+		    	popUpCreateStatus({message:"Server Timeout. Try again later."});
+	    		popUpDestroy();
+		    	console.log(response);
+		    	//store game in usersave
+		    	checkCached(false);
+	    	}
+        },
+        error: function(xhr, textstatus, error) {
+        	popUpCreateStatus({message:"Server Timeout. Try again later."});
+			popUpDestroy();
+			console.log(xhr.responseText);
+			checkCached(false);
+		},
         statusCode: {
             0: function() {
                 //Success message
                 console.log("return 0");
-            },
-            420: function() {
-                //Success message
-                console.log("return 440 - No score submited");
-            },
-            421: function() {
-                //Success message
-                console.log("return 441 - No Seed Submited");
-            },
-            422: function() {
-                //Success message
-                console.log("return 442 - INVALID UUID");
-            },
-            423: function() {
-                //Success message
-                console.log("return 444 - No Rank Submited");
             },
             200: function() {
                 //Success Message
@@ -186,4 +204,20 @@ function sqlPostGame() {
             }
         }
     });
+    //check cached games
+}
+
+function cacheGamesUpload(){
+	
+}
+
+function checkCached(uploaded){
+	var userPlayerSaved = JSON.parse(localStorage.playerSaveData);
+	if (uploaded) {
+		userPlayerSaved.lastGame = {};
+	} else {
+		var score = userPlayerSaved.lastGame;
+		userPlayerSaved.cached.push(score);
+	}
+	localStorage.playerSaveData = JSON.stringify(userPlayerSaved);
 }

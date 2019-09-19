@@ -84,7 +84,8 @@ var doorChance = 10; //(2 in doorChance) higher = less doors
 
 $(document).ready(function() {
 	console.log( "Document completed!" );
-		
+	//load cordova events in cordova.js
+	document.addEventListener("deviceready", onDeviceReady, false);
 	//verify gameseed
 	verifySeed();
 
@@ -164,15 +165,11 @@ function beginCrafty() {
 		//Crafty.timer.FPS(30);
 		//Crafty.viewport.clampToEntities = false;
 		Crafty.scene('Loading');
-		
-		//load cordova events in cordova.js
-		document.addEventListener("deviceready", onDeviceReady, false);
 
 		//Attempt Login
-		if (typeof localStorage.username !== 'undefined') {
-			if (typeof localStorage.uuid !== 'undefined') {
-				sqlNewGameAccount(localStorage.username,localStorage.uuid,"false")
-			}
+		if (typeof localStorage.username == 'undefined' || typeof localStorage.uuid == 'undefined') {
+			popUpDestroy();
+			popUpCreate('register');
 		}	
 			
 	}, 300);
@@ -193,4 +190,4 @@ function getOrdinal(n){
 // "22/7/2017" Go top door, top door, right door, right door again.. in room with three doors and a blue sofa. Go to top right door then keep going to door starting across. will loop back to room with blue sofa
 
 //bad seeds
-// 2818, 
+// 2818, 15914x

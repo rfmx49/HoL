@@ -1,4 +1,4 @@
-//Main crafty Game scene
+ //Main crafty Game scene
 Crafty.scene('Game', function() {
 	fadeView({alpha: {start: 0, end:1},toggle: {active: true, delay: 250, restartTime: 500},fadeTime: 100})
 	/*centerPoint = Crafty.e('centerPoint, 2D,' + renderEngine + ', Color')

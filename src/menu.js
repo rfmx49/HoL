@@ -79,10 +79,10 @@ Crafty.scene('Menu', function() {
 					var newSeed = $('#inputSeed').val();
 					if ((newSeed == "") || (newSeed == "DailyChallange")) {
 						dailyChallange = true;
-						var d = new Date();
+						//var d = new Date();
 						//var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 						//gameSeed = days[d.getDay()] + ' ' + d.getDay() + '/' + d.getMonth() + '/' + d.getFullYear();
-						gameSeed = d.getDate() + '/' + d.getMonth() + '/' + d.getFullYear();
+						gameSeed = new Date().toISOString().substr(0,10);
 					}
 					else {
 						gameSeed = $('#inputSeed').val();
@@ -278,7 +278,9 @@ function popUpClickHandlers() {
 		var userPlayerSaved = JSON.parse(localStorage.playerSaveData);
 		//check if we are home
 		if (currentRoom == "x0y0z0") {
-			sqlPostGame();
+			var score = new gameSaveObj(userPlayer.score.actual, gameSeed)
+			//userPlayerSaved.g.push(new gameSaveObj(userPlayer.score.actual, gameSeed));
+			sqlPostGame(score);
 			//Are home
 			userPlayerSaved.score = parseInt(userPlayerSaved.score) + userPlayer.score.actual;
 			userPlayerSaved.rank = userPlayer.score.rank;
@@ -290,7 +292,7 @@ function popUpClickHandlers() {
 		}
 		userPlayerSaved.active = false;
 		//Save Game Data
-		userPlayerSaved.g.push(new gameSaveObj(userPlayer.score.actual, gameSeed));
+		//userPlayerSaved.g.push(new gameSaveObj(userPlayer.score.actual, gameSeed));
 
 		//Save PlayerData
 		localStorage.playerSaveData = JSON.stringify(userPlayerSaved);

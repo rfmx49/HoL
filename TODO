@@ -98,4 +98,7 @@ TEST ITEM
 Crafty.e('2D, DOM, Color, testItem').attr({x: 0, y: 0, w: 9, h: 9, z: 1000}).color("#FFFFFF")
 Crafty('testItem').x = 10
 
- 
+Other Data points to capture
+Hints used
+Doors gone thorugh
+

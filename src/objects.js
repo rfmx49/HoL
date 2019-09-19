@@ -32,16 +32,20 @@ function playerSaveObj() {
 	this.lostScore = 0;
 	this.found = 0;
 	this.stats = {};
-	this.g = [];
+	this.cached = [];
 	this.active = true;
+	this.lastgame = {};
 }
 
 //GameSave Constructor
-function gameSaveObj(scores,seeds,dates) {
-	this.p = scores;
-	this.s = seeds;
-	this.st = {};
-	this.d = dates;
+function gameSaveObj(scores,seeds) {
+	this.seed = seeds;
+	this.deviceUUID = sessionStorage.uuid;
+	this.userName = sessionStorage.roomJumeUser;
+	this.score = scores;
+	this.rank = getRank(userPlayer.score.actual).currentLevel;
+	this.turns = userPlayer.turns;
+	this.daily = "";
 }
 
 //Extra Constructor
