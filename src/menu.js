@@ -57,8 +57,8 @@ Crafty.scene('Menu', function() {
 		
 
 			//change continue button to start button
-			newY = statGameBtn._y;
-			Crafty('btnStats').destroy();
+			newY = tutorialGameBtn._y;
+			Crafty('btnTutorial').destroy();
 
 			Crafty.e('btnStart, 2D, ' + renderEngine + ', Mouse, Touch, menu_back')
 				.attr({x: 0 , y: conGameBtn._y + conGameBtn._h + 20, w: _tileSize * 6, h: _tileSize * 1})
@@ -91,9 +91,9 @@ Crafty.scene('Menu', function() {
 					userPlayer = new playerObj;
 					Crafty.scene("Game");
 				});
-	});
-
-	var statGameBtn = Crafty.e('btnStats, 2D, ' + renderEngine + ', Mouse, Touch, menu_helpInfo')
+		});
+	//tutorial button
+	var tutorialGameBtn = Crafty.e('btnTutorial, 2D, ' + renderEngine + ', Mouse, Touch, menu_helpInfo')
 		.attr({x: 0 , y: statGameChallangeBtn._y + statGameChallangeBtn._h + 20, w: _tileSize * 6, h: _tileSize * 1})
 		.bind('MouseUp', function(MouseEvent){
 			//create player
@@ -106,7 +106,21 @@ Crafty.scene('Menu', function() {
 			gameSeed = 11245;
 			userPlayer = new playerObj;
 			Crafty.scene("Game");		
-	});
+		});
+
+	var statsGameBtn = Crafty.e('btnStats, 2D, ' + renderEngine + ', Mouse, Touch, menu_stats')
+		.attr({x: 0 , y: tutorialGameBtn._y + tutorialGameBtn._h + 20, w: _tileSize * 6, h: _tileSize * 1})
+		.bind('MouseUp', function(MouseEvent){
+			playSound("menu_select");
+			//open stats page	
+		});
+
+	var optionsGameBtn = Crafty.e('btnOptions, 2D, ' + renderEngine + ', Mouse, Touch, menu_options')
+		.attr({x: 0 , y: statsGameBtn._y + statsGameBtn._h + 20, w: _tileSize * 6, h: _tileSize * 1})
+		.bind('MouseUp', function(MouseEvent){
+			playSound("menu_select");
+			popUpCreate('options');	
+		});
 
 	Crafty.viewport.centerOn(Crafty("btnContinue")[0],0)
 	displayAccounts();
@@ -579,6 +593,48 @@ function popUpCreate(type, data) {
 		//load tutorial.js
 		tutorial_6();		
 	}
+	else if (type == 'options') {
+		$('#gamePopUp').css("visibility","visible");
+		$('#gamePopUp').css('top', (Crafty.viewport.height*.25)+'px');
+		$('#gamePopUp').css('left', (Crafty.viewport.width*.05)+'px');
+		$('#gamePopUp').height(Crafty.viewport.height);
+		$('#gamePopUp').width(Crafty.viewport.width*.5);
+
+		var html = '<form id="Options"><table id="optionsForm">\
+									<tr>\
+										<td colspan="2">\
+											<p class="containsText">Game Options</p>\
+										</td>\
+									</tr>\
+									<tr>\
+										<td class="containsTextNormal">Movement Speed: </td>\
+									</tr>\
+									<tr>\
+										<tr>\
+											<td class="containsTextNormal">Music: </td>\
+										</tr>\
+										<tr>\
+											<td class="containsTextNormal">Door Sound: </td>\
+										</tr>\
+										<tr>\
+											<td class="containsTextNormal">Foot Steps: </td>\
+										</tr>\
+										<tr>\
+											<td class="containsTextNormal">All Sounds: </td>\
+										</tr>\
+										<td>\
+											<center><input id="optionsSubmit" type="button" class="containsTextNormal" value="Save" /></center>\
+										</td>\
+									</tr>\
+								</table></form>'
+		$('#gamePopUp').html(html);
+
+		//fix Dimensions
+		$('#gamePopUp').width($('#optionsForm').width()*4);
+		$('#gamePopUp').height($('#optionsForm').height()*2.5);
+		$('#gamePopUp').css('top', ((Crafty.viewport.height/2)-($('#gamePopUp').height()/2))+'px');
+		$('#gamePopUp').css('left', ((Crafty.viewport.width/2)-($('#gamePopUp').width()/2))+'px');	
+	}
 	mobileFontSize();
 	
 }
@@ -642,15 +698,18 @@ function displayAccounts() {
 	//checked if logged in
 	var logedin = false;
 	var html;	
-	if (typeof sessionStorage.roomJumeUser !== 'undefined') {
+	if (typeof sessionStorage.username !== 'undefined') {
 		logedin = true;
 	}
 	if (logedin) {
-		var roomJumeUser = sessionStorage.roomJumeUser;
+		var roomJumeUser = localStorage.username;
 		html = '<div id="accountsDivs"><p>' + roomJumeUser + ' is logged in. <a id="accountsLogout" href="#">logout</a></p></div>';
 	}
 	else {
 		html = '<a id="accountsRegister" href="#">Register/Login</a></div>';
+		if (typeof localStorage.username !== 'undefined'){
+			popUpCreate('register',{"userName":localStorage.username});
+		} else { popUpCreate('register') }
 	}
 	$('#accountsContainer').html(html);
 	$('#accountsContainer').height($('#accountsDivs').height());
@@ -676,7 +735,7 @@ function accountsClickHandlers() {
 	});
 
 	$( "#accountsContainer" ).on('mouseup', '#accountsLogout' ,function() {
-		sessionStorage.removeItem('roomJumeUser');
+		sessionStorage.removeItem('username');
 		displayAccounts();
 	});	
 }

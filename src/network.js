@@ -62,8 +62,6 @@ function getRegister() {
 
 function sqlNewGameAccount(userName,deviceUUID,force) {
 	if (typeof force === 'undefined'){ force = "false" }
-	sessionStorage.roomJumeUser = userName;
-	sessionStorage.uuid = deviceUUID;
 	var status;
 	$.ajax({
         url: SERVERNAME,
@@ -79,7 +77,7 @@ function sqlNewGameAccount(userName,deviceUUID,force) {
 		    	//save uuid to localStorage
 		    	localStorage.uuid = sessionStorage.uuid;
 		    	localStorage.username = userName;
-		    	sessionStorage.roomJumeUser = userName;
+		    	sessionStorage.username = userName;
 	    	} else if (response.msgcode == "loginFound") {
 	    		popUpDestroy(); 
 				popUpCreate("userFound",{"username": response.userName});
@@ -87,7 +85,7 @@ function sqlNewGameAccount(userName,deviceUUID,force) {
 		    	//save uuid to localStorage
 		    	localStorage.uuid = sessionStorage.uuid;
 		    	localStorage.username = response.userName;
-		    	sessionStorage.roomJumeUser = userName;
+		    	sessionStorage.username = userName;
 	    	} else if (response.msgcode == "loginForced") {
 				popUpCreateStatus({message:"Registration Change Successful! You are still the " + getOrdinal(response.row -1) + " user to register"});
 		        popUpDestroy();
@@ -95,7 +93,7 @@ function sqlNewGameAccount(userName,deviceUUID,force) {
 		    	//save uuid to localStorage
 		    	localStorage.uuid = sessionStorage.uuid;
 		    	localStorage.username = userName;
-		    	sessionStorage.roomJumeUser = userName;
+		    	sessionStorage.username = userName;
 	    	} else if (response.msgcode == "loginSuccess") {
 				popUpCreateStatus({message:"Logged in as " + response.userName});
 		        popUpDestroy();
@@ -103,7 +101,7 @@ function sqlNewGameAccount(userName,deviceUUID,force) {
 		    	//save uuid to localStorage
 		    	localStorage.uuid = sessionStorage.uuid;
 		    	localStorage.username = userName;
-		    	sessionStorage.roomJumeUser = userName;
+		    	sessionStorage.username = userName;
 	    	} else if (response.result == "error") {
 	    		popUpCreateStatus({message:"Server Timeout. Try again later."});
 		    	console.log(response);
@@ -119,7 +117,7 @@ function sqlNewGameAccount(userName,deviceUUID,force) {
         	else if(typeof textstatus !== 'undefined') {
 				if (textstatus == 'timeout') {
 					popUpCreateStatus({message:"Server Timeout. Try again later."});
-					sessionStorage.removeItem('roomJumeUser');
+					sessionStorage.removeItem('username');
 					$('#inputregistrationForm').find(':input:disabled').prop('disabled', false);
 				}
         	}

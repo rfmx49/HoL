@@ -47,7 +47,12 @@ var playerEntity; //The Crafty player entity
 var lastPos = new Position(0,0,0); // The last room position
 var playerRoomPos; //Position in current Room
 var dailyChallange = false;
+
+//Varible Options to change difficulty or room layouts
 var playerSpeed = 250;
+//difficulty
+var sparseness = 10; //lower = more chance of linked rooms.
+var doorChance = 10; //(2 in doorChance) higher = less doors
 
 //Room Varibles
 var maxWidth = 9; // Max width of Room
@@ -77,10 +82,6 @@ var centerPoint; //Centerpoint to zoom on.
 //TexturePack
 var numOfFloorStyles = 8; 
 var numOfDoorStyles = 6; //Max 6 must be defined in loading_js ex  "doorSprite3_reel"
-
-//difficulty
-var sparseness = 10; //lower = more chance of linked rooms.
-var doorChance = 10; //(2 in doorChance) higher = less doors
 
 $(document).ready(function() {
 	console.log( "Document completed!" );
@@ -173,6 +174,7 @@ function beginCrafty() {
 		}	
 			
 	}, 300);
+
 	
 };
 

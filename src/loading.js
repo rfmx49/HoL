@@ -18,7 +18,9 @@ Crafty.scene('Loading', function(){
 					 "menu_back": [0,3],
 					 "menu_challange": [0,5],
 					 "menu_endGame": [0,6],
-					 "menu_start": [0,4]},			 
+					 "menu_start": [0,4],
+					 "menu_options": [0,7],
+					 "menu_stats": [0,8]} 
 			},
 			"rooms/spritesheetx2.png": {
 				"tile": 100,
